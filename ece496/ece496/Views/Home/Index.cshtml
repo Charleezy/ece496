@@ -1,45 +1,69 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
+
+<link href="~/Content/css/bootstrap.css" rel="stylesheet">
+<script src="~/Scripts/bootstrap.js"></script>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
         </div>
-    </section>
-}
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div>
+      </div>
+    </div>
 
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
+    <div class="jumbotron">
+      <div class="container">
+        
+        <h2>Welcome to PROJECTNAME, an all in one suite that allows you to effortlessly manage your teams, assignments, and time.</h2>
+        <br />
+        <p>Don't have an account?</p>
+        <p><a class="btn btn-primary btn-lg" role="button" onclick="location.href='@Url.Action("Register", "Home")'">Register</a></p>
+    
+      </div>
+    </div>
 
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4" align="center">
+          <h2>Manage your teams</h2>
+          <img src="~/Content/img/user_group.png" class="img-rounded">
+          <p>Keep in touch with all your team members, all in one location.</p>
+        </div>
+        <div class="col-md-4" align="center">
+          <h2>Track your tasks</h2>
+          <img src="~/Content/img/tasks.png" class="img-rounded">
+          <p>Keep track of your responsibilities for all of your team projects. Easily manage what each team member is working on, what stage it is in, and when it will be done.</p>
+       </div>
+        <div class="col-md-4" align="center">
+          <h2>Stay organized</h2>
+          <img src="~/Content/img/date.png" class="img-rounded">
+          <p>This all in one calendar keeps track of when you have classes, tutorials, and tests. It is also seamlessly integrated with your task manager to remind you of internal deadlines.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        
+      </footer>
+    </div>
