@@ -2,8 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 
-<link href="~/Content/css/bootstrap.css" rel="stylesheet">
+<link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/css/custom/homepage.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.8.2.js"></script>
 <script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/custom/homepage.js"></script>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -42,7 +45,6 @@
     </div>
 
 
-    
 
     <div class="container">
       <div class="row">
@@ -50,22 +52,38 @@
           <h2>Manage your teams</h2>
           <img src="~/Content/img/user_group.png" class="img-rounded">
           <p>Keep in touch with all your team members, all in one location.</p>
+          <a id="teamDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
         </div>
         <div class="col-md-4" align="center">
           <h2>Track your tasks</h2>
           <img src="~/Content/img/tasks.png" class="img-rounded">
-          <p>Keep track of your responsibilities for all of your team projects. Easily manage what each team member is working on, what stage it is in, and when it will be done.</p>
-       </div>
+          <p>Take control of your responsibilities for each of your team projects.</p>
+          <a id="taskDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
+        </div>
         <div class="col-md-4" align="center">
           <h2>Stay organized</h2>
           <img src="~/Content/img/date.png" class="img-rounded">
-          <p>This all in one calendar keeps track of when you have classes, tutorials, and tests. It is also seamlessly integrated with your task manager to remind you of internal deadlines.</p>
+          <p>An all-in-one calendar that keeps track of all your school related events. </p>
+          <a id="calendarDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
         </div>
       </div>
 
       <hr>
 
-      <footer>
-        
-      </footer>
     </div>
+
+<div class="popoverDetails" id="teamDetails_msg">
+    
+</div>
+ 
+<div class="popoverDetails" id="taskDetails_msg">
+    <p><b>+</b> Easily manage what each team member is working on, how they are progressing, and when their task needs to be done.</p>
+    <p><b>+</b> Utilize project templates to start with a baseline of tasks specified by your course administrator, while maintaining the freedom to create additional tasks for your groups specific needs.</p>
+</div>
+
+<div class="popoverDetails" id="calendarDetails_msg">
+    <p><b>+</b> Create your own personal events.</p>
+    <p><b>+</b> Import tasks into your calendar as events.</p>
+    <p><b>+</b> Create team specific events by using our meeting scheduler, which lets students know times when all teammates are available.</p>
+    <p><b>+</b> Configure your calendar to send you reminders via SMS or email, so you never miss a deadline or meeting again.</p>
+</div>
