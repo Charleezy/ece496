@@ -21,13 +21,8 @@
         </div>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#signinModal">Sign in</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#registerModal">Register</button>
           </form>
         </div>
       </div>
@@ -37,10 +32,7 @@
       <div class="container">
         
         <h2>Welcome to PROJECTNAME, an all in one suite that allows you to effortlessly manage your teams, assignments, and time.</h2>
-        <br />
-        <p>Don't have an account?</p>
-        <p><a class="btn btn-primary btn-lg" role="button" onclick="location.href='@Url.Action("Register", "Home")'">Register Now!</a></p>
-    
+        
       </div>
     </div>
 
@@ -87,3 +79,97 @@
     <p><b>+</b> Create team specific events by using our meeting scheduler, which lets students know times when all teammates are available.</p>
     <p><b>+</b> Configure your calendar to send you reminders via SMS or email, so you never miss a deadline or meeting again.</p>
 </div>
+
+<!-- Sign in Modal -->
+<div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="signinModalLabel">Sign in</h4>
+            </div>
+            <div class="modal-body">
+                <form id="signin-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                    <div class="form-group">
+                        <label for="inputEmail">Email</label>
+                        <div>
+                            <input id="inputEmail" type="email" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <div>
+                            <input id="inputPassword" type="password" class="form-control"/>
+                        </div>
+                    </div>
+                    <a id="pswdReset">Forgot your password?</a>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="registerModalLabel">Create an Account</h4>
+            </div>
+            <div class="modal-body">
+                <form id="register-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Name</label>
+                            <div>
+                            <input type="text" class="form-control" id="firstName" placeholder="First">
+                        
+                            <input type="text" class="form-control" id="lastName" placeholder="Last" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="control-label">Email</label>
+                        <div>
+                            <input type="email" class="form-control" id="inputEmail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="control-label">Password</label>
+                        <div>
+                            <input type="password" class="form-control" id="inputPassword">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="control-label">Confirm Password</label>
+                        <div>
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Re-type password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSchool" class="control-label">School</label>
+                        <div>
+                             <input type="text" class="form-control" id="inputSchool">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputProgram" class="control-label">Program</label>
+                        <div>
+                             <input type="text" class="form-control" id="inputProgram">
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -5,3 +5,13 @@
 .popover {
     min-width:276px;
 }
+
+#pswdReset {
+    float:right;
+    cursor:pointer;
+}
+
+#modal-form {
+    width:400px;
+    margin: 0 auto; 
+}
