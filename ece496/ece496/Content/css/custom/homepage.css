@@ -1,4 +1,8 @@
-﻿.popoverDetails {
+﻿/*************************************
+            Module Details
+*************************************/
+
+.popoverDetails {
     display:none;
 }
 
@@ -6,12 +10,23 @@
     min-width:276px;
 }
 
+/*************************************
+            Sign-in Modal
+*************************************/
+
+#signinEmail_err {
+    display:none;
+}
+
+#signinPassword_err {
+    display:none;
+}
+
 #pswdReset {
     float:right;
     cursor:pointer;
 }
 
-#modal-form {
-    width:400px;
-    margin: 0 auto; 
-}
+/*************************************
+           Register Modal
+*************************************/

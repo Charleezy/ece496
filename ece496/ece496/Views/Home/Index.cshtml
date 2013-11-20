@@ -65,7 +65,8 @@
     </div>
 
 <div class="popoverDetails" id="teamDetails_msg">
-    
+    <p><b>+</b> Invite other students to your team or join an existing team.</p>
+    <p><b>+</b> Create multiple teams for all your project based courses.</p>
 </div>
  
 <div class="popoverDetails" id="taskDetails_msg">
@@ -89,25 +90,29 @@
                 <h4 class="modal-title" id="signinModalLabel">Sign in</h4>
             </div>
             <div class="modal-body">
-                <form id="signin-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                <form id="signin-modal-form" name="signin-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
                     <div class="form-group">
-                        <label for="inputEmail">Email</label>
+                        <label for="signinEmail">Email</label>
                         <div>
-                            <input id="inputEmail" type="email" class="form-control"/>
+                            <input id="signinEmail" name="signinEmail" type="email" class="form-control"/>
                         </div>
+                        <p id="signinEmail_err" class="text-danger"><b>*Email is required</b></p>
+
+                        
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword">Password</label>
+                        <label for="signinPassword">Password</label>
                         <div>
-                            <input id="inputPassword" type="password" class="form-control"/>
+                            <input id="signinPassword" name="signinPassword" type="password" class="form-control"/>
                         </div>
+                        <p id="signinPassword_err" class="text-danger"><b>*Password is required</b></p>
                     </div>
                     <a id="pswdReset">Forgot your password?</a>
                 </form>
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Login</button>
+                <button id="signinButton" type="button" class="btn btn-primary" onclick="signin()">Login</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
