@@ -7,8 +7,6 @@ obj/
 ###################
 *.com
 *.class
-*.dll
-*.obj
 *.exe
 *.o
 *.so
