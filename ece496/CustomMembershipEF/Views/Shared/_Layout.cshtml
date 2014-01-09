@@ -1,0 +1,32 @@
+﻿<!--
+----    File: _Layout.cshtml
+----    Created By: Daniele Agueci
+----    Description: The main view. LogOnPartial is rendered at the top of the page. RenderBody is replaced with the view of the current page.
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>@ViewBag.Title</title>
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <script src="@Url.Content("~/Scripts/jquery-1.8.3.min.js")" type="text/javascript"></script>
+        <script src="/Scripts/bootstrap.js"></script>
+        <link href="/Content/css/bootstrap.css" rel="stylesheet" />
+        @RenderSection("JavaScript", required: false)
+        @RenderSection("StyleSheet", required: false)
+    </head>
+    <body>
+        <div class="page">
+            <div id="header">
+                <div id="logindisplay">
+                    @Html.Partial("_LogOnPartial")
+                </div>
+            </div>
+        
+            <div id="main">
+                @RenderBody()
+            </div>
+            <div id="footer"></div>
+        </div>
+    </body>
+</html>

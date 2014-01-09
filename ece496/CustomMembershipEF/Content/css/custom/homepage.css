@@ -1,0 +1,32 @@
+﻿/*************************************
+            Module Details
+*************************************/
+
+.popoverDetails {
+    display:none;
+}
+
+.popover {
+    min-width:276px;
+}
+
+/*************************************
+            Sign-in Modal
+*************************************/
+
+#signinEmail_err {
+    display:none;
+}
+
+#signinPassword_err {
+    display:none;
+}
+
+#pswdReset {
+    float:right;
+    cursor:pointer;
+}
+
+/*************************************
+           Register Modal
+*************************************/
