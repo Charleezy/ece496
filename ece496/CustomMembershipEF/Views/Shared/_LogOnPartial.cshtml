@@ -9,7 +9,7 @@
         <div class="navbar-header">
             @if (Request.IsAuthenticated)
             {
-                <a class="navbar-brand" href="@Url.Action("User", "Home")">Project name</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "User")">Project name</a>
             }
             else
             {

@@ -24,10 +24,6 @@ namespace CustomMembershipEF.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult User(string username)
-        {
-            return View();
-        }
+
     }
 }

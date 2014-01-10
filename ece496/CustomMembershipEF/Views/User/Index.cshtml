@@ -8,11 +8,6 @@
     ViewBag.Title = "User";
 }
 
-@section JavaScript
-{
-    
-}
-
 @section StyleSheet
 {
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
@@ -24,15 +19,21 @@
 
     <div class="row">
         <div class="col-md-6 menu-box">
-            <img src="/Content/img/mail-envelope-icon.png" class="img-rounded">
+            <img src="/Content/img/envelope-icon.png" class="img-rounded">
             Invitations
+            <a href='@Url.Action("TeamManager", "User")'>
+                <span class="link"></span>
+            </a>
         </div>
     </div>
     <br />
     <div class="row">
         <div class="col-md-6 col-md-offset-2 menu-box">
-            <img src="/Content/img/Files-Clipboard-icon.png" class="img-rounded">
+            <img src="/Content/img/Actions-clipboard-icon.png" class="img-rounded">
             Task Manager
+            <a href='@Url.Action("TaskManager", "User")'>
+                <span class="link"></span>
+            </a>
         </div>
     </div>
     <br />
@@ -40,6 +41,9 @@
         <div class="col-md-6 col-md-offset-4 menu-box">
             <img src="/Content/img/Calendar-icon.png" class="img-rounded">
             Calendar
+            <a href='@Url.Action("Calendar", "User")'>
+                <span class="link"></span>
+            </a>
         </div>
     </div>
     <br />
@@ -47,7 +51,13 @@
         <div class="col-md-6 col-md-offset-6 menu-box">
             <img src="/Content/img/Gear-icon.png" class="img-rounded">
             Settings
+            <a href='@Url.Action("Settings", "User")'>
+                <span class="link"></span>
+            </a>
         </div>
     </div>
 
 </div>
+
+
+

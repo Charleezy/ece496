@@ -75,6 +75,7 @@
     <Compile Include="Contexts\UsersContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -93,11 +94,11 @@
     <Content Include="Content\css\custom\homepage.css" />
     <Content Include="Content\css\custom\user.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\Actions-clipboard-icon.png" />
     <Content Include="Content\img\Calendar-icon.png" />
     <Content Include="Content\img\date.png" />
-    <Content Include="Content\img\Files-Clipboard-icon.png" />
+    <Content Include="Content\img\envelope-icon.png" />
     <Content Include="Content\img\Gear-icon.png" />
-    <Content Include="Content\img\mail-envelope-icon.png" />
     <Content Include="Content\img\tasks.png" />
     <Content Include="Content\img\user_group.png" />
     <Content Include="Global.asax" />
@@ -157,7 +158,19 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\User.cshtml" />
+    <Content Include="Views\User\TeamManager.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\TaskManager.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Calendar.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Settings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
