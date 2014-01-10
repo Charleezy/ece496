@@ -91,8 +91,13 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\custom\homepage.css" />
+    <Content Include="Content\css\custom\user.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\Calendar-icon.png" />
     <Content Include="Content\img\date.png" />
+    <Content Include="Content\img\Files-Clipboard-icon.png" />
+    <Content Include="Content\img\Gear-icon.png" />
+    <Content Include="Content\img\mail-envelope-icon.png" />
     <Content Include="Content\img\tasks.png" />
     <Content Include="Content\img\user_group.png" />
     <Content Include="Global.asax" />

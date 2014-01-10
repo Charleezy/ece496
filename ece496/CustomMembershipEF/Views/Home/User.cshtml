@@ -1,5 +1,53 @@
-﻿@{
+﻿<!--
+----    File: User.cshtml
+----    Created By: Daniele Agueci
+----    Description: Initial screen seen by user after logging in. Contains menu of all modules.
+-->
+
+@{
     ViewBag.Title = "User";
 }
 
-<h2>User</h2>
+@section JavaScript
+{
+    
+}
+
+@section StyleSheet
+{
+    <link href="/Content/css/custom/user.css" rel="stylesheet" />
+}
+
+<div class="container">
+
+    <h3>Select an option below to get started</h3>
+
+    <div class="row">
+        <div class="col-md-6 menu-box">
+            <img src="/Content/img/mail-envelope-icon.png" class="img-rounded">
+            Invitations
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2 menu-box">
+            <img src="/Content/img/Files-Clipboard-icon.png" class="img-rounded">
+            Task Manager
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-4 menu-box">
+            <img src="/Content/img/Calendar-icon.png" class="img-rounded">
+            Calendar
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6 col-md-offset-6 menu-box">
+            <img src="/Content/img/Gear-icon.png" class="img-rounded">
+            Settings
+        </div>
+    </div>
+
+</div>
