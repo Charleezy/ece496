@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PM_ModelStoreContainer">
+          <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CourseWeeks" EntityType="PM_Model.Store.CourseWeeks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Schools" EntityType="PM_Model.Store.Schools" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TaskComments" EntityType="PM_Model.Store.TaskComments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TeamMembers" EntityType="PM_Model.Store.TeamMembers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Teams" EntityType="PM_Model.Store.Teams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Templates" EntityType="PM_Model.Store.Templates" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TemplateTasks" EntityType="PM_Model.Store.TemplateTasks" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="CoursesToCourseWeeks" Association="PM_Model.Store.CoursesToCourseWeeks">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="CourseWeeks" EntitySet="CourseWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamMembers_Teams" Association="PM_Model.Store.FK_TeamMembers_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="TeamMembers" EntitySet="TeamMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_to_Courses" Association="PM_Model.Store.FK_Teams_to_Courses">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Teams1" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="TemplateTasks to Templates" Association="PM_Model.Store.TemplateTasks to Templates">
+            <End Role="Templates" EntitySet="Templates" />
+            <End Role="TemplateTasks" EntitySet="TemplateTasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseName" Type="varchar" MaxLength="128" />
+          <Property Name="SchoolCourseCode" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="CourseWeeksID" Type="varchar" MaxLength="128" />
+          <Property Name="Semester" Type="varchar" MaxLength="128" />
+          <Property Name="Year" Type="int" />
+          <Property Name="CourseTimesID" Type="int" />
+        </EntityType>
+        <EntityType Name="CourseWeeks">
+          <Key>
+            <PropertyRef Name="CourseWeekID" />
+          </Key>
+          <Property Name="CourseWeekID" Type="int" Nullable="false" />
+          <Property Name="FKCourseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseWeek" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schools">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="SchoolID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolName" Type="varchar" MaxLength="240" />
+        </EntityType>
+        <EntityType Name="TaskComments">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="int" Nullable="false" />
+          <Property Name="FK_TaskID" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="text" Nullable="false" />
+          <Property Name="PostDate" Type="datetimeoffset" Nullable="false" />
+          <Property Name="LastEditedDate" Type="datetimeoffset" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TeamMembers">
+          <Key>
+            <PropertyRef Name="TeamMembersID" />
+          </Key>
+          <Property Name="TeamMembersID" Type="int" Nullable="false" />
+          <Property Name="FK_TeamID" Type="int" />
+          <Property Name="FK_UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="int" Nullable="false" />
+          <Property Name="TeamName" Type="nchar" MaxLength="10" />
+          <Property Name="CourseID" Type="int" />
+        </EntityType>
+        <EntityType Name="Templates">
+          <Key>
+            <PropertyRef Name="TemplateID" />
+          </Key>
+          <Property Name="TemplateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TemplateTasks">
+          <Key>
+            <PropertyRef Name="TemplateTasksID" />
+          </Key>
+          <Property Name="TemplateTasksID" Type="int" Nullable="false" />
+          <Property Name="FK_TemplateID" Type="int" />
+          <Property Name="Name" Type="varbinary" MaxLength="240" />
+          <Property Name="Description" Type="text" />
+          <Property Name="Deadline" Type="datetimeoffset" />
+        </EntityType>
+        <Association Name="CoursesToCourseWeeks">
+          <End Role="Courses" Type="PM_Model.Store.Courses" Multiplicity="1" />
+          <End Role="CourseWeeks" Type="PM_Model.Store.CourseWeeks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="CourseWeeks">
+              <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamMembers_Teams">
+          <End Role="Teams" Type="PM_Model.Store.Teams" Multiplicity="0..1" />
+          <End Role="TeamMembers" Type="PM_Model.Store.TeamMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="TeamMembers">
+              <PropertyRef Name="FK_TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_to_Courses">
+          <End Role="Teams" Type="PM_Model.Store.Teams" Multiplicity="1" />
+          <End Role="Teams1" Type="PM_Model.Store.Teams" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Teams1">
+              <PropertyRef Name="TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TemplateTasks to Templates">
+          <End Role="Templates" Type="PM_Model.Store.Templates" Multiplicity="0..1" />
+          <End Role="TemplateTasks" Type="PM_Model.Store.TemplateTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Templates">
+              <PropertyRef Name="TemplateID" />
+            </Principal>
+            <Dependent Role="TemplateTasks">
+              <PropertyRef Name="FK_TemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PM_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PM_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="PM_Model.Cours" />
+          <EntitySet Name="CourseWeeks" EntityType="PM_Model.CourseWeek" />
+          <EntitySet Name="Schools" EntityType="PM_Model.School" />
+          <EntitySet Name="TaskComments" EntityType="PM_Model.TaskComment" />
+          <EntitySet Name="TeamMembers" EntityType="PM_Model.TeamMember" />
+          <EntitySet Name="Teams" EntityType="PM_Model.Team" />
+          <EntitySet Name="Templates" EntityType="PM_Model.Template" />
+          <EntitySet Name="TemplateTasks" EntityType="PM_Model.TemplateTask" />
+          <AssociationSet Name="CoursesToCourseWeeks" Association="PM_Model.CoursesToCourseWeeks">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="CourseWeeks" EntitySet="CourseWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TeamMembers_Teams" Association="PM_Model.FK_TeamMembers_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="TeamMembers" EntitySet="TeamMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teams_to_Courses" Association="PM_Model.FK_Teams_to_Courses">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Teams1" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="TemplateTasks_to_Templates" Association="PM_Model.TemplateTasks_to_Templates">
+            <End Role="Templates" EntitySet="Templates" />
+            <End Role="TemplateTasks" EntitySet="TemplateTasks" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Cours">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="SchoolCourseCode" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="CourseWeeksID" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="Semester" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="CourseTimesID" Type="Int32" />
+          <NavigationProperty Name="CourseWeeks" Relationship="PM_Model.CoursesToCourseWeeks" FromRole="Courses" ToRole="CourseWeeks" />
+        </EntityType>
+        <EntityType Name="CourseWeek">
+          <Key>
+            <PropertyRef Name="CourseWeekID" />
+          </Key>
+          <Property Name="CourseWeekID" Type="Int32" Nullable="false" />
+          <Property Name="FKCourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseWeek1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cours" Relationship="PM_Model.CoursesToCourseWeeks" FromRole="CourseWeeks" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="SchoolID" />
+          </Key>
+          <Property Name="SchoolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SchoolName" Type="String" MaxLength="240" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TaskComment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int32" Nullable="false" />
+          <Property Name="FK_TaskID" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="PostDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="LastEditedDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="TeamMember">
+          <Key>
+            <PropertyRef Name="TeamMembersID" />
+          </Key>
+          <Property Name="TeamMembersID" Type="Int32" Nullable="false" />
+          <Property Name="FK_TeamID" Type="Int32" />
+          <Property Name="FK_UserID" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="PM_Model.FK_TeamMembers_Teams" FromRole="TeamMembers" ToRole="Teams" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="Int32" Nullable="false" />
+          <Property Name="TeamName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="CourseID" Type="Int32" />
+          <NavigationProperty Name="TeamMembers" Relationship="PM_Model.FK_TeamMembers_Teams" FromRole="Teams" ToRole="TeamMembers" />
+          <NavigationProperty Name="Teams1" Relationship="PM_Model.FK_Teams_to_Courses" FromRole="Teams" ToRole="Teams1" />
+          <NavigationProperty Name="Team1" Relationship="PM_Model.FK_Teams_to_Courses" FromRole="Teams1" ToRole="Teams" />
+        </EntityType>
+        <EntityType Name="Template">
+          <Key>
+            <PropertyRef Name="TemplateID" />
+          </Key>
+          <Property Name="TemplateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="TemplateTasks" Relationship="PM_Model.TemplateTasks_to_Templates" FromRole="Templates" ToRole="TemplateTasks" />
+        </EntityType>
+        <EntityType Name="TemplateTask">
+          <Key>
+            <PropertyRef Name="TemplateTasksID" />
+          </Key>
+          <Property Name="TemplateTasksID" Type="Int32" Nullable="false" />
+          <Property Name="FK_TemplateID" Type="Int32" />
+          <Property Name="Name" Type="Binary" MaxLength="240" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Deadline" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Template" Relationship="PM_Model.TemplateTasks_to_Templates" FromRole="TemplateTasks" ToRole="Templates" />
+        </EntityType>
+        <Association Name="CoursesToCourseWeeks">
+          <End Role="Courses" Type="PM_Model.Cours" Multiplicity="1" />
+          <End Role="CourseWeeks" Type="PM_Model.CourseWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="CourseWeeks">
+              <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TeamMembers_Teams">
+          <End Role="Teams" Type="PM_Model.Team" Multiplicity="0..1" />
+          <End Role="TeamMembers" Type="PM_Model.TeamMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="TeamMembers">
+              <PropertyRef Name="FK_TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teams_to_Courses">
+          <End Role="Teams" Type="PM_Model.Team" Multiplicity="1" />
+          <End Role="Teams1" Type="PM_Model.Team" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Teams1">
+              <PropertyRef Name="TeamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TemplateTasks_to_Templates">
+          <End Role="Templates" Type="PM_Model.Template" Multiplicity="0..1" />
+          <End Role="TemplateTasks" Type="PM_Model.TemplateTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Templates">
+              <PropertyRef Name="TemplateID" />
+            </Principal>
+            <Dependent Role="TemplateTasks">
+              <PropertyRef Name="FK_TemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PM_ModelStoreContainer" CdmEntityContainer="PM_Entities">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="PM_Model.Cours">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="SchoolCourseCode" ColumnName="SchoolCourseCode" />
+                <ScalarProperty Name="CourseWeeksID" ColumnName="CourseWeeksID" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CourseTimesID" ColumnName="CourseTimesID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseWeeks">
+            <EntityTypeMapping TypeName="PM_Model.CourseWeek">
+              <MappingFragment StoreEntitySet="CourseWeeks">
+                <ScalarProperty Name="CourseWeekID" ColumnName="CourseWeekID" />
+                <ScalarProperty Name="FKCourseID" ColumnName="FKCourseID" />
+                <ScalarProperty Name="CourseWeek1" ColumnName="CourseWeek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schools">
+            <EntityTypeMapping TypeName="PM_Model.School">
+              <MappingFragment StoreEntitySet="Schools">
+                <ScalarProperty Name="SchoolID" ColumnName="SchoolID" />
+                <ScalarProperty Name="SchoolName" ColumnName="SchoolName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskComments">
+            <EntityTypeMapping TypeName="PM_Model.TaskComment">
+              <MappingFragment StoreEntitySet="TaskComments">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="FK_TaskID" ColumnName="FK_TaskID" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PostDate" ColumnName="PostDate" />
+                <ScalarProperty Name="LastEditedDate" ColumnName="LastEditedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamMembers">
+            <EntityTypeMapping TypeName="PM_Model.TeamMember">
+              <MappingFragment StoreEntitySet="TeamMembers">
+                <ScalarProperty Name="TeamMembersID" ColumnName="TeamMembersID" />
+                <ScalarProperty Name="FK_TeamID" ColumnName="FK_TeamID" />
+                <ScalarProperty Name="FK_UserID" ColumnName="FK_UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="PM_Model.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Templates">
+            <EntityTypeMapping TypeName="PM_Model.Template">
+              <MappingFragment StoreEntitySet="Templates">
+                <ScalarProperty Name="TemplateID" ColumnName="TemplateID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateTasks">
+            <EntityTypeMapping TypeName="PM_Model.TemplateTask">
+              <MappingFragment StoreEntitySet="TemplateTasks">
+                <ScalarProperty Name="TemplateTasksID" ColumnName="TemplateTasksID" />
+                <ScalarProperty Name="FK_TemplateID" ColumnName="FK_TemplateID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

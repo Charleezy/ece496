@@ -4,6 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using CustomMembershipEF.Models;
+using CustomMembershipEF.Contexts;
+using System.Data.Objects;
+
 namespace CustomMembershipEF.Controllers
 {
     public class UserController : Controller
@@ -18,6 +22,7 @@ namespace CustomMembershipEF.Controllers
         public ActionResult TeamManager()
         {
             string username = User.Identity.Name;
+
             return View();
         }
 
@@ -40,6 +45,24 @@ namespace CustomMembershipEF.Controllers
         {
             string username = User.Identity.Name;
             return View();
+        }
+
+        public JsonResult GetTeamList()
+        {
+            List<Team> teams = new List<Team>();
+            List<int> teamlist = new List<int>();
+
+            using (var usersContext = new UsersContext())
+            {
+                int id = usersContext.GetUserId(User.Identity.Name);
+            }
+
+            using (var pmContext = new PM_Entities())
+            {
+                
+            }
+
+            return Json(teams);
         }
     }
 }

@@ -26,5 +26,12 @@ namespace CustomMembershipEF.Contexts
             var user = Users.SingleOrDefault(u => u.UserName == userName && u.Password == password);
             return user;
         }
+
+        public int GetUserId(string userName)
+        {
+            var user = Users.SingleOrDefault(u => u.UserName == userName);
+            int id = user.UserID;
+            return id;
+        }
     }
 }
