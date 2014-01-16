@@ -6,10 +6,19 @@
     <script src="/Scripts/custom/TeamManager.js"></script>
 }
 
-<div class="container">
-<h2>TeamManager</h2>
+@section StyleSheet {
+    <link href="/Content/css/custom/TeamManager.css" rel="stylesheet" />
+}
 
-    <button type="button" class="btn btn-primary">Create Team</button>
+<div class="container">
+    <h2>TeamManager</h2>
+
+    <div class="invitations">
+        <span class="glyphicon glyphicon-envelope"></span>
+        You current have <a>0</a> invitations.
+    </div>
+
+    <button id="createTeam" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
     <div class="teamlist">
         <table class="table">
             <thead>
@@ -26,6 +35,46 @@
 
     </div>
 
-    
+</div>
 
+<!-- Create Team Modal -->
+<div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="signinModalLabel">Create a Team</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="createteam-modal-form" name="createteam-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label for="teamName">Team Name</label>
+                            </div>
+                            <div class="formField">
+                                <input id="teamName" name="teamName" type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <div>
+                                <select id="course" name="course" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="createButton" type="button" class="btn btn-primary" onclick="createTeam()">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
 </div>

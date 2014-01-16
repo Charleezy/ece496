@@ -1,0 +1,19 @@
+﻿
+#createTeam {
+    float:right;
+    margin-bottom: 5px;
+}
+.form-container {
+    width:80%;
+    margin: 0 auto;
+}
+
+.formLabel {
+    width: 100px;
+}
+
+
+
+.formField input {
+    width: 100%;    
+}

@@ -134,6 +134,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\custom\homepage.css" />
+    <Content Include="Content\css\custom\TeamManager.css" />
     <Content Include="Content\css\custom\user.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\Actions-clipboard-icon.png" />

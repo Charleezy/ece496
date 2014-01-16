@@ -15,17 +15,6 @@
         }
     });
 
-    //When closing signin modal, clear fields
-    $('#signinModal').on('hidden.bs.modal', function () {
-        $('#signinEmail').parent('div').removeClass('has-error');
-        $('#signinEmail_err').hide();
-        $('#signinEmail').val("");
-
-        $('#signinPassword').parent('div').removeClass('has-error');
-        $('#signinPassword_err').hide();
-        $('#signinPassword').val("");
-    })
-
     //Detailed hover boxes
     $('#teamDetails').popover({
         html: true,

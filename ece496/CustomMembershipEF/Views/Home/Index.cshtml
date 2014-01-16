@@ -12,63 +12,31 @@
     <link href="/Content/css/custom/homepage.css" rel="stylesheet" />
 }
 
-@*
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <button class="btn btn-success" data-toggle="modal" data-target="#signinModal">Sign in</button>
-            <button class="btn btn-success" data-toggle="modal" data-target="#registerModal">Register</button>
-          </form>
-        </div>
-      </div>
+<div class="container">
+    <div class="row">
+    <div class="col-md-4" align="center">
+        <h2>Manage your teams</h2>
+        <img src="/Content/img/user_group.png" class="img-rounded">
+        <p>Keep in touch with all your team members, all in one location.</p>
+        <a id="teamDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
+    </div>
+    <div class="col-md-4" align="center">
+        <h2>Track your tasks</h2>
+        <img src="/Content/img/tasks.png" class="img-rounded">
+        <p>Take control of your responsibilities for each of your team projects.</p>
+        <a id="taskDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
+    </div>
+    <div class="col-md-4" align="center">
+        <h2>Stay organized</h2>
+        <img src="/Content/img/date.png" class="img-rounded">
+        <p>An all-in-one calendar that keeps track of all your school related events. </p>
+        <a id="calendarDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
+    </div>
     </div>
 
+    <hr>
 
-    <div class="jumbotron">
-      <div class="container">
-        
-        <h2>Welcome to PROJECTNAME, an all in one suite that allows you to effortlessly manage your teams, assignments, and time.</h2>
-        
-      </div>
-    </div>
-
-*@
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4" align="center">
-          <h2>Manage your teams</h2>
-          <img src="/Content/img/user_group.png" class="img-rounded">
-          <p>Keep in touch with all your team members, all in one location.</p>
-          <a id="teamDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
-        </div>
-        <div class="col-md-4" align="center">
-          <h2>Track your tasks</h2>
-          <img src="/Content/img/tasks.png" class="img-rounded">
-          <p>Take control of your responsibilities for each of your team projects.</p>
-          <a id="taskDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
-        </div>
-        <div class="col-md-4" align="center">
-          <h2>Stay organized</h2>
-          <img src="/Content/img/date.png" class="img-rounded">
-          <p>An all-in-one calendar that keeps track of all your school related events. </p>
-          <a id="calendarDetails" class="btn" href="#" rel="popover" data-placement="right">More details &raquo;</a>
-        </div>
-      </div>
-
-      <hr>
-
-    </div>
+</div>
 
 <div class="popoverDetails" id="teamDetails_msg">
     <p><b>+</b> Invite other students to your team or join an existing team.</p>
@@ -86,102 +54,3 @@
     <p><b>+</b> Create team specific events by using our meeting scheduler, which lets students know times when all teammates are available.</p>
     <p><b>+</b> Configure your calendar to send you reminders via SMS or email, so you never miss a deadline or meeting again.</p>
 </div>
-
-<!-- Sign in Modal -->
-<div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="signinModalLabel">Sign in</h4>
-            </div>
-            <div class="modal-body">
-                <form id="signin-modal-form" name="signin-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
-                    <div class="form-group">
-                        <label for="signinEmail">Email</label>
-                        <div>
-                            <input id="signinEmail" name="signinEmail" type="email" class="form-control"/>
-                        </div>
-                        <p id="signinEmail_err" class="text-danger"><b>*Email is required</b></p>
-
-                        
-                    </div>
-                    <div class="form-group">
-                        <label for="signinPassword">Password</label>
-                        <div>
-                            <input id="signinPassword" name="signinPassword" type="password" class="form-control"/>
-                        </div>
-                        <p id="signinPassword_err" class="text-danger"><b>*Password is required</b></p>
-                    </div>
-                    <a id="pswdReset">Forgot your password?</a>
-                </form>
-                
-            </div>
-            <div class="modal-footer">
-                <button id="signinButton" type="button" class="btn btn-primary" onclick="signin()">Login</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Register Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="registerModalLabel">Create an Account</h4>
-            </div>
-            <div class="modal-body">
-                <form id="register-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
-                    <div class="form-group">
-                        <label for="inputName" class="control-label">Name</label>
-                            <div>
-                            <input type="text" class="form-control" id="firstName" placeholder="First">
-                        
-                            <input type="text" class="form-control" id="lastName" placeholder="Last" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="control-label">Email</label>
-                        <div>
-                            <input type="email" class="form-control" id="inputEmail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputPassword" class="control-label">Password</label>
-                        <div>
-                            <input type="password" class="form-control" id="inputPassword">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirmPassword" class="control-label">Confirm Password</label>
-                        <div>
-                            <input type="password" class="form-control" id="confirmPassword" placeholder="Re-type password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputSchool" class="control-label">School</label>
-                        <div>
-                             <input type="text" class="form-control" id="inputSchool">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputProgram" class="control-label">Program</label>
-                        <div>
-                             <input type="text" class="form-control" id="inputProgram">
-                        </div>
-                    </div>
-                </form>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
