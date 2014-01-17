@@ -7,9 +7,11 @@
       <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="PM_ModelStoreContainer">
           <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CourseTime" EntityType="PM_Model.Store.CourseTime" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseWeeks" EntityType="PM_Model.Store.CourseWeeks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Schools" EntityType="PM_Model.Store.Schools" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TaskComments" EntityType="PM_Model.Store.TaskComments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tasks" EntityType="PM_Model.Store.Tasks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TeamMembers" EntityType="PM_Model.Store.TeamMembers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Teams" EntityType="PM_Model.Store.Teams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Templates" EntityType="PM_Model.Store.Templates" store:Type="Tables" Schema="dbo" />
@@ -17,6 +19,14 @@
           <AssociationSet Name="CoursesToCourseWeeks" Association="PM_Model.Store.CoursesToCourseWeeks">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="CourseWeeks" EntitySet="CourseWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseTime_Courses" Association="PM_Model.Store.FK_CourseTime_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="CourseTime" EntitySet="CourseTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Teams" Association="PM_Model.Store.FK_Tasks_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_TeamMembers_Teams" Association="PM_Model.Store.FK_TeamMembers_Teams">
             <End Role="Teams" EntitySet="Teams" />
@@ -43,6 +53,15 @@
           <Property Name="Year" Type="int" />
           <Property Name="CourseTimesID" Type="int" />
         </EntityType>
+        <EntityType Name="CourseTime">
+          <Key>
+            <PropertyRef Name="CourseTimeID" />
+          </Key>
+          <Property Name="CourseTimeID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="128" />
+          <Property Name="FKCourseID" Type="int" />
+          <Property Name="CourseTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="CourseWeeks">
           <Key>
             <PropertyRef Name="CourseWeekID" />
@@ -68,6 +87,16 @@
           <Property Name="PostDate" Type="datetimeoffset" Nullable="false" />
           <Property Name="LastEditedDate" Type="datetimeoffset" Nullable="false" />
         </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="128" />
+          <Property Name="TaskStartTime" Type="datetime" />
+          <Property Name="TaskDeadline" Type="datetime" />
+          <Property Name="FKTeamID" Type="int" />
+        </EntityType>
         <EntityType Name="TeamMembers">
           <Key>
             <PropertyRef Name="TeamMembersID" />
@@ -80,7 +109,7 @@
           <Key>
             <PropertyRef Name="TeamID" />
           </Key>
-          <Property Name="TeamID" Type="int" Nullable="false" />
+          <Property Name="TeamID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TeamName" Type="nchar" MaxLength="10" />
           <Property Name="CourseID" Type="int" />
         </EntityType>
@@ -110,6 +139,30 @@
             </Principal>
             <Dependent Role="CourseWeeks">
               <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseTime_Courses">
+          <End Role="Courses" Type="PM_Model.Store.Courses" Multiplicity="0..1" />
+          <End Role="CourseTime" Type="PM_Model.Store.CourseTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="CourseTime">
+              <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Teams">
+          <End Role="Teams" Type="PM_Model.Store.Teams" Multiplicity="0..1" />
+          <End Role="Tasks" Type="PM_Model.Store.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="FKTeamID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -156,9 +209,11 @@
       <Schema Namespace="PM_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="PM_Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Courses" EntityType="PM_Model.Cours" />
+          <EntitySet Name="CourseTimes" EntityType="PM_Model.CourseTime" />
           <EntitySet Name="CourseWeeks" EntityType="PM_Model.CourseWeek" />
           <EntitySet Name="Schools" EntityType="PM_Model.School" />
           <EntitySet Name="TaskComments" EntityType="PM_Model.TaskComment" />
+          <EntitySet Name="Tasks" EntityType="PM_Model.Task" />
           <EntitySet Name="TeamMembers" EntityType="PM_Model.TeamMember" />
           <EntitySet Name="Teams" EntityType="PM_Model.Team" />
           <EntitySet Name="Templates" EntityType="PM_Model.Template" />
@@ -166,6 +221,14 @@
           <AssociationSet Name="CoursesToCourseWeeks" Association="PM_Model.CoursesToCourseWeeks">
             <End Role="Courses" EntitySet="Courses" />
             <End Role="CourseWeeks" EntitySet="CourseWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseTime_Courses" Association="PM_Model.FK_CourseTime_Courses">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="CourseTime" EntitySet="CourseTimes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Teams" Association="PM_Model.FK_Tasks_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_TeamMembers_Teams" Association="PM_Model.FK_TeamMembers_Teams">
             <End Role="Teams" EntitySet="Teams" />
@@ -192,6 +255,17 @@
           <Property Name="Year" Type="Int32" />
           <Property Name="CourseTimesID" Type="Int32" />
           <NavigationProperty Name="CourseWeeks" Relationship="PM_Model.CoursesToCourseWeeks" FromRole="Courses" ToRole="CourseWeeks" />
+          <NavigationProperty Name="CourseTimes" Relationship="PM_Model.FK_CourseTime_Courses" FromRole="Courses" ToRole="CourseTime" />
+        </EntityType>
+        <EntityType Name="CourseTime">
+          <Key>
+            <PropertyRef Name="CourseTimeID" />
+          </Key>
+          <Property Name="CourseTimeID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="FKCourseID" Type="Int32" />
+          <Property Name="CourseTime1" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cours" Relationship="PM_Model.FK_CourseTime_Courses" FromRole="CourseTime" ToRole="Courses" />
         </EntityType>
         <EntityType Name="CourseWeek">
           <Key>
@@ -219,6 +293,17 @@
           <Property Name="PostDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="LastEditedDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
         </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="TaskStartTime" Type="DateTime" Precision="3" />
+          <Property Name="TaskDeadline" Type="DateTime" Precision="3" />
+          <Property Name="FKTeamID" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="PM_Model.FK_Tasks_Teams" FromRole="Tasks" ToRole="Teams" />
+        </EntityType>
         <EntityType Name="TeamMember">
           <Key>
             <PropertyRef Name="TeamMembersID" />
@@ -232,9 +317,10 @@
           <Key>
             <PropertyRef Name="TeamID" />
           </Key>
-          <Property Name="TeamID" Type="Int32" Nullable="false" />
+          <Property Name="TeamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TeamName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
           <Property Name="CourseID" Type="Int32" />
+          <NavigationProperty Name="Tasks" Relationship="PM_Model.FK_Tasks_Teams" FromRole="Teams" ToRole="Tasks" />
           <NavigationProperty Name="TeamMembers" Relationship="PM_Model.FK_TeamMembers_Teams" FromRole="Teams" ToRole="TeamMembers" />
           <NavigationProperty Name="Teams1" Relationship="PM_Model.FK_Teams_to_Courses" FromRole="Teams" ToRole="Teams1" />
           <NavigationProperty Name="Team1" Relationship="PM_Model.FK_Teams_to_Courses" FromRole="Teams1" ToRole="Teams" />
@@ -267,6 +353,30 @@
             </Principal>
             <Dependent Role="CourseWeeks">
               <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseTime_Courses">
+          <End Role="Courses" Type="PM_Model.Cours" Multiplicity="0..1" />
+          <End Role="CourseTime" Type="PM_Model.CourseTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="CourseTime">
+              <PropertyRef Name="FKCourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Teams">
+          <End Role="Teams" Type="PM_Model.Team" Multiplicity="0..1" />
+          <End Role="Tasks" Type="PM_Model.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="TeamID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="FKTeamID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -325,6 +435,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CourseTimes">
+            <EntityTypeMapping TypeName="PM_Model.CourseTime">
+              <MappingFragment StoreEntitySet="CourseTime">
+                <ScalarProperty Name="CourseTimeID" ColumnName="CourseTimeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FKCourseID" ColumnName="FKCourseID" />
+                <ScalarProperty Name="CourseTime1" ColumnName="CourseTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CourseWeeks">
             <EntityTypeMapping TypeName="PM_Model.CourseWeek">
               <MappingFragment StoreEntitySet="CourseWeeks">
@@ -350,6 +470,17 @@
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="PostDate" ColumnName="PostDate" />
                 <ScalarProperty Name="LastEditedDate" ColumnName="LastEditedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="PM_Model.Task">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskStartTime" ColumnName="TaskStartTime" />
+                <ScalarProperty Name="TaskDeadline" ColumnName="TaskDeadline" />
+                <ScalarProperty Name="FKTeamID" ColumnName="FKTeamID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

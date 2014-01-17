@@ -17,6 +17,7 @@ namespace CustomMembershipEF
         public Cours()
         {
             this.CourseWeeks = new HashSet<CourseWeek>();
+            this.CourseTimes = new HashSet<CourseTime>();
         }
     
         public int CourseID { get; set; }
@@ -28,5 +29,6 @@ namespace CustomMembershipEF
         public Nullable<int> CourseTimesID { get; set; }
     
         public virtual ICollection<CourseWeek> CourseWeeks { get; set; }
+        public virtual ICollection<CourseTime> CourseTimes { get; set; }
     }
 }

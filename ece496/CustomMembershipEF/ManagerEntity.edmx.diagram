@@ -4,16 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8a579c0761ac418c979efcba828f88a9" Name="Diagram1">
-        <EntityTypeShape EntityType="PM_Model.Cours" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.CourseWeek" Width="1.5" PointX="10" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.School" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.TaskComment" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.TeamMember" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.Team" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.Template" Width="1.5" PointX="2.75" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.TemplateTask" Width="1.5" PointX="5" PointY="3.875" IsExpanded="true" />
+      <Diagram DiagramId="0cd0d0a9dfd945839c7ff1d41f29d1a2" Name="Diagram1">
+        <EntityTypeShape EntityType="PM_Model.Cours" Width="1.5" PointX="5.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.CourseTime" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.CourseWeek" Width="1.5" PointX="8" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.School" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.TaskComment" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.Task" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.TeamMember" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.Team" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.Template" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.TemplateTask" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
         <AssociationConnector Association="PM_Model.CoursesToCourseWeeks" ManuallyRouted="false" />
+        <AssociationConnector Association="PM_Model.FK_CourseTime_Courses" ManuallyRouted="false" />
+        <AssociationConnector Association="PM_Model.FK_Tasks_Teams" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.FK_TeamMembers_Teams" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.FK_Teams_to_Courses" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.TemplateTasks_to_Templates" ManuallyRouted="false" />

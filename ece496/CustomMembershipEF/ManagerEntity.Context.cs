@@ -26,9 +26,11 @@ namespace CustomMembershipEF
         }
     
         public DbSet<Cours> Courses { get; set; }
+        public DbSet<CourseTime> CourseTimes { get; set; }
         public DbSet<CourseWeek> CourseWeeks { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<TaskComment> TaskComments { get; set; }
+        public DbSet<Task> Tasks { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Template> Templates { get; set; }

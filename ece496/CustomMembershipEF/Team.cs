@@ -16,6 +16,7 @@ namespace CustomMembershipEF
     {
         public Team()
         {
+            this.Tasks = new HashSet<Task>();
             this.TeamMembers = new HashSet<TeamMember>();
         }
     
@@ -23,6 +24,7 @@ namespace CustomMembershipEF
         public string TeamName { get; set; }
         public Nullable<int> CourseID { get; set; }
     
+        public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<TeamMember> TeamMembers { get; set; }
         public virtual Team Teams1 { get; set; }
         public virtual Team Team1 { get; set; }
