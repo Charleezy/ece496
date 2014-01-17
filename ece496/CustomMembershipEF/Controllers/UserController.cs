@@ -46,6 +46,19 @@ namespace CustomMembershipEF.Controllers
             string username = User.Identity.Name;
             return View();
         }
+        
+        public void CreateTeam(string teamname, string coursetoken)
+        {
+            using (var context = new PM_Entities())
+            {
+
+                var newTeam = new Team { TeamName = teamname, CourseID = 123 };
+
+                context.Teams.Add(newTeam);
+                context.SaveChanges();
+
+            }
+        }
 
         public JsonResult GetTeamList()
         {
