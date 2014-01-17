@@ -49,17 +49,26 @@ namespace CustomMembershipEF.Controllers
         
         public void CreateTeam(string teamname, string coursetoken)
         {
+            int uid, cid;
+
+            using (var usersContext = new UsersContext())
+            {
+                uid = usersContext.GetUserId(User.Identity.Name);
+            }
+
             using (var context = new PM_Entities())
             {
                 var course = context.Courses
                                 .Where(x => x.CourseToken == coursetoken)
                                 .Single();
-
-                int cid = course.CourseID;
-
+                cid = course.CourseID;
                 var newTeam = new Team { TeamName = teamname, CourseID = cid };
+                 
 
                 context.Teams.Add(newTeam);
+
+                var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
+                context.TeamMembers.Add(newMember);
                 context.SaveChanges();
             }
         }
@@ -71,7 +80,7 @@ namespace CustomMembershipEF.Controllers
 
             using (var usersContext = new UsersContext())
             {
-                int id = usersContext.GetUserId(User.Identity.Name);
+                int userid = usersContext.GetUserId(User.Identity.Name);
             }
 
             using (var pmContext = new PM_Entities())

@@ -20,8 +20,8 @@ var createTeam = function () {
         success: function () {
             $('#createTeamModal').modal('hide');
         },
-        error: function (data) {
-            alert(data.responseText);
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(textStatus);
         }
     });
 }

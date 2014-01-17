@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+      <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="PM_ModelStoreContainer">
           <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseTime" EntityType="PM_Model.Store.CourseTime" store:Type="Tables" Schema="dbo" />
@@ -45,7 +45,7 @@
           <Key>
             <PropertyRef Name="CourseID" />
           </Key>
-          <Property Name="CourseID" Type="int" Nullable="false" />
+          <Property Name="CourseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CourseName" Type="varchar" MaxLength="128" />
           <Property Name="SchoolCourseCode" Type="varchar" Nullable="false" MaxLength="128" />
           <Property Name="CourseWeeksID" Type="varchar" MaxLength="128" />
@@ -102,7 +102,7 @@
           <Key>
             <PropertyRef Name="TeamMembersID" />
           </Key>
-          <Property Name="TeamMembersID" Type="int" Nullable="false" />
+          <Property Name="TeamMembersID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="FK_TeamID" Type="int" />
           <Property Name="FK_UserID" Type="int" />
         </EntityType>
@@ -203,7 +203,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PM_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -247,16 +248,16 @@
           <Key>
             <PropertyRef Name="CourseID" />
           </Key>
-          <Property Name="CourseID" Type="Int32" Nullable="false" />
+          <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CourseName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
           <Property Name="SchoolCourseCode" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
           <Property Name="CourseWeeksID" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
           <Property Name="Semester" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
           <Property Name="Year" Type="Int32" />
           <Property Name="CourseTimesID" Type="Int32" />
+          <Property Name="CourseToken" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="CourseWeeks" Relationship="PM_Model.CoursesToCourseWeeks" FromRole="Courses" ToRole="CourseWeeks" />
           <NavigationProperty Name="CourseTimes" Relationship="PM_Model.FK_CourseTime_Courses" FromRole="Courses" ToRole="CourseTime" />
-          <Property Type="String" Name="CourseToken" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -309,7 +310,7 @@
           <Key>
             <PropertyRef Name="TeamMembersID" />
           </Key>
-          <Property Name="TeamMembersID" Type="Int32" Nullable="false" />
+          <Property Name="TeamMembersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FK_TeamID" Type="Int32" />
           <Property Name="FK_UserID" Type="Int32" />
           <NavigationProperty Name="Team" Relationship="PM_Model.FK_TeamMembers_Teams" FromRole="TeamMembers" ToRole="Teams" />
@@ -426,7 +427,6 @@
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="PM_Model.Cours">
               <MappingFragment StoreEntitySet="Courses">
-                <ScalarProperty Name="CourseToken" ColumnName="CourseToken" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
                 <ScalarProperty Name="CourseName" ColumnName="CourseName" />
                 <ScalarProperty Name="SchoolCourseCode" ColumnName="SchoolCourseCode" />
@@ -434,6 +434,7 @@
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="CourseTimesID" ColumnName="CourseTimesID" />
+                <ScalarProperty Name="CourseToken" ColumnName="CourseToken" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
