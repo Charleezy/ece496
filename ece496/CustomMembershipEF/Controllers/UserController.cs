@@ -51,12 +51,16 @@ namespace CustomMembershipEF.Controllers
         {
             using (var context = new PM_Entities())
             {
+                var course = context.Courses
+                                .Where(x => x.CourseToken == coursetoken)
+                                .Single();
 
-                var newTeam = new Team { TeamName = teamname, CourseID = 123 };
+                int cid = course.CourseID;
+
+                var newTeam = new Team { TeamName = teamname, CourseID = cid };
 
                 context.Teams.Add(newTeam);
                 context.SaveChanges();
-
             }
         }
 

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="PM_ModelStoreContainer">
           <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseTime" EntityType="PM_Model.Store.CourseTime" store:Type="Tables" Schema="dbo" />
@@ -52,6 +52,7 @@
           <Property Name="Semester" Type="varchar" MaxLength="128" />
           <Property Name="Year" Type="int" />
           <Property Name="CourseTimesID" Type="int" />
+          <Property Name="CourseToken" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -202,8 +203,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PM_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -256,6 +256,7 @@
           <Property Name="CourseTimesID" Type="Int32" />
           <NavigationProperty Name="CourseWeeks" Relationship="PM_Model.CoursesToCourseWeeks" FromRole="Courses" ToRole="CourseWeeks" />
           <NavigationProperty Name="CourseTimes" Relationship="PM_Model.FK_CourseTime_Courses" FromRole="Courses" ToRole="CourseTime" />
+          <Property Type="String" Name="CourseToken" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -425,6 +426,7 @@
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="PM_Model.Cours">
               <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseToken" ColumnName="CourseToken" />
                 <ScalarProperty Name="CourseID" ColumnName="CourseID" />
                 <ScalarProperty Name="CourseName" ColumnName="CourseName" />
                 <ScalarProperty Name="SchoolCourseCode" ColumnName="SchoolCourseCode" />

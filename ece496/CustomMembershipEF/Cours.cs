@@ -27,6 +27,7 @@ namespace CustomMembershipEF
         public string Semester { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<int> CourseTimesID { get; set; }
+        public string CourseToken { get; set; }
     
         public virtual ICollection<CourseWeek> CourseWeeks { get; set; }
         public virtual ICollection<CourseTime> CourseTimes { get; set; }

@@ -19,6 +19,9 @@ var createTeam = function () {
         data: { teamname: name, coursetoken: token},
         success: function () {
             $('#createTeamModal').modal('hide');
+        },
+        error: function (data) {
+            alert(data.responseText);
         }
     });
 }
