@@ -5,10 +5,10 @@ using System.Web;
 
 namespace CustomMembershipEF.Models
 {
-    public class Team
+    public class TeamTable
     {
         public string TeamName { get; set; }
-        public int Course { get; set; }
-        public List<string> TeamMembers { get; set; }
+        public int? Course { get; set; }
+        public string[] TeamMembers { get; set; }
     }
 }

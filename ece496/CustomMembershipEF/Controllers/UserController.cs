@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
-using System.Data.Objects;
 
 namespace CustomMembershipEF.Controllers
 {
@@ -46,7 +45,7 @@ namespace CustomMembershipEF.Controllers
             string username = User.Identity.Name;
             return View();
         }
-        
+
         public void CreateTeam(string teamname, string coursetoken)
         {
             int uid, cid;
@@ -61,9 +60,10 @@ namespace CustomMembershipEF.Controllers
                 var course = context.Courses
                                 .Where(x => x.CourseToken == coursetoken)
                                 .Single();
+
                 cid = course.CourseID;
                 var newTeam = new Team { TeamName = teamname, CourseID = cid };
-                 
+
 
                 context.Teams.Add(newTeam);
 
@@ -72,23 +72,49 @@ namespace CustomMembershipEF.Controllers
                 context.SaveChanges();
             }
         }
-
+        
+        
         public JsonResult GetTeamList()
         {
-            List<Team> teams = new List<Team>();
-            List<int> teamlist = new List<int>();
+            int userid;
+            List<TeamTable> teaminfo = new List<TeamTable>();
+            List<string> teammembers2 = new List<string>();
 
-            using (var usersContext = new UsersContext())
-            {
-                int userid = usersContext.GetUserId(User.Identity.Name);
-            }
+            var usersContext = new UsersContext();
+            var teamsContext = new PM_Entities();
 
-            using (var pmContext = new PM_Entities())
+            userid = usersContext.GetUserId(User.Identity.Name);
+            
+            var teamlist = teamsContext.TeamMembers
+                                   .Where(x => x.FK_UserID == userid)
+                                   .ToList();
+            
+            foreach (var team in teamlist)
             {
+                Team usersteam = teamsContext.Teams
+                                       .Where(x => x.TeamID == team.FK_TeamID)
+                                       .Single();
+
+                var teammembers = teamsContext.TeamMembers
+                                        .Where(x => x.FK_TeamID == team.FK_TeamID)
+                                        .Select(y => y.FK_UserID)
+                                        .ToArray();
+
+                foreach (var memberID in teammembers)
+                {
+                    string membername = usersContext.GetUserName(memberID);
+                    teammembers2.Add(membername);
+                }
                 
+                string[] myarray = teammembers2.ToArray();
+                teammembers2.Clear();
+
+                TeamTable teamitem = new TeamTable { TeamName = usersteam.TeamName, Course = usersteam.CourseID, TeamMembers = myarray };
+
+                teaminfo.Add(teamitem);
             }
 
-            return Json(teams);
+            return Json(teaminfo, JsonRequestBehavior.AllowGet);
         }
     }
 }

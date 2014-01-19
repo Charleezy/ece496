@@ -4,6 +4,7 @@
 
 @section JavaScript {
     <script src="/Scripts/custom/TeamManager.js"></script>
+    <script src="/Scripts/spin.min.js"></script>
 }
 
 @section StyleSheet {
@@ -11,6 +12,9 @@
 }
 
 <div class="container">
+
+    <div id="foo"></div>
+
     <h2>TeamManager</h2>
 
     <div class="invitations">
@@ -20,7 +24,7 @@
 
     <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
     <div class="teamlist">
-        <table class="table">
+        <table id="myTeams" class="table">
             <thead>
                 <tr>
                     <th>Team name</th>
