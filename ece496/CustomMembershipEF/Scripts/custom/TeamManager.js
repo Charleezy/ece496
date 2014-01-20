@@ -1,9 +1,7 @@
 ﻿var spinner;
 
 $(document).ready(function () {
-
-
-    var options = {
+    var spinoptions = {
         lines: 10, // The number of lines to draw
         length: 10, // The length of each line
         width: 6, // The line thickness
@@ -22,7 +20,7 @@ $(document).ready(function () {
         left: 'auto' // Left position relative to parent in px
     };
     var target = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
-    spinner = new Spinner(options).spin(target);
+    spinner = new Spinner(spinoptions).spin(target);
 
     populateTeamList();
 
@@ -43,13 +41,21 @@ var populateTeamList = function () {
         success: function (data) {
             var table = document.getElementById("myTeams").getElementsByTagName('tbody')[0];
 
+            if (data.length == 0) {
+                
+            }
+
             for (var i = 0, len = data.length; i < len; ++i) {
                 var team = data[i];
                 var newRow = table.insertRow(table.rows.length);
 
-                var name = newRow.insertCell(0);
-                var course = newRow.insertCell(1);
-                var members = newRow.insertCell(2);
+                var select = newRow.insertCell(0);
+                var name = newRow.insertCell(1);
+                var course = newRow.insertCell(2);
+                var members = newRow.insertCell(3);
+
+                var selectbox = document.createElement('input');
+                selectbox.type = 'checkbox';
 
                 var memberconcat = "";
                 for (var j = 0; j < team.TeamMembers.length; j++) {
@@ -60,6 +66,7 @@ var populateTeamList = function () {
                 var coursetext = document.createTextNode(team.Course);
                 var memberstext = document.createTextNode(memberconcat);
 
+                select.appendChild(selectbox);
                 name.appendChild(nametext);
                 course.appendChild(coursetext);
                 members.appendChild(memberstext);

@@ -8,7 +8,7 @@ namespace CustomMembershipEF.Models
     public class TeamTable
     {
         public string TeamName { get; set; }
-        public int? Course { get; set; }
+        public string Course { get; set; }
         public string[] TeamMembers { get; set; }
     }
 }

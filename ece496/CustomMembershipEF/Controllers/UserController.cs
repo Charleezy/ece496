@@ -73,7 +73,6 @@ namespace CustomMembershipEF.Controllers
             }
         }
         
-        
         public JsonResult GetTeamList()
         {
             int userid;
@@ -95,6 +94,11 @@ namespace CustomMembershipEF.Controllers
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
 
+                string coursename = teamsContext.Courses
+                                          .Where(x => x.CourseID == usersteam.CourseID)
+                                          .Select(y => y.CourseName)
+                                          .SingleOrDefault();
+
                 var teammembers = teamsContext.TeamMembers
                                         .Where(x => x.FK_TeamID == team.FK_TeamID)
                                         .Select(y => y.FK_UserID)
@@ -109,7 +113,7 @@ namespace CustomMembershipEF.Controllers
                 string[] myarray = teammembers2.ToArray();
                 teammembers2.Clear();
 
-                TeamTable teamitem = new TeamTable { TeamName = usersteam.TeamName, Course = usersteam.CourseID, TeamMembers = myarray };
+                TeamTable teamitem = new TeamTable { TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
 
                 teaminfo.Add(teamitem);
             }

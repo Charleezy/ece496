@@ -15,3 +15,7 @@
 .formField input {
     width: 100%;    
 }
+
+table td {
+    border:none;
+}
