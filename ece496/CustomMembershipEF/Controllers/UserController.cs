@@ -113,12 +113,20 @@ namespace CustomMembershipEF.Controllers
                 string[] myarray = teammembers2.ToArray();
                 teammembers2.Clear();
 
-                TeamTable teamitem = new TeamTable { TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
+                TeamTable teamitem = new TeamTable { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
 
                 teaminfo.Add(teamitem);
             }
 
             return Json(teaminfo, JsonRequestBehavior.AllowGet);
+        }
+
+        public void SendInvite(string username, string teams)
+        {
+            var usersContext = new UsersContext();
+            var teamsContext = new PM_Entities();
+
+            int uid = usersContext.GetUserId(username);
         }
     }
 }

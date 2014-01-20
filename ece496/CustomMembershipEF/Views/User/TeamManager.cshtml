@@ -22,7 +22,11 @@
         You currently have <a>0</a> invitations.
     </div>
 
-    <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
+    <div class="btn-group">
+        <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
+        <button id="sendInvite_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
+    </div>
+
     <div class="teamlist">
         <table id="myTeams" class="table">
             <thead>
@@ -49,7 +53,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="signinModalLabel">Create a Team</h4>
+                <h4 class="modal-title" id="createTeamModalLabel">Create a Team</h4>
             </div>
 
             <div class="modal-body">
@@ -77,6 +81,40 @@
 
             <div class="modal-footer">
                 <button id="createButton" type="button" class="btn btn-primary" onclick="createTeam()">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Send Invite Modal -->
+<div class="modal fade" id="sendInviteModal" tabindex="-1" role="dialog" aria-labelledby="sendInviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="sendInviteModalLabel">Send an Invitation</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="sendinvite-modal-form" name="sendinvite-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label for="userName">User name</label>
+                            </div>
+                            <div class="formField">
+                                <input id="userName" name="userName" type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="inviteButton" type="button" class="btn btn-primary" onclick="sendInvite()">Invite</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
 

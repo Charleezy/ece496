@@ -56,6 +56,7 @@ var populateTeamList = function () {
 
                 var selectbox = document.createElement('input');
                 selectbox.type = 'checkbox';
+                selectbox.id = team.TeamID;
 
                 var memberconcat = "";
                 for (var j = 0; j < team.TeamMembers.length; j++) {
@@ -88,6 +89,32 @@ var createTeam = function () {
         data: { teamname: name, coursetoken: token },
         success: function () {
             $('#createTeamModal').modal('hide');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + textStatus);
+        }
+    });
+}
+
+var sendInvite = function () {
+    var name = document.forms['sendinvite-modal-form'].userName.value;
+
+    var selectedTeamsArray = new Array();
+    var x = 0;
+    $('#myTeams > tbody  > tr').each(function() {
+        if ($(this).find('input').attr('checked')) {
+            selectedTeamsArray[x] = $(this).find('input').attr('id');
+            x++;
+        }
+    });
+
+    var selectedTeams = selectedTeamsArray.join(',')
+
+    $.ajax({
+        url: '/User/SendInvite',
+        data: { username: name, teams: selectedTeams },
+        success: function () {
+            $('#sendInviteModal').modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);
