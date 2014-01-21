@@ -35,5 +35,6 @@ namespace CustomMembershipEF
         public DbSet<Team> Teams { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<TemplateTask> TemplateTasks { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
     }
 }

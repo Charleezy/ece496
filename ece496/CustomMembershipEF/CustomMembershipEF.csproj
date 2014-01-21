@@ -92,6 +92,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\CustomMembershipProvider.cs" />
+    <Compile Include="Invitation.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="ManagerEntity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

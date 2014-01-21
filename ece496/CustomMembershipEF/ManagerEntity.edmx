@@ -4,11 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="PM_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="PM_ModelStoreContainer">
           <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseTime" EntityType="PM_Model.Store.CourseTime" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseWeeks" EntityType="PM_Model.Store.CourseWeeks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Invitations" EntityType="PM_Model.Store.Invitations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Schools" EntityType="PM_Model.Store.Schools" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TaskComments" EntityType="PM_Model.Store.TaskComments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tasks" EntityType="PM_Model.Store.Tasks" store:Type="Tables" Schema="dbo" />
@@ -70,6 +71,14 @@
           <Property Name="CourseWeekID" Type="int" Nullable="false" />
           <Property Name="FKCourseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CourseWeek" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invitations">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Sender" Type="int" Nullable="false" />
+          <Property Name="Recipient" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Schools">
           <Key>
@@ -203,8 +212,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PM_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -243,6 +251,7 @@
             <End Role="Templates" EntitySet="Templates" />
             <End Role="TemplateTasks" EntitySet="TemplateTasks" />
           </AssociationSet>
+          <EntitySet Name="Invitations" EntityType="PM_Model.Invitation" />
         </EntityContainer>
         <EntityType Name="Cours">
           <Key>
@@ -418,6 +427,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Invitation">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Type="Int32" Name="TeamID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Sender" Nullable="false" />
+          <Property Type="Int32" Name="Recipient" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -521,6 +538,15 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invitations">
+            <EntityTypeMapping TypeName="PM_Model.Invitation">
+              <MappingFragment StoreEntitySet="Invitations">
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
