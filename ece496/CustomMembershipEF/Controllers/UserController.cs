@@ -20,59 +20,59 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult TeamManager()
         {
-            string username = User.Identity.Name;
-
             return View();
         }
 
         [Authorize]
         public ActionResult TaskManager()
         {
-            string username = User.Identity.Name;
             return View();
         }
 
         [Authorize]
         public ActionResult Calendar()
         {
-            string username = User.Identity.Name;
             return View();
         }
 
         [Authorize]
         public ActionResult Settings()
         {
-            string username = User.Identity.Name;
             return View();
         }
 
+        /// <summary>
+        /// Adds a new entry to the Teams table.
+        /// </summary>
+        /// <param name="teamname">Name of the team.</param>
+        /// <param name="coursetoken">A code mapping to a course.</param>
         public void CreateTeam(string teamname, string coursetoken)
         {
-            int uid, cid;
+            int uid;
 
-            using (var usersContext = new UsersContext())
-            {
+            using (var usersContext = new UsersContext()) {
                 uid = usersContext.GetUserId(User.Identity.Name);
             }
 
-            using (var context = new PM_Entities())
-            {
-                var course = context.Courses
+            using (var teamscontext = new PM_Entities()) {
+                var course = teamscontext.Courses
                                 .Where(x => x.CourseToken == coursetoken)
                                 .Single();
 
-                cid = course.CourseID;
-                var newTeam = new Team { TeamName = teamname, CourseID = cid };
-
-
-                context.Teams.Add(newTeam);
+                var newTeam = new Team { TeamName = teamname, CourseID = course.CourseID };
+                teamscontext.Teams.Add(newTeam);
 
                 var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
-                context.TeamMembers.Add(newMember);
-                context.SaveChanges();
+                teamscontext.TeamMembers.Add(newMember);
+
+                teamscontext.SaveChanges();
             }
         }
         
+        /// <summary>
+        /// Retrieve a complete list of teams and team details for the current user.
+        /// </summary>
+        /// <returns>Json object of type TeamTable.</returns>
         public JsonResult GetTeamList()
         {
             int userid;
@@ -88,8 +88,7 @@ namespace CustomMembershipEF.Controllers
                                    .Where(x => x.FK_UserID == userid)
                                    .ToList();
             
-            foreach (var team in teamlist)
-            {
+            foreach (var team in teamlist) {
                 Team usersteam = teamsContext.Teams
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
@@ -104,8 +103,7 @@ namespace CustomMembershipEF.Controllers
                                         .Select(y => y.FK_UserID)
                                         .ToArray();
 
-                foreach (var memberID in teammembers)
-                {
+                foreach (var memberID in teammembers) {
                     string membername = usersContext.GetUserName(memberID);
                     teammembers2.Add(membername);
                 }
@@ -118,25 +116,58 @@ namespace CustomMembershipEF.Controllers
                 teaminfo.Add(teamitem);
             }
 
+            usersContext.Dispose();
+            teamsContext.Dispose();
+
             return Json(teaminfo, JsonRequestBehavior.AllowGet);
         }
-
+        
+        /// <summary>
+        /// Adds an entry to the Invitations table for each team in the list.
+        /// </summary>
+        /// <param name="sendto">Username of the user the invitation is being sent to.</param>
+        /// <param name="teams">A list of teams for which the user is being invited to.</param>
         public void SendInvite(string sendto, string teams)
         {
-            var usersContext = new UsersContext();
-            var teamsContext = new PM_Entities();
-
-            int recipient = usersContext.GetUserId(sendto);
-            int sender = usersContext.GetUserId(User.Identity.Name);
+            int recipient, sender;
+            
+            using (var usersContext = new UsersContext()) {
+                recipient = usersContext.GetUserId(sendto);
+                sender = usersContext.GetUserId(User.Identity.Name);
+            }
 
             string[] teamArray = teams.Split(',');
 
-            foreach (var team in teamArray)
-            {
-                Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
-                teamsContext.Invitations.Add(inv);
+            using (var teamsContext = new PM_Entities()) {
+                foreach (var team in teamArray)
+                {
+                    Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
+                    teamsContext.Invitations.Add(inv);
+                }
+                teamsContext.SaveChanges();
             }
-            teamsContext.SaveChanges();
         }
+
+        /// <summary>
+        /// Find the total number of invitations awaiting action by the current user.
+        /// </summary>
+        /// <returns>An integer representing the total number of invitations.</returns>
+        public JsonResult GetInviteCount()
+        {
+            int uid, count;
+            
+            using (var usersContext = new UsersContext()) {
+                uid = usersContext.GetUserId(User.Identity.Name);
+            }
+
+            using (var teamsContext = new PM_Entities()) {
+                count = teamsContext.Invitations
+                                    .Where(x => x.Recipient == uid)
+                                    .Count();
+            }
+
+            return Json(count, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
