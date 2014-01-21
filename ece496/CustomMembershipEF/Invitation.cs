@@ -14,7 +14,8 @@ namespace CustomMembershipEF
     
     public partial class Invitation
     {
-        public int TeamID { get; set; }
+        public int InvitationID { get; set; }
+        public int Team { get; set; }
         public int Sender { get; set; }
         public int Recipient { get; set; }
     }

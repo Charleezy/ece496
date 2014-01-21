@@ -97,7 +97,7 @@ var createTeam = function () {
 }
 
 var sendInvite = function () {
-    var name = document.forms['sendinvite-modal-form'].userName.value;
+    var username = document.forms['sendinvite-modal-form'].userName.value;
 
     var selectedTeamsArray = new Array();
     var x = 0;
@@ -112,7 +112,7 @@ var sendInvite = function () {
 
     $.ajax({
         url: '/User/SendInvite',
-        data: { username: name, teams: selectedTeams },
+        data: { sendto: username, teams: selectedTeams },
         success: function () {
             $('#sendInviteModal').modal('hide');
         },

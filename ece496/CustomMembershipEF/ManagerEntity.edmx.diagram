@@ -21,7 +21,7 @@
         <AssociationConnector Association="PM_Model.FK_TeamMembers_Teams" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.FK_Teams_to_Courses" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.TemplateTasks_to_Templates" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PM_Model.Invitation" Width="1.5" PointX="1.0918486291039029" PointY="5.3798000986593779" />
+        <EntityTypeShape EntityType="PM_Model.Invitation" PointX="0.875" PointY="0.5" Width="1.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

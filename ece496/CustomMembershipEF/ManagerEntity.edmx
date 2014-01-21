@@ -74,9 +74,10 @@
         </EntityType>
         <EntityType Name="Invitations">
           <Key>
-            <PropertyRef Name="TeamID" />
+            <PropertyRef Name="InvitationID" />
           </Key>
-          <Property Name="TeamID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="InvitationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Team" Type="int" Nullable="false" />
           <Property Name="Sender" Type="int" Nullable="false" />
           <Property Name="Recipient" Type="int" Nullable="false" />
         </EntityType>
@@ -429,11 +430,12 @@
         </Association>
         <EntityType Name="Invitation">
           <Key>
-            <PropertyRef Name="TeamID" />
+            <PropertyRef Name="InvitationID" />
           </Key>
-          <Property Type="Int32" Name="TeamID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="Sender" Nullable="false" />
-          <Property Type="Int32" Name="Recipient" Nullable="false" />
+          <Property Name="InvitationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Team" Nullable="false" Type="Int32" />
+          <Property Name="Sender" Nullable="false" Type="Int32" />
+          <Property Name="Recipient" Nullable="false" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -546,7 +548,8 @@
               <MappingFragment StoreEntitySet="Invitations">
                 <ScalarProperty Name="Recipient" ColumnName="Recipient" />
                 <ScalarProperty Name="Sender" ColumnName="Sender" />
-                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="InvitationID" ColumnName="InvitationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

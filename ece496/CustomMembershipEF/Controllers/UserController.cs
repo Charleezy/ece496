@@ -121,12 +121,22 @@ namespace CustomMembershipEF.Controllers
             return Json(teaminfo, JsonRequestBehavior.AllowGet);
         }
 
-        public void SendInvite(string username, string teams)
+        public void SendInvite(string sendto, string teams)
         {
             var usersContext = new UsersContext();
             var teamsContext = new PM_Entities();
 
-            int uid = usersContext.GetUserId(username);
+            int recipient = usersContext.GetUserId(sendto);
+            int sender = usersContext.GetUserId(User.Identity.Name);
+
+            string[] teamArray = teams.Split(',');
+
+            foreach (var team in teamArray)
+            {
+                Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
+                teamsContext.Invitations.Add(inv);
+            }
+            teamsContext.SaveChanges();
         }
     }
 }
