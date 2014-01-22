@@ -19,12 +19,12 @@
 
     <div class="invitations">
         <span class="glyphicon glyphicon-envelope"></span>
-        You currently have <a id="inviteCount"></a> invitations.
+        You currently have <b><a id="inviteCount"></a></b> invitations.
     </div>
 
     <div class="btn-group">
         <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
-        <button id="sendInvite_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
+        <button id="sendInvite_button" type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
     </div>
 
     <div class="teamlist">
@@ -116,6 +116,32 @@
             <div class="modal-footer">
                 <button id="inviteButton" type="button" class="btn btn-primary" onclick="sendInvite()">Invite</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Send Invite Modal -->
+<div class="modal fade" id="viewInviteModal" tabindex="-1" role="dialog" aria-labelledby="viewInviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="viewInviteModalLabel">Invitations</h4>
+            </div>
+
+            <div class="modal-body">
+                <ul class="list-group">
+                </ul>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modalOptions">
+                    <button id="accept" type="button" class="btn btn-success disabled" onclick="acceptInvite()"><span class="glyphicon glyphicon-ok"></span>  Accept</button>
+                    <button id="decline" type="button" class="btn btn-danger disabled" onclick="declineInvite()"><span class="glyphicon glyphicon-remove"></span>  Decline</button>
+                </div>
             </div>
 
         </div>

@@ -3,6 +3,10 @@
     margin-bottom: 5px;
 }
 
+.modalOptions {
+    text-align:center;
+}
+
 .form-container {
     width: 80%;
     margin: 0 auto;

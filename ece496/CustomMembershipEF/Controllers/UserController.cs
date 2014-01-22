@@ -72,11 +72,11 @@ namespace CustomMembershipEF.Controllers
         /// <summary>
         /// Retrieve a complete list of teams and team details for the current user.
         /// </summary>
-        /// <returns>Json object of type TeamTable.</returns>
+        /// <returns>Json object of type TeamTableItem.</returns>
         public JsonResult GetTeamList()
         {
             int userid;
-            List<TeamTable> teaminfo = new List<TeamTable>();
+            List<TeamTableItem> teaminfo = new List<TeamTableItem>();
             List<string> teammembers2 = new List<string>();
 
             var usersContext = new UsersContext();
@@ -111,7 +111,7 @@ namespace CustomMembershipEF.Controllers
                 string[] myarray = teammembers2.ToArray();
                 teammembers2.Clear();
 
-                TeamTable teamitem = new TeamTable { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
+                TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
 
                 teaminfo.Add(teamitem);
             }
@@ -167,6 +167,42 @@ namespace CustomMembershipEF.Controllers
             }
 
             return Json(count, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetInvites()
+        {
+            List<InvitationListItem> inviteList = new List<InvitationListItem>();
+
+            var usersContext = new UsersContext();
+            var teamsContext = new PM_Entities();
+
+            int uid = usersContext.GetUserId(User.Identity.Name);
+            
+            List<Invitation> invites = teamsContext.Invitations
+                                .Where(x => x.Recipient == uid)
+                                .ToList();
+
+            foreach (var invite in invites)
+            {
+                string sender = usersContext.GetUserName(invite.Sender);
+                string teamname = teamsContext.Teams
+                                              .Where(x => x.TeamID == invite.Team)
+                                              .Select(x => x.TeamName)
+                                              .First();
+
+                InvitationListItem item = new InvitationListItem { Sender = sender, TeamName =  teamname };
+
+                inviteList.Add(item);
+            }
+
+            usersContext.Dispose();
+            teamsContext.Dispose();
+
+            return Json(inviteList, JsonRequestBehavior.AllowGet);
         }
 
     }

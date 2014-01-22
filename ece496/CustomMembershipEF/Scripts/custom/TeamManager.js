@@ -27,6 +27,16 @@ $(document).ready(function () {
     inviteCount();
     populateTeamList();
 
+    /*
+    $("#myTeams input[type=checkbox]").click(function () {
+        if ($("#myTeams input:checkbox:checked").length > 0) {
+            alert("any one is checked");
+        }
+        else {
+            alert("none is checked");
+        }
+    });*/
+
     //When closing create team modal, clear fields
     $('#createTeamModal').on('hidden.bs.modal', function () {
         $('#teamName').parent('div').removeClass('has-error');
@@ -42,6 +52,27 @@ $(document).ready(function () {
         $('#userName').parent('div').removeClass('has-error');
         $('#userName_err').hide();
         $('#userName').val("");
+    });
+
+    $('#inviteCount').click(function () {
+        if ($(this).text() != 0) {
+            $('#viewInviteModal').modal('show');
+            $.ajax({
+                url: '/User/GetInvites',
+                success: function (data) {
+                    for (var i = 0, len = data.length; i < len; ++i) {
+                        var li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.innerHTML = '<b>' + data[i].Sender + '</b>' + ' has sent you an invitation to join team ' + '<b>' + data[i].TeamName + '</b>';
+                        
+                        $('.list-group').append(li);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown + textStatus);
+                }
+            });
+        }
     });
 });
 
@@ -77,6 +108,7 @@ var populateTeamList = function () {
                 var members = newRow.insertCell(3);
 
                 var selectbox = document.createElement('input');
+                selectbox.className = 'test';
                 selectbox.type = 'checkbox';
                 selectbox.id = team.TeamID;
 
