@@ -170,9 +170,9 @@ namespace CustomMembershipEF.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Get a list of all invitations sent to the current user.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List on InvitationListItems</returns>
         public JsonResult GetInvites()
         {
             List<InvitationListItem> inviteList = new List<InvitationListItem>();
@@ -206,13 +206,17 @@ namespace CustomMembershipEF.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Add the current user to a team if they accept, or just remove invitation from database if they decline.
         /// </summary>
-        /// <param name="inviteid"></param>
-        /// <param name="response"></param>
+        /// <param name="inviteid">ID of the invitation being responded to.</param>
+        /// <param name="response">The users response to the invitation (ACCEPT or DECLINE).</param>
         public void InviteResponse(string inviteid, string response)
         {
-            int uid;
+            int uid, tid;
+
+            int iid = Convert.ToInt32(inviteid);
+
+            var teamsContext = new PM_Entities();
 
             using (var usersContext = new UsersContext())
             {
@@ -221,12 +225,22 @@ namespace CustomMembershipEF.Controllers
 
             if (response == "acc")
             {
-                using (var teamsContext = new PM_Entities())
-                {
-                    TeamMember newmember = new TeamMember { FK_TeamID =, FK_UserID = uid };
-                }
-                
+                tid = teamsContext.Invitations
+                                    .Where(x => x.InvitationID == iid)
+                                    .Select(x => x.Team)
+                                    .First();
+
+                TeamMember newmember = new TeamMember { FK_TeamID = tid, FK_UserID = uid };
+                teamsContext.TeamMembers.Add(newmember);
             }
+            Invitation deleteinv = teamsContext.Invitations
+                                               .Where(x => x.InvitationID == iid)
+                                               .First();
+
+            teamsContext.Invitations.Remove(deleteinv);
+
+            teamsContext.SaveChanges();
+            teamsContext.Dispose();
         }
 
     }
