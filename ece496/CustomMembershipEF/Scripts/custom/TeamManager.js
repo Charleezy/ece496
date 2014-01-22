@@ -27,15 +27,14 @@ $(document).ready(function () {
     inviteCount();
     populateTeamList();
 
-    /*
-    $("#myTeams input[type=checkbox]").click(function () {
-        if ($("#myTeams input:checkbox:checked").length > 0) {
-            alert("any one is checked");
+    $('#myTeams').on('click', 'input[type=checkbox]', function () {
+        if ($('#myTeams input:checkbox:checked').length > 0) {
+            $('#sendInvite_button').removeClass('disabled');
         }
         else {
-            alert("none is checked");
+            $('#sendInvite_button').addClass('disabled');
         }
-    });*/
+    });
 
     //When closing create team modal, clear fields
     $('#createTeamModal').on('hidden.bs.modal', function () {
@@ -63,6 +62,7 @@ $(document).ready(function () {
                     for (var i = 0, len = data.length; i < len; ++i) {
                         var li = document.createElement('li');
                         li.className = 'list-group-item';
+                        li.id = data[i].InviteID;
                         li.innerHTML = '<b>' + data[i].Sender + '</b>' + ' has sent you an invitation to join team ' + '<b>' + data[i].TeamName + '</b>';
                         
                         $('.list-group').append(li);
@@ -74,6 +74,24 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('.list-group').on('click', 'li', function () {
+        $('li').each(function () {
+            $(this).css('background-color', 'white');
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+        });
+
+        $(this).css('background-color', 'lightblue');
+        $(this).addClass('selected');
+
+        if ($('#accept').hasClass('disabled')) {
+            $('#accept').removeClass('disabled');
+            $('#decline').removeClass('disabled');
+        }
+    });
+
 });
 
 var inviteCount = function () {
@@ -169,6 +187,25 @@ var sendInvite = function () {
         data: { sendto: username, teams: selectedTeams },
         success: function () {
             $('#sendInviteModal').modal('hide');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + textStatus);
+        }
+    });
+}
+
+var InviteResponse = function (resp) {
+    var id;
+    $('li').each(function () {
+        if ($(this).hasClass('selected'))
+            id = $(this).attr('id');
+    });
+
+    $.ajax({
+        url: '/User/InviteResponse',
+        data: { inviteid: id, response: resp },
+        success: function () {
+            $('#viewInviteModal').modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);

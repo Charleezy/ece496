@@ -194,7 +194,7 @@ namespace CustomMembershipEF.Controllers
                                               .Select(x => x.TeamName)
                                               .First();
 
-                InvitationListItem item = new InvitationListItem { Sender = sender, TeamName =  teamname };
+                InvitationListItem item = new InvitationListItem { InviteID = invite.InvitationID, Sender = sender, TeamName =  teamname };
 
                 inviteList.Add(item);
             }
@@ -203,6 +203,30 @@ namespace CustomMembershipEF.Controllers
             teamsContext.Dispose();
 
             return Json(inviteList, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inviteid"></param>
+        /// <param name="response"></param>
+        public void InviteResponse(string inviteid, string response)
+        {
+            int uid;
+
+            using (var usersContext = new UsersContext())
+            {
+                uid = usersContext.GetUserId(User.Identity.Name);
+            }
+
+            if (response == "acc")
+            {
+                using (var teamsContext = new PM_Entities())
+                {
+                    TeamMember newmember = new TeamMember { FK_TeamID =, FK_UserID = uid };
+                }
+                
+            }
         }
 
     }

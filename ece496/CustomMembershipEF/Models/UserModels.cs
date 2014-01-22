@@ -15,6 +15,7 @@ namespace CustomMembershipEF.Models
 
     public class InvitationListItem
     {
+        public int InviteID { get; set; }
         public string Sender { get; set; }
         public string TeamName { get; set; }
     }
