@@ -53,6 +53,14 @@ $(document).ready(function () {
         $('#userName').val("");
     });
 
+    $('#viewInviteModal').on('hidden.bs.modal', function () {
+        $('li').each(function () {
+            $(this).remove();
+        });
+        $('#accept').addClass('disabled');
+        $('#decline').addClass('disabled');
+    });
+
     $('#inviteCount').click(function () {
         if ($(this).text() != 0) {
             $('#viewInviteModal').modal('show');
@@ -132,7 +140,14 @@ var populateTeamList = function () {
 
                 var memberconcat = "";
                 for (var j = 0; j < team.TeamMembers.length; j++) {
-                    memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                    if (team.TeamMembers.length - j > 1) {
+                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                        memberconcat = memberconcat.concat(", ");
+                    }
+                    else {
+                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                    }
+                    
                 }
 
                 var nametext = document.createTextNode(team.TeamName);
@@ -205,6 +220,7 @@ var InviteResponse = function (resp) {
         url: '/User/InviteResponse',
         data: { inviteid: id, response: resp },
         success: function () {
+            inviteCount();
             $('#viewInviteModal').modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {
