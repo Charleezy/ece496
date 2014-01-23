@@ -12,6 +12,10 @@ body {
     color: #696969;
 }
 
+#main {
+    background-color:lightgray;
+}
+
 a:link {
     color: #034af3;
     text-decoration: underline;

@@ -13,12 +13,9 @@
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
 }
 
-<div class="container">
-
-    <h3>Select an option below to get started</h3>
-
-    <div class="row">
-        <div class="col-md-6 menu-box">
+@section Sidebar{
+<div class="row">
+        <div class="menu-box">
             <img src="/Content/img/Group-icon.png" class="img-rounded">
             Team Manager
             <a href='@Url.Action("TeamManager", "User")'>
@@ -28,7 +25,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-md-6 col-md-offset-2 menu-box">
+        <div class="menu-box">
             <img src="/Content/img/Actions-clipboard-icon.png" class="img-rounded">
             Task Manager
             <a href='@Url.Action("TaskManager", "User")'>
@@ -38,7 +35,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-md-6 col-md-offset-4 menu-box">
+        <div class="menu-box">
             <img src="/Content/img/Calendar-icon.png" class="img-rounded">
             Calendar
             <a href='@Url.Action("Calendar", "User")'>
@@ -48,7 +45,7 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-md-6 col-md-offset-6 menu-box">
+        <div class="menu-box">
             <img src="/Content/img/Gear-icon.png" class="img-rounded">
             Settings
             <a href='@Url.Action("Settings", "User")'>
@@ -56,7 +53,11 @@
             </a>
         </div>
     </div>
+}
 
+
+<div class="container">
+    
 </div>
 
 

@@ -3,7 +3,10 @@
     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            width:85%;
+            margin:0 auto;
 }
+
 .menu-box:before, .menu-box:after {
 	content:"";
     position:absolute; 
@@ -11,12 +14,12 @@
     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
     box-shadow:0 0 20px rgba(0,0,0,0.8);
-    top:10px;
-    bottom:10px;
+    top:2px;
+    bottom:2px;
     left:0;
     right:0;
-    -moz-border-radius:100px / 10px;
-    border-radius:100px / 10px;
+    -moz-border-radius:3px;
+    border-radius:3px;
 }
 
 .menu-box:after {
