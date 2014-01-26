@@ -112,6 +112,10 @@ header h1, #header h1 {
     -moz-border-radius: 4px 0 0 0;
 }
 
+#Sidebar {
+    padding: 30px 30px 15px 30px;
+}
+
 footer, 
 #footer {
     background-color: #fff;

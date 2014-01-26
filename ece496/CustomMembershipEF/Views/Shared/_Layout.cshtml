@@ -21,24 +21,23 @@
                 <div id="logindisplay">
                     @Html.Partial("_LogOnPartial")
                 </div>
-            </div>
+            </div> 
+            
+            <br />
 
             <div id="mainbody">
-                <table style="width:100%; border:none">
-                    <tr style="border:none">
-                        <td style="border-right:1px solid lightgrey; border-left:none; padding-top:50px">
-                            <section id="Sidebar" class="sidebarcotent">
-                            @* Default SideBar Content*@
-                            @RenderSection("SideBar", required: false)
-                            </section>
-                        </td>
-                        <td style="width:70%; border:none" rowspan="2">
-                            <section id="main">
-                            @RenderBody()
-                            </section>    
-                        </td>
-                    </tr>
-                </table>
+                <div class="row">
+                    <div class="col-md-2">
+                        <section id="Sidebar" class="sidebarcotent">
+                        @RenderSection("SideBar", required: false)
+                        </section>
+                    </div>
+                    <div class="col-md-10">
+                        <section id="main">
+                        @RenderBody()
+                        </section>
+                    </div>
+                </div>
             </div>
 
             <div id="footer"></div>
