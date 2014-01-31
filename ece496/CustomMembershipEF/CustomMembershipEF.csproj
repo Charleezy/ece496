@@ -116,6 +116,7 @@
     <Compile Include="School.cs">
       <DependentUpon>ManagerEntity.tt</DependentUpon>
     </Compile>
+    <Content Include="Scripts\custom\TaskManager.js" />
     <Compile Include="Services\AccountMembershipService.cs" />
     <Compile Include="Services\FormsAuthenticationService.cs" />
     <Compile Include="Interfaces\IFormsAuthenticationService.cs" />

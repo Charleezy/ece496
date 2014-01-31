@@ -14,6 +14,7 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            ViewData["Message"] = "Hello, World";
             return View();
         }
 
@@ -243,5 +244,79 @@ namespace CustomMembershipEF.Controllers
             teamsContext.Dispose();
         }
 
+        /// <summary>
+        /// Not finished. 
+        /// Retrieves list of tasks for current User
+        /// </summary>
+        /// <returns>Json object of type TeamTableItem.</returns>
+        public JsonResult GetTaskList()
+        {
+            int userid;
+            List<TaskTableItem> taskinfo = new List<TaskTableItem>();
+            DateTime randTime = new DateTime(2014, 1, 30);
+
+            var usersContext = new UsersContext();
+            var teamsContext = new PM_Entities();
+
+            userid = usersContext.GetUserId(User.Identity.Name);
+            
+
+            var teamlist = teamsContext.TeamMembers
+                                   .Where(x => x.FK_UserID == userid)
+                                   .ToList();
+
+            foreach (var team in teamlist)
+            {
+                Team usersteam = teamsContext.Teams
+                                       .Where(x => x.TeamID == team.FK_TeamID)
+                                       .Single();
+
+                string coursename = teamsContext.Courses
+                                          .Where(x => x.CourseID == usersteam.CourseID)
+                                          .Select(y => y.CourseName)
+                                          .SingleOrDefault();
+
+                var teammembers = teamsContext.TeamMembers
+                                        .Where(x => x.FK_TeamID == team.FK_TeamID)
+                                        .Select(y => y.FK_UserID)
+                                        .ToArray();
+
+                TaskTableItem taskitem = new TaskTableItem { TaskID = usersteam.TeamID, TeamName = usersteam.TeamName, TaskStartTime = randTime, TaskDeadline = randTime};
+
+                taskinfo.Add(taskitem);
+            }
+
+            usersContext.Dispose();
+            teamsContext.Dispose();
+
+            return Json(taskinfo, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Not finished. 
+        /// Creates a task for user with user data.
+        /// </summary>
+        /// Todo add parameters to function
+        /// Todo: remove unnecessary comments
+        /// Todo: check that startTime is before deadline
+        /// TODO add teamID parameter. This is not given directly by the user with a form.
+        public void CreateTask(string taskName, DateTime taskStartTime, DateTime taskDeadline)
+        {
+            int teamID = 10;//active team, teamid10 = "team 2"
+
+            int userid;
+
+            var usersContext = new UsersContext();
+
+            userid = usersContext.GetUserId(User.Identity.Name);
+
+            using (var teamscontext = new PM_Entities())
+            {
+                var newTask = new Task { TaskName=taskName, TaskStartTime=taskStartTime, TaskDeadline=taskDeadline, FKTeamID=teamID};
+                teamscontext.Tasks.Add(newTask);
+
+                teamscontext.SaveChanges();
+            }
+        }
     }
 }
