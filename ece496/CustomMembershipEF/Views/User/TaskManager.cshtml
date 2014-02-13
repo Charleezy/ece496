@@ -7,6 +7,10 @@
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
 }
 
+@section JavaScript {
+    <script src="/Scripts/custom/TaskManager.js"></script>
+}
+
 @section Sidebar{
 <div class="row">
         <div class="menu-box">
@@ -53,7 +57,30 @@
         <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
         <button id="sendInvite_button" type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
 </div>
+@ViewData["message"]) 
+
+    <select id="Select1">
+
+    </select>
 
 <div class="container">
 <h2>TaskManager</h2>
+
+<div class="tasklist">
+        <table id="myTasks" class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Team name</th>
+                    <th>Course</th>
+                    <th>Team members</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+
 </div>

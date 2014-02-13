@@ -1,30 +1,33 @@
-﻿var spinner;
-
-var spinoptions = {
-    lines: 10, // The number of lines to draw
-    length: 10, // The length of each line
-    width: 6, // The line thickness
-    radius: 10, // The radius of the inner circle
-    corners: 0.9, // Corner roundness (0..1)
-    rotate: 45, // The rotation offset
-    direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#000', // #rgb or #rrggbb or array of colors
-    speed: 1, // Rounds per second
-    trail: 67, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
-    hwaccel: false, // Whether to use hardware acceleration
-    className: 'spinner', // The CSS class to assign to the spinner
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    top: '20px', // Top position relative to parent in px
-    left: 'auto' // Left position relative to parent in px
-};
+﻿
 
 $(document).ready(function () {
     
-    var target = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
-    spinner = new Spinner(spinoptions).spin(target);
+    
+    $.ajax({
+        url: '/User/GetTeamList',
+        success: function (data) {
+            for (var i = 0, len = data.length; i < len; ++i) {
 
-    populateTaskList();
+
+                var option = document.createElement("option");
+                option.text = data[i].TeamName;
+                option.value = data[i].TeamID;
+                var select = document.getElementById("Select1");
+                select.appendChild(option);
+            }
+        }
+    });
+
+    $("#Select1").change(function () {
+        var id = $(this).val();
+        alert("Handler for .change() called.");
+        $.ajax({
+            url: '/User/GetTaskList',
+            data: { teamid: id },
+            success: function (data) {
+            }
+        });
+    });
 
 });
 
@@ -32,7 +35,7 @@ var populateTaskList = function () {
     $.ajax({
         url: '/User/GetTaskList',
         success: function (data) {
-            var table = document.getElementById("myTeams").getElementsByTagName('tbody')[0];
+            var table = document.getElementById("myTasks").getElementsByTagName('tbody')[0];
 
             if (data.length == 0) {
 
@@ -79,4 +82,5 @@ var populateTaskList = function () {
             alert("error");
         }
     });
+
 }

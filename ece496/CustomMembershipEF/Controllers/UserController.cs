@@ -6,6 +6,8 @@ using System.Web.Mvc;
 
 using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace CustomMembershipEF.Controllers
 {
@@ -14,7 +16,6 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            ViewData["Message"] = "Hello, World";
             return View();
         }
 
@@ -27,6 +28,7 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult TaskManager()
         {
+            ViewData["Message"] = "Hello, World";
             return View();
         }
 
@@ -249,7 +251,7 @@ namespace CustomMembershipEF.Controllers
         /// Retrieves list of tasks for current User
         /// </summary>
         /// <returns>Json object of type TeamTableItem.</returns>
-        public JsonResult GetTaskList()
+        public JsonResult GetTaskList(int teamid)
         {
             int userid;
             List<TaskTableItem> taskinfo = new List<TaskTableItem>();
@@ -318,5 +320,6 @@ namespace CustomMembershipEF.Controllers
                 teamscontext.SaveChanges();
             }
         }
+
     }
 }
