@@ -17,19 +17,19 @@ namespace CustomMembershipEF.Contexts
 
         public User GetUser(string userName)
         {
-            var user = Users.SingleOrDefault(u => u.UserName == userName);
+            var user = Users.SingleOrDefault(u => u.Username == userName);
             return user;
         }
 
         public User GetUser(string userName, string password)
         {
-            var user = Users.SingleOrDefault(u => u.UserName == userName && u.Password == password);
+            var user = Users.SingleOrDefault(u => u.Username == userName && u.Password == password);
             return user;
         }
 
         public int GetUserId(string userName)
         {
-            var user = Users.SingleOrDefault(u => u.UserName == userName);
+            var user = Users.SingleOrDefault(u => u.Username == userName);
             int id = user.UserID;
             return id;
         }
@@ -37,7 +37,7 @@ namespace CustomMembershipEF.Contexts
         public string GetUserName(int? userID)
         {
             var user = Users.SingleOrDefault(u => u.UserID == userID);
-            string username = user.UserName;
+            string username = user.Username;
             return username;
         }
     }

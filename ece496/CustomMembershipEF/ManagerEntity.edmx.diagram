@@ -10,9 +10,9 @@
         <EntityTypeShape EntityType="PM_Model.CourseWeek" Width="1.5" PointX="8" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PM_Model.School" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PM_Model.TaskComment" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.Task" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.Task" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="PM_Model.TeamMember" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="PM_Model.Team" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PM_Model.Team" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="PM_Model.Template" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="PM_Model.TemplateTask" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
         <AssociationConnector Association="PM_Model.CoursesToCourseWeeks" ManuallyRouted="false" />
@@ -22,6 +22,10 @@
         <AssociationConnector Association="PM_Model.FK_Teams_to_Courses" ManuallyRouted="false" />
         <AssociationConnector Association="PM_Model.TemplateTasks_to_Templates" ManuallyRouted="false" />
         <EntityTypeShape EntityType="PM_Model.Invitation" PointX="0.875" PointY="0.5" Width="1.5" />
+        <EntityTypeShape EntityType="PM_Model.sysdiagram" Width="1.5" PointX="3.0199255677964194" PointY="23.550860550045435" />
+        <EntityTypeShape EntityType="PM_Model.User" Width="1.5" PointX="7.0913776248187652" PointY="25.671042186054887" />
+        <AssociationConnector Association="PM_Model.FK_AssigneeID" />
+        <AssociationConnector Association="PM_Model.FK_UsersSchoolID_to_SchoolID" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,15 +11,13 @@ namespace CustomMembershipEF
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
-    public partial class TeamMember
+    public partial class sysdiagram
     {
-        [Key] public int TeamMembersID { get; set; }
-        public Nullable<int> FK_TeamID { get; set; }
-        public Nullable<int> FK_UserID { get; set; }
-    
-        public virtual Team Team { get; set; }
-        public virtual User User { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

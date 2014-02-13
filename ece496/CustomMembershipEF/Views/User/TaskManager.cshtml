@@ -5,10 +5,13 @@
 @section StyleSheet
 {
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
+    <link href="/Content/css/custom/TaskManager.css" rel="stylesheet" />
+    <link href="/Content/css/bootstrap-select.css" rel="stylesheet" />
 }
 
 @section JavaScript {
     <script src="/Scripts/custom/TaskManager.js"></script>
+    <script src="/Scripts/bootstrap-select.js"></script>
 }
 
 @section Sidebar{
@@ -53,34 +56,27 @@
     </div>
 }
 
-<div class="btn-group">
-        <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
-        <button id="sendInvite_button" type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
-</div>
-@ViewData["message"]) 
-
-    <select id="Select1">
-
+<div class="team-option">
+        Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
     </select>
+    </div>
 
-<div class="container">
+    
+
 <h2>TaskManager</h2>
 
 <div class="tasklist">
         <table id="myTasks" class="table">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Team name</th>
-                    <th>Course</th>
-                    <th>Team members</th>
+                    <th>Task</th>
+                    <th>Projected Start Date</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
 
     </div>
-
-</div>

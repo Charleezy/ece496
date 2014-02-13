@@ -19,7 +19,10 @@ namespace CustomMembershipEF
         public Nullable<System.DateTime> TaskStartTime { get; set; }
         public Nullable<System.DateTime> TaskDeadline { get; set; }
         public Nullable<int> FKTeamID { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<int> FK_AssigneeID { get; set; }
     
         public virtual Team Team { get; set; }
+        public virtual User User { get; set; }
     }
 }
