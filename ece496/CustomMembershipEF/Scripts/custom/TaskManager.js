@@ -22,23 +22,31 @@ $(document).ready(function () {
     //TODO add which team a task is for
     //TODO task list should be initialized on page load, not just select
     //TODO delete all rows and rebuild the table on change
+    //TODO spinner
+    //TODO remove console logs here and in teamManager.js
     $("#Select1").change(function () {
         var id = $(this).val();
-        alert("Handler for .change() called.");
+        //alert("Handler for .change() called.");
         $.ajax({
             url: '/User/GetTaskList',
             data: { teamid: id },
             success: function (data) {
+
                 //debugging
                 console.log(data);
                 var table = document.getElementById("myTasks").getElementsByTagName('tbody')[0];
+
+                //Clear the old table
+                for (var i = table.rows.length - 1; i >= 0; i--) {
+                    table.deleteRow(i);
+                }
 
                 if (data.length == 0) {
                 
                 }
 
                 for (var i = 0, len = data.length; i < len; ++i) {
-                    console.log(data[i].TaskName);
+                    console.log(data[i].TaskStartTime);
                     var task = data[i];
                 var newRow = table.insertRow(table.rows.length);//inserts row at last position
 
@@ -65,9 +73,20 @@ $(document).ready(function () {
                 }*/
 
                 var nametext = document.createTextNode(task.TaskName);
-                var projectedStartDateText = document.createTextNode(task.ProjectedStartDate);
-                var deadlineText = document.createTextNode(task.Deadline);
-                var statusText = document.createTextNode(task.Status);
+                var projectedStartDateText = document.createTextNode(task.TaskStartTime);
+                var deadlineText = document.createTextNode(task.TaskDeadline);
+
+                var statusText;
+                if (task.Status == 0)
+                    statusText = "Not Started";
+                else if (task.Status == 1)
+                    statusText = "InProgress";
+                else if (task.Status == 2)
+                    statusText = "Finished";
+                else {
+                    statusText = "Undefined"
+                }
+                statusText = document.createTextNode(statusText);
 
                 taskName.appendChild(nametext);
                 projectedStartDate.appendChild(projectedStartDateText);

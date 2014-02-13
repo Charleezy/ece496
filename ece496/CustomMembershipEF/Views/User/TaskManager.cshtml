@@ -56,12 +56,59 @@
     </div>
 }
 
+<div class="btn-group">
+        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus"></span>  Create Task</button>
+
+</div>
 <div class="team-option">
         Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
+            <option selected="selected">
+Choose a team...
+</option>
     </select>
     </div>
 
-    
+<!-- Create Task Modal -->
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="createTeamModalLabel">Create a Team</h4>
+            </div>
+
+            <div class="modal-body">
+                <form id="createteam-modal-form" name="createteam-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                    <div class="form-container">
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label for="teamName">Team Name</label>
+                            </div>
+                            <div class="formField">
+                                <input id="teamName" name="teamName" type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label for="courseToken">Course Token</label>
+                            </div>
+                            <div class="formField">
+                                <input id="courseToken" name="courseToken" type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="createButton" type="button" class="btn btn-primary" onclick="createTeam()">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <h2>TaskManager</h2>
 

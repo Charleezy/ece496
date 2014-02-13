@@ -8,6 +8,7 @@
 .team-option {
     float: right;
     margin-bottom: 5px;
+    clear: right;
 }
 
 .modalOptions {
