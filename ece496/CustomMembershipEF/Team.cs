@@ -22,7 +22,7 @@ namespace CustomMembershipEF
     
         public int TeamID { get; set; }
         public string TeamName { get; set; }
-        public Nullable<int> CourseID { get; set; }
+        public Nullable<int> FK_CourseID { get; set; }
     
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<TeamMember> TeamMembers { get; set; }

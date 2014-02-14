@@ -62,7 +62,7 @@ namespace CustomMembershipEF.Controllers
                                 .Where(x => x.CourseToken == coursetoken)
                                 .Single();
 
-                var newTeam = new Team { TeamName = teamname, CourseID = course.CourseID };
+                var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
                 teamscontext.Teams.Add(newTeam);
 
                 var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
@@ -95,9 +95,10 @@ namespace CustomMembershipEF.Controllers
                 Team usersteam = teamsContext.Teams
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
+                
 
                 string coursename = teamsContext.Courses
-                                          .Where(x => x.CourseID == usersteam.CourseID)
+                                          .Where(x => x.CourseID == usersteam.FK_CourseID)
                                           .Select(y => y.CourseName)
                                           .SingleOrDefault();
 
@@ -274,7 +275,7 @@ namespace CustomMembershipEF.Controllers
                                        .Single();
 
                 string coursename = teamsContext.Courses
-                                          .Where(x => x.CourseID == usersteam.CourseID)
+                                          .Where(x => x.CourseID == usersteam.FK_CourseID)
                                           .Select(y => y.CourseName)
                                           .SingleOrDefault();
 
