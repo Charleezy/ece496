@@ -75,15 +75,15 @@ Choose a team...
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="createTeamModalLabel">Create a Team</h4>
+                <h4 class="modal-title" id="createTaskModalLabel">Create a Task</h4>
             </div>
 
             <div class="modal-body">
-                <form id="createteam-modal-form" name="createteam-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
                     <div class="form-container">
                         <div class="form-group">
                             <div class="formLabel">
-                                <label for="teamName">Team Name</label>
+                                <label for="taskName">Task Name</label>
                             </div>
                             <div class="formField">
                                 <input id="teamName" name="teamName" type="text" class="form-control" />
@@ -91,11 +91,10 @@ Choose a team...
                         </div>
                         <div class="form-group">
                             <div class="formLabel">
-                                <label for="courseToken">Course Token</label>
+                                <label for="courseToken">Task Details</label>
                             </div>
-                            <div class="formField">
-                                <input id="courseToken" name="courseToken" type="text" class="form-control" />
-                            </div>
+                            <textarea id="taskDescription" rows=5 cols=75></textarea>
+                            <!--TODO: DateTimePicker-->
                         </div>
                     </div>
                 </form>
@@ -116,6 +115,7 @@ Choose a team...
         <table id="myTasks" class="table">
             <thead>
                 <tr>
+                    <th></th><!--TODO remove comment: TODO: add checkbox for deletion-->
                     <th>Task</th>
                     <th>Projected Start Date</th>
                     <th>Deadline</th>

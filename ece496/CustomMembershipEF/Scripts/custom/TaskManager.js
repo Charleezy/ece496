@@ -8,8 +8,7 @@ $(document).ready(function () {
         success: function (data) {
             console.log(data);
             for (var i = 0, len = data.length; i < len; ++i) {
-                console.log(data[i].Course);
-
+                
                 var option = document.createElement("option");
                 option.text = data[i].TeamName;
                 option.value = data[i].TeamID;
@@ -19,9 +18,9 @@ $(document).ready(function () {
         }
     });
 
-    //TODO add which team a task is for
-    //TODO task list should be initialized on page load, not just select
-    //TODO delete all rows and rebuild the table on change
+    //NAH add which team a task is for
+    //NAH task list should be initialized on page load, not just select
+    //DONE delete all rows and rebuild the table on change
     //TODO spinner
     //TODO remove console logs here and in teamManager.js
     $("#Select1").change(function () {
