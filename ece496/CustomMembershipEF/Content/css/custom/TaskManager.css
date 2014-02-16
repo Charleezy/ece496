@@ -1,0 +1,41 @@
+﻿.btn-group {
+    float: right;
+    margin-bottom: 5px;
+}
+
+/*Team Select Box.
+    TODO: make color blue*/
+.team-option {
+    float: right;
+    margin-bottom: 5px;
+    clear: right;
+}
+
+.modalOptions {
+    text-align:center;
+}
+
+.form-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.formLabel {
+    width: 100px;
+}
+
+.formField input {
+    width: 100%;    
+}
+
+table td {
+    border: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+li {
+    cursor: pointer;
+}

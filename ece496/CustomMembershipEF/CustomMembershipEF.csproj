@@ -128,6 +128,21 @@
       <DependentUpon>ManagerEntity.tt</DependentUpon>
     </Compile>
     <Content Include="dhxscheduler.sample.mvc3.readme.txt" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
+    <Content Include="Content\css\bootstrap-select.css" />
+    <Content Include="Content\css\custom\TaskManager.css" />
+    <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\custom\TaskManager.js" />
     <Compile Include="Services\AccountMembershipService.cs" />
     <Compile Include="Services\FormsAuthenticationService.cs" />

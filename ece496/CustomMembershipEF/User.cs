@@ -12,17 +12,22 @@ namespace CustomMembershipEF
     using System;
     using System.Collections.Generic;
     
-    public partial class Team
+    public partial class User
     {
-        public Team()
+        public User()
         {
             this.Tasks = new HashSet<Task>();
             this.TeamMembers = new HashSet<TeamMember>();
         }
     
-        public int TeamID { get; set; }
-        public string TeamName { get; set; }
-        public Nullable<int> FK_CourseID { get; set; }
+        public int UserID { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public Nullable<int> Reputation { get; set; }
+        public Nullable<int> SchoolID { get; set; }
     
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<TeamMember> TeamMembers { get; set; }

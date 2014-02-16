@@ -23,5 +23,6 @@ namespace CustomMembershipEF
         public Nullable<int> FK_AssigneeID { get; set; }
     
         public virtual Team Team { get; set; }
+        public virtual User User { get; set; }
     }
 }

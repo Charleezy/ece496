@@ -10,16 +10,10 @@
 namespace CustomMembershipEF
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
-    public partial class TeamMember
+    public partial class sp_helpdiagramdefinition_Result
     {
-        [Key] public int TeamMembersID { get; set; }
-        public Nullable<int> FK_TeamID { get; set; }
-        public Nullable<int> FK_UserID { get; set; }
-    
-        public virtual Team Team { get; set; }
-        public virtual User User { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

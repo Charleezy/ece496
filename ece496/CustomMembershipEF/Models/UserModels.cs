@@ -17,9 +17,10 @@ namespace CustomMembershipEF.Models
     {
         public int TaskID { get; set; }
         public string TaskName { get; set; }
-        public DateTime TaskStartTime { get; set; }
-        public DateTime TaskDeadline { get; set; }
+        public string TaskStartTime { get; set; }
+        public string TaskDeadline { get; set; }
         public string TeamName { get; set; }
+        public int Status { get; set; }
     }
 
     public class InvitationListItem

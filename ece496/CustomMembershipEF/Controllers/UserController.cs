@@ -28,7 +28,6 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult TaskManager()
         {
-            ViewData["Message"] = "Hello, World";
             return View();
         }
 
@@ -251,8 +250,11 @@ namespace CustomMembershipEF.Controllers
         /// Not finished. 
         /// Retrieves list of tasks for current User
         /// </summary>
+        /// TODO add logic for tasks of just one team.
+        /// TODO make table allow sorting
+        /// TODO add button to create tasks and delete them. Task Editing page and a button for task insertion.
         /// <returns>Json object of type TeamTableItem.</returns>
-        public JsonResult GetTaskList(int teamid)
+        public JsonResult GetTaskList(int teamid=0)
         {
             int userid;
             List<TaskTableItem> taskinfo = new List<TaskTableItem>();
@@ -262,36 +264,32 @@ namespace CustomMembershipEF.Controllers
             var teamsContext = new PM_Entities();
 
             userid = usersContext.GetUserId(User.Identity.Name);
-            
 
+            //list of all teams that this user belongs to
             var teamlist = teamsContext.TeamMembers
                                    .Where(x => x.FK_UserID == userid)
                                    .ToList();
 
             foreach (var team in teamlist)
             {
+                //The team and all its subdata. Not useful for this function
                 Team usersteam = teamsContext.Teams
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
 
-                string coursename = teamsContext.Courses
-                                          .Where(x => x.CourseID == usersteam.FK_CourseID)
-                                          .Select(y => y.CourseName)
-                                          .SingleOrDefault();
+                //list of tasks for each team
+                var tasklist = teamsContext.Tasks.Where(x => x.FKTeamID == team.FK_TeamID).ToList();
+                foreach (var task in tasklist)
+                {
+                    TaskTableItem taskitem = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.FK_AssigneeID.Value };
 
-                var teammembers = teamsContext.TeamMembers
-                                        .Where(x => x.FK_TeamID == team.FK_TeamID)
-                                        .Select(y => y.FK_UserID)
-                                        .ToArray();
-
-                TaskTableItem taskitem = new TaskTableItem { TaskID = usersteam.TeamID, TeamName = usersteam.TeamName, TaskStartTime = randTime, TaskDeadline = randTime};
-
-                taskinfo.Add(taskitem);
+                    taskinfo.Add(taskitem);
+                }
             }
 
             usersContext.Dispose();
             teamsContext.Dispose();
-
+            
             return Json(taskinfo, JsonRequestBehavior.AllowGet);
         }
 

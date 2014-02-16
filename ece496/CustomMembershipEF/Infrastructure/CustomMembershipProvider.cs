@@ -52,7 +52,7 @@ namespace CustomMembershipEF.Infrastructure
 
             if (user == null)
             {
-                var userObj = new User { UserName = username, Password = GetMd5Hash(password), Email = email };
+                var userObj = new User { Username = username, Password = GetMd5Hash(password), Email = email };
 
                 using (var usersContext = new UsersContext())
                 {
