@@ -29,4 +29,10 @@ namespace CustomMembershipEF.Models
         public string Sender { get; set; }
         public string TeamName { get; set; }
     }
+
+    public class TeamDropdownMenu
+    {
+        public int TeamID { get; set; }
+        public string TeamName { get; set; }
+    }
 }

@@ -1,0 +1,7 @@
+/*
+Copyright Dinamenta, UAB. http://www.dhtmlx.com
+To use this component please contact sales@dhtmlx.com to obtain license
+*/
+Scheduler.plugin(function(e){(e._temp_key_scope=function(){function k(b){delete b.rec_type;delete b.rec_pattern;delete b.event_pid;delete b.event_length}var i=!1,j,g=null;e.attachEvent("onBeforeLightbox",function(){return i=!0});e.attachEvent("onAfterLightbox",function(){i=!1;return!0});e.attachEvent("onMouseMove",function(b,a){j=e.getActionData(a).date});dhtmlxEvent(document,_isOpera?"keypress":"keydown",function(b){b=b||event;if(!i){var a=window.scheduler;if(b.keyCode==37||b.keyCode==39){b.cancelBubble=
+!0;var e=a.date.add(a._date,b.keyCode==37?-1:1,a._mode);a.setCurrentView(e);return!0}var h=a._select_id;if(b.ctrlKey&&b.keyCode==67){if(h)a._buffer_id=h,g=!0,a.callEvent("onEventCopied",[a.getEvent(h)]);return!0}if(b.ctrlKey&&b.keyCode==88&&h){g=!1;a._buffer_id=h;var c=a.getEvent(h);a.updateEvent(c.id);a.callEvent("onEventCut",[c])}if(b.ctrlKey&&b.keyCode==86){if(c=a.getEvent(a._buffer_id)){var l=c.end_date-c.start_date;if(g){var f=a._lame_clone(c);k(f);f.id=a.uid();f.start_date=new Date(j);f.end_date=
+new Date(f.start_date.valueOf()+l);a.addEvent(f);a.callEvent("onEventPasted",[g,f,c])}else{var d=a._lame_copy({},c);k(d);d.start_date=new Date(j);d.end_date=new Date(d.start_date.valueOf()+l);var m=a.callEvent("onBeforeEventChanged",[d,b,!1]);if(m)c.start_date=new Date(d.start_date),c.end_date=new Date(d.end_date),a.render_view_data(),a.callEvent("onEventPasted",[g,c,d]),g=!0}}return!0}}})})()});
