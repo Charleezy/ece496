@@ -1,14 +1,10 @@
-﻿
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     
     //Gets list of teams for the selection box
     $.ajax({
-        url: '/User/GetTeamList',
+        url: '/Task/GetTeamList',
         success: function (data) {
-            console.log(data);
             for (var i = 0, len = data.length; i < len; ++i) {
-                console.log(data[i].Course);
 
                 var option = document.createElement("option");
                 option.text = data[i].TeamName;
@@ -28,7 +24,7 @@ $(document).ready(function () {
         var id = $(this).val();
         //alert("Handler for .change() called.");
         $.ajax({
-            url: '/User/GetTaskList',
+            url: '/Task/GetTaskList',
             data: { teamid: id },
             success: function (data) {
 
@@ -105,7 +101,7 @@ $(document).ready(function () {
 
 var populateTaskList = function () {
     $.ajax({
-        url: '/User/GetTaskList',
+        url: '/Task/GetTaskList',
         success: function (data) {
             var table = document.getElementById("myTasks").getElementsByTagName('tbody')[0];
 

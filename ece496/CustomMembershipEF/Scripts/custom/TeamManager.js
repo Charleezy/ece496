@@ -65,7 +65,7 @@ $(document).ready(function () {
         if ($(this).text() != 0) {
             $('#viewInviteModal').modal('show');
             $.ajax({
-                url: '/User/GetInvites',
+                url: '/Team/GetInvites',
                 success: function (data) {
                     for (var i = 0, len = data.length; i < len; ++i) {
                         var li = document.createElement('li');
@@ -104,7 +104,7 @@ $(document).ready(function () {
 
 var inviteCount = function () {
     $.ajax({
-        url: '/User/GetInviteCount',
+        url: '/Team/GetInviteCount',
         success: function (count) {
             $('#inviteCount').html(count);
         },
@@ -116,7 +116,7 @@ var inviteCount = function () {
 
 var populateTeamList = function () {
     $.ajax({
-        url: '/User/GetTeamList',
+        url: '/Team/GetTeamList',
         success: function (data) {
             var table = document.getElementById("myTeams").getElementsByTagName('tbody')[0];
 
@@ -172,7 +172,7 @@ var createTeam = function () {
     var token = document.forms['createteam-modal-form'].courseToken.value;
 
     $.ajax({
-        url: '/User/CreateTeam',
+        url: '/Team/CreateTeam',
         data: { teamname: name, coursetoken: token },
         success: function () {
             $('#createTeamModal').modal('hide');
@@ -198,7 +198,7 @@ var sendInvite = function () {
     var selectedTeams = selectedTeamsArray.join(',')
 
     $.ajax({
-        url: '/User/SendInvite',
+        url: '/Team/SendInvite',
         data: { sendto: username, teams: selectedTeams },
         success: function () {
             $('#sendInviteModal').modal('hide');
@@ -217,7 +217,7 @@ var InviteResponse = function (resp) {
     });
 
     $.ajax({
-        url: '/User/InviteResponse',
+        url: '/Team/InviteResponse',
         data: { inviteid: id, response: resp },
         success: function () {
             inviteCount();
