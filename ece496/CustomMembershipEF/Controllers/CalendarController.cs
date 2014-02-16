@@ -17,7 +17,7 @@ namespace CustomMembershipEF.Controllers
         {
             var scheduler = new DHXScheduler(this);
 
-            scheduler.Skin = DHXScheduler.Skins.Terrace;
+            scheduler.Skin = DHXScheduler.Skins.Glossy;
             scheduler.InitialDate = new DateTime(2012, 09, 03);
 
             scheduler.Config.multi_day = true;//render multiday events
