@@ -34,6 +34,15 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult Calendar()
         {
+            int uid;
+
+            using (var usersContext = new UsersContext())
+            {
+                uid = usersContext.GetUserId(User.Identity.Name);
+            }
+
+            ViewBag.uid = uid;
+
             return View();
         }
 
