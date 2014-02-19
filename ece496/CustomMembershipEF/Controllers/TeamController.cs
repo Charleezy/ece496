@@ -13,7 +13,6 @@ namespace CustomMembershipEF.Controllers
 {
     public class TeamController : Controller
     {
-
         /// <summary>
         /// Retrieve a complete list of teams and team details for the current user.
         /// </summary>
@@ -38,7 +37,6 @@ namespace CustomMembershipEF.Controllers
                 Team usersteam = teamsContext.Teams
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
-
 
                 string coursename = teamsContext.Courses
                                           .Where(x => x.CourseID == usersteam.FK_CourseID)
