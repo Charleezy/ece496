@@ -24,7 +24,6 @@ $(document).ready(function () {
     var target = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
     spinner = new Spinner(spinoptions).spin(target);
 
-    inviteCount();
     populateTeamList();
 
     $('#myTeams').on('click', 'input[type=checkbox]', function () {
@@ -99,14 +98,20 @@ $(document).ready(function () {
             $('#decline').removeClass('disabled');
         }
     });
-
 });
 
 var inviteCount = function () {
     $.ajax({
         url: '/Team/GetInviteCount',
         success: function (count) {
+
             $('#inviteCount').html(count);
+            if (count == 1) {
+                $('#wording').html('invitation');
+            }
+            else {
+                $('#wording').html('invitations');
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);

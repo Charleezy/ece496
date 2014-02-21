@@ -21,7 +21,7 @@ namespace CustomMembershipEF.Controllers
         {
             int userid;
             List<TeamTableItem> teaminfo = new List<TeamTableItem>();
-            List<string> teammembers2 = new List<string>();
+            List<string> teammembers = new List<string>();
 
             var usersContext = new UsersContext();
             var teamsContext = new PM_Entities();
@@ -43,19 +43,19 @@ namespace CustomMembershipEF.Controllers
                                           .Select(y => y.CourseName)
                                           .SingleOrDefault();
 
-                var teammembers = teamsContext.TeamMembers
+                var members = teamsContext.TeamMembers
                                         .Where(x => x.FK_TeamID == team.FK_TeamID)
                                         .Select(y => y.FK_UserID)
                                         .ToArray();
 
-                foreach (var memberID in teammembers)
+                foreach (var memberID in members)
                 {
                     string membername = usersContext.GetUserName(memberID);
-                    teammembers2.Add(membername);
+                    teammembers.Add(membername);
                 }
 
-                string[] myarray = teammembers2.ToArray();
-                teammembers2.Clear();
+                string[] myarray = teammembers.ToArray();
+                teammembers.Clear();
 
                 TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
 

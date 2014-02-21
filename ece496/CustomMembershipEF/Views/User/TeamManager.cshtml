@@ -2,6 +2,8 @@
     ViewBag.Title = "TeamManager";
 }
 
+@using CustomMembershipEF.Models;
+
 @section JavaScript {
     <script src="/Scripts/custom/TeamManager.js"></script>
     <script src="/Scripts/spin.min.js"></script>
@@ -55,8 +57,14 @@
 }
 
     <div class="invitations">
-        <span class="glyphicon glyphicon-envelope"></span>
-        You currently have <b><a id="inviteCount"></a></b> invitations.
+        @if (Model.inviteCount == 1)
+        {
+            <div id="inviteStatus"><span class="glyphicon glyphicon-envelope"></span>  You currently have <b><a id="inviteCount">@Model.inviteCount</a></b> <span id="wording">invitation</span>.</div>
+        }
+        else
+        {
+            <div id="inviteStatus"><span class="glyphicon glyphicon-envelope"></span>  You currently have <b><a id="inviteCount">@Model.inviteCount</a></b> <span id="wording">invitations</span>.</div>
+        }
     </div>
 
     <div class="btn-group">
@@ -75,7 +83,6 @@
                 </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
 

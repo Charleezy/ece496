@@ -33,6 +33,8 @@ namespace SimpleScheduler.Controllers
             scheduler.EnableDataprocessor = true;
             scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
 
+            scheduler.Config.first_hour = 9;
+
             return View(scheduler);
         }
 
