@@ -183,9 +183,10 @@ var createTeam = function () {
         url: '/Team/CreateTeam',
         data: { teamname: name, coursetoken: token },
         success: function (msg) {
-            if (msg != "" || msg != null)
+            if (msg)
                 alert(msg);
-            $('#createTeamModal').modal('hide');
+            else
+                $('#createTeamModal').modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);
@@ -210,8 +211,13 @@ var sendInvite = function () {
     $.ajax({
         url: '/Team/SendInvite',
         data: { sendto: username, teams: selectedTeams },
-        success: function () {
-            $('#sendInviteModal').modal('hide');
+        success: function (msg) {
+            if (msg) {
+                alert(msg);
+            }
+            else {
+                $('#sendInviteModal').modal('hide');
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);

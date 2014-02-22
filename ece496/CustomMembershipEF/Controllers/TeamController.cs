@@ -102,15 +102,15 @@ namespace CustomMembershipEF.Controllers
                     teamscontext.TeamMembers.Add(newMember);
 
                     teamscontext.SaveChanges();
+
+                    // Returns successfully
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 return ex.Message;
             }
-
-            // Returns successfully
-            return "";
         }
 
         /// <summary>
@@ -118,26 +118,41 @@ namespace CustomMembershipEF.Controllers
         /// </summary>
         /// <param name="sendto">Username of the user the invitation is being sent to.</param>
         /// <param name="teams">A list of teams for which the user is being invited to.</param>
-        public void SendInvite(string sendto, string teams)
+        public string SendInvite(string sendto, string teams)
         {
             int recipient, sender;
 
-            using (var usersContext = new UsersContext())
+            try
             {
-                recipient = usersContext.GetUserId(sendto);
-                sender = usersContext.GetUserId(User.Identity.Name);
-            }
-
-            string[] teamArray = teams.Split(',');
-
-            using (var teamsContext = new PM_Entities())
-            {
-                foreach (var team in teamArray)
+                using (var usersContext = new UsersContext())
                 {
-                    Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
-                    teamsContext.Invitations.Add(inv);
+                    recipient = usersContext.GetUserId(sendto);
+                    sender = usersContext.GetUserId(User.Identity.Name);
+
+                    if (recipient < 0)
+                    {
+                        return "The user you entered does not exist. Please try again.";
+                    }
                 }
-                teamsContext.SaveChanges();
+
+                string[] teamArray = teams.Split(',');
+
+                using (var teamsContext = new PM_Entities())
+                {
+                    foreach (var team in teamArray)
+                    {
+                        Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
+                        teamsContext.Invitations.Add(inv);
+                    }
+                    teamsContext.SaveChanges();
+                }
+
+                // Returns successfully
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 
