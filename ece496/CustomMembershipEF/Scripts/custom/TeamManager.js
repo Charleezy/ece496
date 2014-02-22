@@ -182,7 +182,9 @@ var createTeam = function () {
     $.ajax({
         url: '/Team/CreateTeam',
         data: { teamname: name, coursetoken: token },
-        success: function () {
+        success: function (msg) {
+            if (msg != "" || msg != null)
+                alert(msg);
             $('#createTeamModal').modal('hide');
         },
         error: function (jqXHR, textStatus, errorThrown) {

@@ -73,22 +73,27 @@ namespace CustomMembershipEF.Controllers
         /// </summary>
         /// <param name="teamname">Name of the team.</param>
         /// <param name="coursetoken">A code mapping to a course.</param>
-        public void CreateTeam(string teamname, string coursetoken)
+        public string CreateTeam(string teamname, string coursetoken)
         {
             int uid;
 
-            using (var usersContext = new UsersContext())
-            {
-                uid = usersContext.GetUserId(User.Identity.Name);
-            }
-
             try
             {
+                using (var usersContext = new UsersContext())
+                {
+                    uid = usersContext.GetUserId(User.Identity.Name);
+                }
+
                 using (var teamscontext = new PM_Entities())
                 {
                     var course = teamscontext.Courses
                                     .Where(x => x.CourseToken == coursetoken)
-                                    .Single();
+                                    .SingleOrDefault();
+
+                    if (course == null)
+                    {
+                        return "The course token does not exist. Please try again.";
+                    }
 
                     var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
                     teamscontext.Teams.Add(newTeam);
@@ -99,18 +104,13 @@ namespace CustomMembershipEF.Controllers
                     teamscontext.SaveChanges();
                 }
             }
-            catch (DbEntityValidationException ex)
+            catch (Exception ex)
             {
-                var errorMessages = ex.EntityValidationErrors
-                    .SelectMany(x => x.ValidationErrors)
-                    .Select(x => x.ErrorMessage);
-
-                var fullErrorMessage = string.Join("; ", errorMessages);
-
-                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
-
-                throw new DbEntityValidationException("Entity Framework Error", ex);
+                return ex.Message;
             }
+
+            // Returns successfully
+            return "";
         }
 
         /// <summary>
