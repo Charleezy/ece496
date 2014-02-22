@@ -126,43 +126,46 @@ var populateTeamList = function () {
             var table = document.getElementById("myTeams").getElementsByTagName('tbody')[0];
 
             if (data.length == 0) {
-                
+                $('#noteams').show();
             }
+            else {
+                for (var i = 0, len = data.length; i < len; ++i) {
+                    var team = data[i];
+                    var newRow = table.insertRow(table.rows.length);
 
-            for (var i = 0, len = data.length; i < len; ++i) {
-                var team = data[i];
-                var newRow = table.insertRow(table.rows.length);
+                    var select = newRow.insertCell(0);
+                    var name = newRow.insertCell(1);
+                    var coursecode = newRow.insertCell(2);
+                    var coursename = newRow.insertCell(3);
+                    var members = newRow.insertCell(4);
 
-                var select = newRow.insertCell(0);
-                var name = newRow.insertCell(1);
-                var course = newRow.insertCell(2);
-                var members = newRow.insertCell(3);
+                    var selectbox = document.createElement('input');
+                    //selectbox.className = 'test';
+                    selectbox.type = 'checkbox';
+                    selectbox.value = team.TeamID;
 
-                var selectbox = document.createElement('input');
-                selectbox.className = 'test';
-                selectbox.type = 'checkbox';
-                selectbox.id = team.TeamID;
-
-                var memberconcat = "";
-                for (var j = 0; j < team.TeamMembers.length; j++) {
-                    if (team.TeamMembers.length - j > 1) {
-                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
-                        memberconcat = memberconcat.concat(", ");
+                    var memberconcat = "";
+                    for (var j = 0; j < team.TeamMembers.length; j++) {
+                        if (team.TeamMembers.length - j > 1) {
+                            memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                            memberconcat = memberconcat.concat(", ");
+                        }
+                        else {
+                            memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                        }
                     }
-                    else {
-                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
-                    }
-                    
+
+                    var nametext = document.createTextNode(team.TeamName);
+                    var coursecodetext = document.createTextNode(team.CourseCode);
+                    var coursenametext = document.createTextNode(team.CourseName);
+                    var memberstext = document.createTextNode(memberconcat);
+
+                    select.appendChild(selectbox);
+                    name.appendChild(nametext);
+                    coursecode.appendChild(coursecodetext);
+                    coursename.appendChild(coursenametext);
+                    members.appendChild(memberstext);
                 }
-
-                var nametext = document.createTextNode(team.TeamName);
-                var coursetext = document.createTextNode(team.Course);
-                var memberstext = document.createTextNode(memberconcat);
-
-                select.appendChild(selectbox);
-                name.appendChild(nametext);
-                course.appendChild(coursetext);
-                members.appendChild(memberstext);
             }
             spinner.stop();
         },
@@ -195,7 +198,7 @@ var sendInvite = function () {
     var x = 0;
     $('#myTeams > tbody  > tr').each(function() {
         if ($(this).find('input').attr('checked')) {
-            selectedTeamsArray[x] = $(this).find('input').attr('id');
+            selectedTeamsArray[x] = $(this).find('input').attr('value');
             x++;
         }
     });

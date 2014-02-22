@@ -95,6 +95,9 @@
       <DependentUpon>ManagerEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Event.cs">
+      <DependentUpon>ManagerEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

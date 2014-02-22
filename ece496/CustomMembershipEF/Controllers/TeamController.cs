@@ -8,6 +8,7 @@ using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
 using System.Data;
+using System.Data.Entity.Validation;
 
 namespace CustomMembershipEF.Controllers
 {
@@ -38,10 +39,9 @@ namespace CustomMembershipEF.Controllers
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
 
-                string coursename = teamsContext.Courses
+                var course = teamsContext.Courses
                                           .Where(x => x.CourseID == usersteam.FK_CourseID)
-                                          .Select(y => y.CourseName)
-                                          .SingleOrDefault();
+                                          .Single();
 
                 var members = teamsContext.TeamMembers
                                         .Where(x => x.FK_TeamID == team.FK_TeamID)
@@ -57,7 +57,7 @@ namespace CustomMembershipEF.Controllers
                 string[] myarray = teammembers.ToArray();
                 teammembers.Clear();
 
-                TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
+                TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, CourseCode = course.SchoolCourseCode, CourseName = course.CourseName, TeamMembers = myarray };
 
                 teaminfo.Add(teamitem);
             }
@@ -82,19 +82,34 @@ namespace CustomMembershipEF.Controllers
                 uid = usersContext.GetUserId(User.Identity.Name);
             }
 
-            using (var teamscontext = new PM_Entities())
+            try
             {
-                var course = teamscontext.Courses
-                                .Where(x => x.CourseToken == coursetoken)
-                                .Single();
+                using (var teamscontext = new PM_Entities())
+                {
+                    var course = teamscontext.Courses
+                                    .Where(x => x.CourseToken == coursetoken)
+                                    .Single();
 
-                var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
-                teamscontext.Teams.Add(newTeam);
+                    var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
+                    teamscontext.Teams.Add(newTeam);
 
-                var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
-                teamscontext.TeamMembers.Add(newMember);
+                    var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
+                    teamscontext.TeamMembers.Add(newMember);
 
-                teamscontext.SaveChanges();
+                    teamscontext.SaveChanges();
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                var fullErrorMessage = string.Join("; ", errorMessages);
+
+                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+
+                throw new DbEntityValidationException("Entity Framework Error", ex);
             }
         }
 

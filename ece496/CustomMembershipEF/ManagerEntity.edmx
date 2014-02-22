@@ -9,6 +9,7 @@
           <EntitySet Name="Courses" EntityType="PM_Model.Store.Courses" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseTime" EntityType="PM_Model.Store.CourseTime" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CourseWeeks" EntityType="PM_Model.Store.CourseWeeks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Events" EntityType="PM_Model.Store.Events" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Invitations" EntityType="PM_Model.Store.Invitations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Schools" EntityType="PM_Model.Store.Schools" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="sysdiagrams" EntityType="PM_Model.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
@@ -78,6 +79,16 @@
           <Property Name="FKCourseID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CourseWeek" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="user" Type="int" Nullable="false" />
+          <Property Name="text" Type="nvarchar" MaxLength="250" />
+          <Property Name="start_date" Type="datetime" Nullable="false" />
+          <Property Name="end_date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Invitations">
           <Key>
             <PropertyRef Name="InvitationID" />
@@ -139,7 +150,7 @@
             <PropertyRef Name="TeamID" />
           </Key>
           <Property Name="TeamID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="nchar" MaxLength="10" />
+          <Property Name="TeamName" Type="varchar" MaxLength="50" />
           <Property Name="FK_CourseID" Type="int" />
         </EntityType>
         <EntityType Name="Templates">
@@ -367,6 +378,7 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Events" EntityType="PM_Model.Event" />
         </EntityContainer>
         <EntityType Name="Cours">
           <Key>
@@ -448,7 +460,7 @@
             <PropertyRef Name="TeamID" />
           </Key>
           <Property Name="TeamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="TeamName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Tasks" Relationship="PM_Model.FK_Tasks_Teams" FromRole="Teams" ToRole="Tasks" />
           <NavigationProperty Name="TeamMembers" Relationship="PM_Model.FK_TeamMembers_Teams" FromRole="Teams" ToRole="TeamMembers" />
           <Property Type="Int32" Name="FK_CourseID" />
@@ -613,6 +625,16 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="user" Nullable="false" />
+          <Property Type="String" Name="text" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="start_date" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="end_date" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -780,6 +802,17 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="PM_Model.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="PM_Model.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="PM_Model.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
