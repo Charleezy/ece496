@@ -92,7 +92,7 @@ namespace CustomMembershipEF.Controllers
 
                     if (course == null)
                     {
-                        return "The course token does not exist. Please try again.";
+                        return "The course token you entered does not exist. Please try again.";
                     }
 
                     var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
@@ -131,7 +131,7 @@ namespace CustomMembershipEF.Controllers
 
                     if (recipient < 0)
                     {
-                        return "The user you entered does not exist. Please try again.";
+                        return "The username you entered does not exist. Please try again.";
                     }
                 }
 

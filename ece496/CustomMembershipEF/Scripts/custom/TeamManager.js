@@ -158,7 +158,6 @@ var populateTeamList = function () {
                     var members = newRow.insertCell(4);
 
                     var selectbox = document.createElement('input');
-                    //selectbox.className = 'test';
                     selectbox.type = 'checkbox';
                     selectbox.value = team.TeamID;
 
@@ -218,6 +217,12 @@ var createTeam = function () {
                 }
                 else {
                     $('#createTeamModal').modal('hide');
+                    $('#myTeams > tbody > tr').each(function () {
+                        $(this).remove();
+                    });
+                    var targ1 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                    spinner = new Spinner(spinoptions).spin(targ1);
+                    populateTeamList();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -253,7 +258,6 @@ var sendInvite = function () {
                 if (msg) {
                     $('#invite_alert').html(msg);
                     $('#invite_alert').show();
-                    //alert(msg);
                 }
                 else {
                     $('#sendInviteModal').modal('hide');
@@ -279,6 +283,12 @@ var InviteResponse = function (resp) {
         success: function () {
             inviteCount();
             $('#viewInviteModal').modal('hide');
+            $('#myTeams > tbody > tr').each(function () {
+                $(this).remove();
+            });
+            var targ2 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+            spinner = new Spinner(spinoptions).spin(targ2);
+            populateTeamList();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);
