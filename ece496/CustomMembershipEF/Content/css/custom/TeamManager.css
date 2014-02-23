@@ -31,3 +31,12 @@ a {
 li {
     cursor: pointer;
 }
+
+.validation_msg {
+    display:none;
+    color:red;
+}
+
+.alert {
+    display:none;
+}

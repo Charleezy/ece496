@@ -104,6 +104,7 @@
             </div>
 
             <div class="modal-body">
+                <div id="createteam_alert" class="alert alert-danger"></div>
                 <form id="createteam-modal-form" name="createteam-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
                     <div class="form-container">
                         <div class="form-group">
@@ -113,6 +114,7 @@
                             <div class="formField">
                                 <input id="teamName" name="teamName" type="text" class="form-control" />
                             </div>
+                            <p id="teamname_err" class="validation_msg">Team Name is a mandatory field.</p>
                         </div>
                         <div class="form-group">
                             <div class="formLabel">
@@ -121,9 +123,11 @@
                             <div class="formField">
                                 <input id="courseToken" name="courseToken" type="text" class="form-control" />
                             </div>
+                            <p id="coursetoken_err" class="validation_msg">Course Token is a mandatory field.</p>
                         </div>
                     </div>
                 </form>
+
             </div>
 
             <div class="modal-footer">
@@ -146,15 +150,17 @@
             </div>
 
             <div class="modal-body">
+                <div id="invite_alert" class="alert alert-danger"></div>
                 <form id="sendinvite-modal-form" name="sendinvite-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
                     <div class="form-container">
                         <div class="form-group">
                             <div class="formLabel">
-                                <label for="userName">User name</label>
+                                <label for="userName">Username</label>
                             </div>
                             <div class="formField">
                                 <input id="userName" name="userName" type="text" class="form-control" />
                             </div>
+                            <p id="username_err" class="validation_msg">Username is a mandatory field.</p>
                         </div>
                     </div>
                 </form>

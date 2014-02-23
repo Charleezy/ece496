@@ -38,18 +38,36 @@ $(document).ready(function () {
     //When closing create team modal, clear fields
     $('#createTeamModal').on('hidden.bs.modal', function () {
         $('#teamName').parent('div').removeClass('has-error');
-        $('#teamName_err').hide();
+        $('#teamname_err').hide();
         $('#teamName').val("");
 
         $('#courseToken').parent('div').removeClass('has-error');
+        $('#coursetoken_err').hide();
         $('#courseToken').val("");
+        $('#createteam_alert').hide();
+    });
+
+    $('#teamName').focus(function () {
+        $('#teamName').parent('div').removeClass('has-error');
+        $('#teamname_err').hide();
+    });
+
+    $('#courseToken').focus(function () {
+        $('#courseToken').parent('div').removeClass('has-error');
+        $('#coursetoken_err').hide();
     });
 
     //When closing send invite modal, clear fields
     $('#sendInviteModal').on('hidden.bs.modal', function () {
         $('#userName').parent('div').removeClass('has-error');
-        $('#userName_err').hide();
+        $('#username_err').hide();
         $('#userName').val("");
+        $('#invite_alert').hide();
+    });
+
+    $('#userName').focus(function () {
+        $('#userName').parent('div').removeClass('has-error');
+        $('#username_err').hide();
     });
 
     $('#viewInviteModal').on('hidden.bs.modal', function () {
@@ -179,50 +197,73 @@ var createTeam = function () {
     var name = document.forms['createteam-modal-form'].teamName.value;
     var token = document.forms['createteam-modal-form'].courseToken.value;
 
-    $.ajax({
-        url: '/Team/CreateTeam',
-        data: { teamname: name, coursetoken: token },
-        success: function (msg) {
-            if (msg)
-                alert(msg);
-            else
-                $('#createTeamModal').modal('hide');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
+    if (name == "" || name == null || token == "" || token == null) {
+        if (name == "" || name == null) {
+            $('#teamName').parent('div').addClass('has-error');
+            $('#teamname_err').show();
         }
-    });
+        if (token == "" || token == null) {
+            $('#courseToken').parent('div').addClass('has-error');
+            $('#coursetoken_err').show();
+        }
+    }
+    else {
+        $.ajax({
+            url: '/Team/CreateTeam',
+            data: { teamname: name, coursetoken: token },
+            success: function (msg) {
+                if (msg) {
+                    $('#createteam_alert').html(msg);
+                    $('#createteam_alert').show();
+                }
+                else {
+                    $('#createTeamModal').modal('hide');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
+            }
+        });
+    }
 }
 
 var sendInvite = function () {
     var username = document.forms['sendinvite-modal-form'].userName.value;
 
-    var selectedTeamsArray = new Array();
-    var x = 0;
-    $('#myTeams > tbody  > tr').each(function() {
-        if ($(this).find('input').attr('checked')) {
-            selectedTeamsArray[x] = $(this).find('input').attr('value');
-            x++;
-        }
-    });
-
-    var selectedTeams = selectedTeamsArray.join(',')
-
-    $.ajax({
-        url: '/Team/SendInvite',
-        data: { sendto: username, teams: selectedTeams },
-        success: function (msg) {
-            if (msg) {
-                alert(msg);
+    if (username == "" || username == null) {
+        $('#userName').parent('div').addClass('has-error');
+        $('#username_err').show();
+    }
+    else {
+        var selectedTeamsArray = new Array();
+        var x = 0;
+        $('#myTeams > tbody  > tr').each(function () {
+            if ($(this).find('input').attr('checked')) {
+                selectedTeamsArray[x] = $(this).find('input').attr('value');
+                x++;
             }
-            else {
-                $('#sendInviteModal').modal('hide');
+        });
+
+        var selectedTeams = selectedTeamsArray.join(',')
+
+        $.ajax({
+            url: '/Team/SendInvite',
+            data: { sendto: username, teams: selectedTeams },
+            success: function (msg) {
+                if (msg) {
+                    $('#invite_alert').html(msg);
+                    $('#invite_alert').show();
+                    //alert(msg);
+                }
+                else {
+                    $('#sendInviteModal').modal('hide');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
-        }
-    });
+        });
+    }
 }
 
 var InviteResponse = function (resp) {
