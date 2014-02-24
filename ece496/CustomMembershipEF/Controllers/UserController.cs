@@ -13,6 +13,18 @@ namespace CustomMembershipEF.Controllers
 {
     public class UserController : Controller
     {
+        public int GetUserID(string username)
+        {
+            int uid;
+
+            using (var usersContext = new UsersContext())
+            {
+                uid = usersContext.GetUserId(username);
+            }
+
+            return uid;
+        }
+
         [Authorize]
         public ActionResult Index()
         {
@@ -22,7 +34,21 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult TeamManager()
         {
-            return View();
+            int count;
+            int uid = GetUserID(User.Identity.Name);
+
+            ViewModels.TeamManagerViewModel model = new ViewModels.TeamManagerViewModel();
+
+            using (var teamsContext = new PM_Entities())
+            {
+                count = teamsContext.Invitations
+                                    .Where(x => x.Recipient == uid)
+                                    .Count();
+            }
+
+            model.inviteCount = count;
+
+            return View(model);
         }
 
         [Authorize]
@@ -34,6 +60,9 @@ namespace CustomMembershipEF.Controllers
         [Authorize]
         public ActionResult Calendar()
         {
+            int uid = GetUserID(User.Identity.Name);
+            ViewBag.uid = uid;
+
             return View();
         }
 

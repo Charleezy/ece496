@@ -8,12 +8,12 @@ using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
 using System.Data;
+using System.Data.Entity.Validation;
 
 namespace CustomMembershipEF.Controllers
 {
     public class TeamController : Controller
     {
-
         /// <summary>
         /// Retrieve a complete list of teams and team details for the current user.
         /// </summary>
@@ -22,7 +22,7 @@ namespace CustomMembershipEF.Controllers
         {
             int userid;
             List<TeamTableItem> teaminfo = new List<TeamTableItem>();
-            List<string> teammembers2 = new List<string>();
+            List<string> teammembers = new List<string>();
 
             var usersContext = new UsersContext();
             var teamsContext = new PM_Entities();
@@ -39,27 +39,25 @@ namespace CustomMembershipEF.Controllers
                                        .Where(x => x.TeamID == team.FK_TeamID)
                                        .Single();
 
-
-                string coursename = teamsContext.Courses
+                var course = teamsContext.Courses
                                           .Where(x => x.CourseID == usersteam.FK_CourseID)
-                                          .Select(y => y.CourseName)
-                                          .SingleOrDefault();
+                                          .Single();
 
-                var teammembers = teamsContext.TeamMembers
+                var members = teamsContext.TeamMembers
                                         .Where(x => x.FK_TeamID == team.FK_TeamID)
                                         .Select(y => y.FK_UserID)
                                         .ToArray();
 
-                foreach (var memberID in teammembers)
+                foreach (var memberID in members)
                 {
                     string membername = usersContext.GetUserName(memberID);
-                    teammembers2.Add(membername);
+                    teammembers.Add(membername);
                 }
 
-                string[] myarray = teammembers2.ToArray();
-                teammembers2.Clear();
+                string[] myarray = teammembers.ToArray();
+                teammembers.Clear();
 
-                TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, Course = coursename, TeamMembers = myarray };
+                TeamTableItem teamitem = new TeamTableItem { TeamID = usersteam.TeamID, TeamName = usersteam.TeamName, CourseCode = course.SchoolCourseCode, CourseName = course.CourseName, TeamMembers = myarray };
 
                 teaminfo.Add(teamitem);
             }
@@ -75,28 +73,43 @@ namespace CustomMembershipEF.Controllers
         /// </summary>
         /// <param name="teamname">Name of the team.</param>
         /// <param name="coursetoken">A code mapping to a course.</param>
-        public void CreateTeam(string teamname, string coursetoken)
+        public string CreateTeam(string teamname, string coursetoken)
         {
             int uid;
 
-            using (var usersContext = new UsersContext())
+            try
             {
-                uid = usersContext.GetUserId(User.Identity.Name);
+                using (var usersContext = new UsersContext())
+                {
+                    uid = usersContext.GetUserId(User.Identity.Name);
+                }
+
+                using (var teamscontext = new PM_Entities())
+                {
+                    var course = teamscontext.Courses
+                                    .Where(x => x.CourseToken == coursetoken)
+                                    .SingleOrDefault();
+
+                    if (course == null)
+                    {
+                        return "The course token you entered does not exist. Please try again.";
+                    }
+
+                    var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
+                    teamscontext.Teams.Add(newTeam);
+
+                    var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
+                    teamscontext.TeamMembers.Add(newMember);
+
+                    teamscontext.SaveChanges();
+
+                    // Returns successfully
+                    return null;
+                }
             }
-
-            using (var teamscontext = new PM_Entities())
+            catch (Exception ex)
             {
-                var course = teamscontext.Courses
-                                .Where(x => x.CourseToken == coursetoken)
-                                .Single();
-
-                var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
-                teamscontext.Teams.Add(newTeam);
-
-                var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
-                teamscontext.TeamMembers.Add(newMember);
-
-                teamscontext.SaveChanges();
+                return ex.Message;
             }
         }
 
@@ -105,26 +118,41 @@ namespace CustomMembershipEF.Controllers
         /// </summary>
         /// <param name="sendto">Username of the user the invitation is being sent to.</param>
         /// <param name="teams">A list of teams for which the user is being invited to.</param>
-        public void SendInvite(string sendto, string teams)
+        public string SendInvite(string sendto, string teams)
         {
             int recipient, sender;
 
-            using (var usersContext = new UsersContext())
+            try
             {
-                recipient = usersContext.GetUserId(sendto);
-                sender = usersContext.GetUserId(User.Identity.Name);
-            }
-
-            string[] teamArray = teams.Split(',');
-
-            using (var teamsContext = new PM_Entities())
-            {
-                foreach (var team in teamArray)
+                using (var usersContext = new UsersContext())
                 {
-                    Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
-                    teamsContext.Invitations.Add(inv);
+                    recipient = usersContext.GetUserId(sendto);
+                    sender = usersContext.GetUserId(User.Identity.Name);
+
+                    if (recipient < 0)
+                    {
+                        return "The username you entered does not exist. Please try again.";
+                    }
                 }
-                teamsContext.SaveChanges();
+
+                string[] teamArray = teams.Split(',');
+
+                using (var teamsContext = new PM_Entities())
+                {
+                    foreach (var team in teamArray)
+                    {
+                        Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
+                        teamsContext.Invitations.Add(inv);
+                    }
+                    teamsContext.SaveChanges();
+                }
+
+                // Returns successfully
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 

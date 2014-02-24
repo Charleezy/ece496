@@ -45,7 +45,7 @@ namespace CustomMembershipEF.Controllers
                     {
                         return Redirect(returnUrl);
                     }
-                    return RedirectToAction("Index", "User", model.UserName);
+                    return RedirectToAction("TeamManager", "User", model.UserName);
                 }
                 ModelState.AddModelError("", "The user name or password provided is incorrect.");
             }
@@ -86,7 +86,7 @@ namespace CustomMembershipEF.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "User", model.UserName);
+                    return RedirectToAction("TeamManager", "User", model.UserName);
                 }
                 ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }

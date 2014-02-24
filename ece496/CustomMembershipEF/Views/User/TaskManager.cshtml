@@ -56,17 +56,34 @@
     </div>
 }
 
-<div class="btn-group">
+<div>
+    <div class="btn-group">
         <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus"></span>  Create Task</button>
-
-</div>
-<div class="team-option">
-        Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
-            <option selected="selected">
-Choose a team...
-</option>
-    </select>
     </div>
+
+    <div class="team-option">
+        Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
+                <option selected="selected">
+                    Choose a team...
+                </option>
+              </select>
+    </div>
+</div>
+
+<div class="tasklist">
+    <table id="myTasks" class="table">
+        <thead>
+            <tr>
+                <th></th><!--TODO remove comment: TODO: add checkbox for deletion-->
+                <th>Task</th>
+                <th>Projected Start Date</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
 <!-- Create Task Modal -->
 <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
@@ -108,22 +125,3 @@ Choose a team...
         </div>
     </div>
 </div>
-
-<h2>TaskManager</h2>
-
-<div class="tasklist">
-        <table id="myTasks" class="table">
-            <thead>
-                <tr>
-                    <th></th><!--TODO remove comment: TODO: add checkbox for deletion-->
-                    <th>Task</th>
-                    <th>Projected Start Date</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-
-    </div>

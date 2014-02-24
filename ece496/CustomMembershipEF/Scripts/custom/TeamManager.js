@@ -24,7 +24,6 @@ $(document).ready(function () {
     var target = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
     spinner = new Spinner(spinoptions).spin(target);
 
-    inviteCount();
     populateTeamList();
 
     $('#myTeams').on('click', 'input[type=checkbox]', function () {
@@ -39,18 +38,36 @@ $(document).ready(function () {
     //When closing create team modal, clear fields
     $('#createTeamModal').on('hidden.bs.modal', function () {
         $('#teamName').parent('div').removeClass('has-error');
-        $('#teamName_err').hide();
+        $('#teamname_err').hide();
         $('#teamName').val("");
 
         $('#courseToken').parent('div').removeClass('has-error');
+        $('#coursetoken_err').hide();
         $('#courseToken').val("");
+        $('#createteam_alert').hide();
+    });
+
+    $('#teamName').focus(function () {
+        $('#teamName').parent('div').removeClass('has-error');
+        $('#teamname_err').hide();
+    });
+
+    $('#courseToken').focus(function () {
+        $('#courseToken').parent('div').removeClass('has-error');
+        $('#coursetoken_err').hide();
     });
 
     //When closing send invite modal, clear fields
     $('#sendInviteModal').on('hidden.bs.modal', function () {
         $('#userName').parent('div').removeClass('has-error');
-        $('#userName_err').hide();
+        $('#username_err').hide();
         $('#userName').val("");
+        $('#invite_alert').hide();
+    });
+
+    $('#userName').focus(function () {
+        $('#userName').parent('div').removeClass('has-error');
+        $('#username_err').hide();
     });
 
     $('#viewInviteModal').on('hidden.bs.modal', function () {
@@ -99,14 +116,20 @@ $(document).ready(function () {
             $('#decline').removeClass('disabled');
         }
     });
-
 });
 
 var inviteCount = function () {
     $.ajax({
         url: '/Team/GetInviteCount',
         success: function (count) {
+
             $('#inviteCount').html(count);
+            if (count == 1) {
+                $('#wording').html('invitation');
+            }
+            else {
+                $('#wording').html('invitations');
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);
@@ -121,43 +144,45 @@ var populateTeamList = function () {
             var table = document.getElementById("myTeams").getElementsByTagName('tbody')[0];
 
             if (data.length == 0) {
-                
+                $('#noteams').show();
             }
+            else {
+                for (var i = 0, len = data.length; i < len; ++i) {
+                    var team = data[i];
+                    var newRow = table.insertRow(table.rows.length);
 
-            for (var i = 0, len = data.length; i < len; ++i) {
-                var team = data[i];
-                var newRow = table.insertRow(table.rows.length);
+                    var select = newRow.insertCell(0);
+                    var name = newRow.insertCell(1);
+                    var coursecode = newRow.insertCell(2);
+                    var coursename = newRow.insertCell(3);
+                    var members = newRow.insertCell(4);
 
-                var select = newRow.insertCell(0);
-                var name = newRow.insertCell(1);
-                var course = newRow.insertCell(2);
-                var members = newRow.insertCell(3);
+                    var selectbox = document.createElement('input');
+                    selectbox.type = 'checkbox';
+                    selectbox.value = team.TeamID;
 
-                var selectbox = document.createElement('input');
-                selectbox.className = 'test';
-                selectbox.type = 'checkbox';
-                selectbox.id = team.TeamID;
-
-                var memberconcat = "";
-                for (var j = 0; j < team.TeamMembers.length; j++) {
-                    if (team.TeamMembers.length - j > 1) {
-                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
-                        memberconcat = memberconcat.concat(", ");
+                    var memberconcat = "";
+                    for (var j = 0; j < team.TeamMembers.length; j++) {
+                        if (team.TeamMembers.length - j > 1) {
+                            memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                            memberconcat = memberconcat.concat(", ");
+                        }
+                        else {
+                            memberconcat = memberconcat.concat(team.TeamMembers[j]);
+                        }
                     }
-                    else {
-                        memberconcat = memberconcat.concat(team.TeamMembers[j]);
-                    }
-                    
+
+                    var nametext = document.createTextNode(team.TeamName);
+                    var coursecodetext = document.createTextNode(team.CourseCode);
+                    var coursenametext = document.createTextNode(team.CourseName);
+                    var memberstext = document.createTextNode(memberconcat);
+
+                    select.appendChild(selectbox);
+                    name.appendChild(nametext);
+                    coursecode.appendChild(coursecodetext);
+                    coursename.appendChild(coursenametext);
+                    members.appendChild(memberstext);
                 }
-
-                var nametext = document.createTextNode(team.TeamName);
-                var coursetext = document.createTextNode(team.Course);
-                var memberstext = document.createTextNode(memberconcat);
-
-                select.appendChild(selectbox);
-                name.appendChild(nametext);
-                course.appendChild(coursetext);
-                members.appendChild(memberstext);
             }
             spinner.stop();
         },
@@ -171,42 +196,78 @@ var createTeam = function () {
     var name = document.forms['createteam-modal-form'].teamName.value;
     var token = document.forms['createteam-modal-form'].courseToken.value;
 
-    $.ajax({
-        url: '/Team/CreateTeam',
-        data: { teamname: name, coursetoken: token },
-        success: function () {
-            $('#createTeamModal').modal('hide');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
+    if (name == "" || name == null || token == "" || token == null) {
+        if (name == "" || name == null) {
+            $('#teamName').parent('div').addClass('has-error');
+            $('#teamname_err').show();
         }
-    });
+        if (token == "" || token == null) {
+            $('#courseToken').parent('div').addClass('has-error');
+            $('#coursetoken_err').show();
+        }
+    }
+    else {
+        $.ajax({
+            url: '/Team/CreateTeam',
+            data: { teamname: name, coursetoken: token },
+            success: function (msg) {
+                if (msg) {
+                    $('#createteam_alert').html(msg);
+                    $('#createteam_alert').show();
+                }
+                else {
+                    $('#createTeamModal').modal('hide');
+                    $('#myTeams > tbody > tr').each(function () {
+                        $(this).remove();
+                    });
+                    var targ1 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                    spinner = new Spinner(spinoptions).spin(targ1);
+                    populateTeamList();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
+            }
+        });
+    }
 }
 
 var sendInvite = function () {
     var username = document.forms['sendinvite-modal-form'].userName.value;
 
-    var selectedTeamsArray = new Array();
-    var x = 0;
-    $('#myTeams > tbody  > tr').each(function() {
-        if ($(this).find('input').attr('checked')) {
-            selectedTeamsArray[x] = $(this).find('input').attr('id');
-            x++;
-        }
-    });
+    if (username == "" || username == null) {
+        $('#userName').parent('div').addClass('has-error');
+        $('#username_err').show();
+    }
+    else {
+        var selectedTeamsArray = new Array();
+        var x = 0;
+        $('#myTeams > tbody  > tr').each(function () {
+            if ($(this).find('input').attr('checked')) {
+                selectedTeamsArray[x] = $(this).find('input').attr('value');
+                x++;
+            }
+        });
 
-    var selectedTeams = selectedTeamsArray.join(',')
+        var selectedTeams = selectedTeamsArray.join(',')
 
-    $.ajax({
-        url: '/Team/SendInvite',
-        data: { sendto: username, teams: selectedTeams },
-        success: function () {
-            $('#sendInviteModal').modal('hide');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
-        }
-    });
+        $.ajax({
+            url: '/Team/SendInvite',
+            data: { sendto: username, teams: selectedTeams },
+            success: function (msg) {
+                if (msg) {
+                    $('#invite_alert').html(msg);
+                    $('#invite_alert').show();
+                }
+                else {
+                    $('#sendInviteModal').modal('hide');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
+            }
+        });
+    }
 }
 
 var InviteResponse = function (resp) {
@@ -222,6 +283,12 @@ var InviteResponse = function (resp) {
         success: function () {
             inviteCount();
             $('#viewInviteModal').modal('hide');
+            $('#myTeams > tbody > tr').each(function () {
+                $(this).remove();
+            });
+            var targ2 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+            spinner = new Spinner(spinoptions).spin(targ2);
+            populateTeamList();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);

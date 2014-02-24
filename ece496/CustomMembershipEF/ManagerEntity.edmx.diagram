@@ -26,6 +26,7 @@
         <EntityTypeShape EntityType="PM_Model.User" Width="1.5" PointX="7.0913776248187652" PointY="25.671042186054887" />
         <AssociationConnector Association="PM_Model.FK_AssigneeID" />
         <AssociationConnector Association="PM_Model.FK_UsersSchoolID_to_SchoolID" />
+        <EntityTypeShape EntityType="PM_Model.Event" Width="1.5" PointX="8.1419037841921238" PointY="28.350676728575806" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

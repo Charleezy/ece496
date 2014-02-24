@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CustomMembershipEF.Models
+namespace Scheduler.Models
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -23,7 +23,7 @@ namespace CustomMembershipEF.Models
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="PM")]
-	public partial class EventDataDataContext : System.Data.Linq.DataContext
+	public partial class EventDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -35,31 +35,31 @@ namespace CustomMembershipEF.Models
     partial void DeleteEvent(Event instance);
     #endregion
 		
-		public EventDataDataContext() : 
+		public EventDataContext() : 
 				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PMConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public EventDataDataContext(string connection) : 
+		public EventDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public EventDataDataContext(System.Data.IDbConnection connection) : 
+		public EventDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public EventDataDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public EventDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public EventDataDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public EventDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();

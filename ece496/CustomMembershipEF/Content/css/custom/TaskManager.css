@@ -6,9 +6,9 @@
 /*Team Select Box.
     TODO: make color blue*/
 .team-option {
-    float: right;
+    /*float: right;*/
     margin-bottom: 5px;
-    clear: right;
+    /*clear: right;*/
 }
 
 .modalOptions {

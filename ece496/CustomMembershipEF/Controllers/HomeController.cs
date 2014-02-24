@@ -23,7 +23,5 @@ namespace CustomMembershipEF.Controllers
         {
             return View();
         }
-
-
     }
 }
