@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMembershipEF", "CustomMembershipEF\CustomMembershipEF.csproj", "{8FBDB36D-A1C5-42AF-9B59-D88014DDB7E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{ADBD014E-F5F9-4081-A086-E03A1BFDDA65}"
+	ProjectSection(ProjectDependencies) = postProject
+		{31D46FA1-93E1-4FAE-B80B-D2D2277CA6E8} = {31D46FA1-93E1-4FAE-B80B-D2D2277CA6E8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{31D46FA1-93E1-4FAE-B80B-D2D2277CA6E8}"
 EndProject

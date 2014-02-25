@@ -39,3 +39,7 @@ a {
 li {
     cursor: pointer;
 }
+
+#tabs, #ui-datepicker-div, .ui-datepicker { 
+    font-size: 85%; 
+}

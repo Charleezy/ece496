@@ -7,12 +7,18 @@
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
     <link href="/Content/css/custom/TaskManager.css" rel="stylesheet" />
     <link href="/Content/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="/Content/css/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" media="all" type="text/css" href="/Content/css/jquery-ui-timepicker-addon.css" />
 }
 
 @section JavaScript {
     <script src="/Scripts/custom/TaskManager.js"></script>
     <script src="/Scripts/bootstrap-select.js"></script>
     <script src="/Scripts/sorttable.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-ui-timepicker-addon.js"></script>
 }
 
 @section Sidebar{
@@ -114,12 +120,19 @@
                             <textarea id="taskDescription" rows=5 cols=75></textarea>
                             <!--TODO: DateTimePicker-->
 	 		                <div class="form-group">
-++                            <div class="formLabel">
-++                                <label for="taskTimes">Projected Start Time and Deadline</label>
-++                            </div>
-++                            <input type="text" name="taskStartTime" id="taskStartTime" value="" />
-++                            <input type="text" name="taskDeadline" id="taskDeadline" value="" />
-++                        </div>
+                            <div class="formLabel">
+                                <label for="taskTimes">Projected Start Time and Deadline</label>
+                            </div>
+                            <input type="text" name="taskStartTime" id="taskStartTime" value="" />
+                            <input type="text" name="taskDeadline" id="taskDeadline" value="" />
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label for="taskTimes">Projected Start Time and Deadline</label>
+                            </div>
+                            <input type="text" name="taskStartTime" id="taskStartTime" value="" />
+                            <input type="text" name="taskDeadline" id="taskDeadline" value="" />
                         </div>
                     </div>
                 </form>

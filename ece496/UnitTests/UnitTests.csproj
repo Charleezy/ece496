@@ -59,6 +59,10 @@
       <Project>{8fbdb36d-a1c5-42af-9b59-d88014ddb7e4}</Project>
       <Name>CustomMembershipEF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Scheduler\Scheduler.csproj">
+      <Project>{31d46fa1-93e1-4fae-b80b-d2d2277ca6e8}</Project>
+      <Name>Scheduler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
