@@ -105,7 +105,7 @@ namespace CustomMembershipEF.Controllers
         /// Todo: remove unnecessary comments
         /// Todo: check that startTime is before deadline
         /// TODO add teamID parameter. This is not given directly by the user with a form.
-        public void CreateTask(string taskName, DateTime taskStartTime, DateTime taskDeadline)
+        public void CreateTask(string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline)
         {
             int teamID = 10;//active team, teamid10 = "team 2"
 

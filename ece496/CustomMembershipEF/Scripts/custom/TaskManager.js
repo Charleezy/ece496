@@ -151,3 +151,8 @@ var populateTaskList = function () {
     });
 
 }
+
+$(function () {
+    $('#start_day').datetimepicker();
+    $('#deadline').datetimepicker();
+});
