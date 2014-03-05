@@ -14,48 +14,6 @@
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
 }
 
-@section Sidebar{
-<div class="row">
-        <div class="menu-box">
-            <img src="/Content/img/Group-icon.png" class="img-rounded">
-            Team Manager
-            <a href='@Url.Action("TeamManager", "User")'>
-                <span class="link"></span>
-            </a>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="menu-box">
-            <img src="/Content/img/Actions-clipboard-icon.png" class="img-rounded">
-            Task Manager
-            <a href='@Url.Action("TaskManager", "User")'>
-                <span class="link"></span>
-            </a>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="menu-box">
-            <img src="/Content/img/Calendar-icon.png" class="img-rounded">
-            Calendar
-            <a href='@Url.Action("Calendar", "User")'>
-                <span class="link"></span>
-            </a>
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="menu-box">
-            <img src="/Content/img/Gear-icon.png" class="img-rounded">
-            Settings
-            <a href='@Url.Action("Settings", "User")'>
-                <span class="link"></span>
-            </a>
-        </div>
-    </div>
-}
-
     <div class="invitations">
         @if (Model.inviteCount == 1)
         {
