@@ -36,4 +36,11 @@ namespace CustomMembershipEF.Models
         public int TeamID { get; set; }
         public string TeamName { get; set; }
     }
+
+    //Used for returning json of teamMembers to populate assignees dropdown
+    public class TeamMembersDropdownMenu
+    {
+        public string TeamMember { get; set; }
+        public int TeamMemberID { get; set; }
+    }
 }

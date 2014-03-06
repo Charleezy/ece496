@@ -63,16 +63,15 @@
     </div>
 }
 
+<!-- currently creates tasks for the selected team-->
 <div>
     <div class="btn-group">
-        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus"></span>  Create Task</button>
+        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus" ></span>  Create Task</button>
     </div>
 
     <div class="team-option">
         Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
-                <option selected="selected">
-                    Choose a team...
-                </option>
+                
               </select>
     </div>
 </div>
@@ -118,21 +117,23 @@
                                 <label for="taskDetails">Task Details</label>
                             </div>
                             <textarea id="taskDescription" rows=5 cols=75></textarea>
-                            <div class="form-group">
+                            <!--TODO default start and end times-->
                             <div class="formLabel">
                                 <label for="taskTimes">Projected Start Time and Deadline</label>
                             </div>
                             <input type="text" name="taskStartTime" id="taskStartTime" value="" />
                             <input type="text" name="taskDeadline" id="taskDeadline" value="" />
+                            
+                            <div class="formLabel">
+                                <label for="taskTeam">Team</label>
+                            </div>
+                            <select name="team" id="team"></select>
                             <div class="formLabel">
                                 <label for="taskAssignee">Assignee</label>
                             </div>
-                                <select name="assignee" id="assignee class="selectpicker" data-style="btn-primary">
-                                <option selected="selected">
-                                    Charlie
-                                </option>
-                                </select>
-                         </div>
+                            <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary">
+                            </select>
+
                     </div>
                 </form>
             </div>
