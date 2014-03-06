@@ -8,6 +8,7 @@ using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
 using System.Data;
+using System.Data.Entity.Validation;
 
 namespace CustomMembershipEF.Controllers
 {
@@ -111,23 +112,46 @@ namespace CustomMembershipEF.Controllers
         /// Todo: remove unnecessary comments
         /// Todo: check that startTime is before deadline
         /// TODO add teamID parameter. This is not given directly by the user with a form.
-        public void CreateTask(string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, string taskStatus, int assigneeID)
+        public string CreateTask(string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int assigneeID, int teamID)
         {
-            int teamID = 10;//active team, teamid10 = "team 2"
-
-            int userid;
-
-            var usersContext = new UsersContext();
-
-            userid = usersContext.GetUserId(User.Identity.Name);
-
-            using (var teamscontext = new PM_Entities())
+            try
             {
-                var newTask = new Task { TaskName = taskName, TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID };
-                teamscontext.Tasks.Add(newTask);
+                int userid;
 
-                teamscontext.SaveChanges();
+                var usersContext = new UsersContext();
+
+                userid = usersContext.GetUserId(User.Identity.Name);
+
+                using (var teamsContext = new PM_Entities())
+                {
+                    //Just the single team selected and all the data under it
+                    var team = teamsContext.Teams
+                                           .Where(x => x.TeamID == teamID)
+                                           .ToList();
+
+                    var newTask = new Task { TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID=assigneeID };
+                    teamsContext.Tasks.Add(newTask);
+
+                    teamsContext.SaveChanges();
+                    return null;
+                }
             }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    System.Diagnostics.Debug.Write("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:"+
+                        eve.Entry.Entity.GetType().Name+ eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.Write("- Property: \"{0}\", Error: \"{1}\""+
+                            ve.PropertyName+ ve.ErrorMessage);
+                    }
+                }
+                throw;
+                return e.Message;
+            }
+            
         }
 
         /// Gets the team members for a selected team

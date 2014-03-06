@@ -209,36 +209,52 @@ var populateTaskList = function () {
 }
 
 var createTask = function () {
-    var name = document.forms['createtask-modal-form'].taskName.value;
-    var token = document.forms['createtask-modal-form'].taskDetails.value;
+    var taskName = document.forms['createtask-modal-form'].taskName.value;
+    var taskDescription = document.forms['createtask-modal-form'].taskDescription.value;
+    var taskStartTime = document.forms['createtask-modal-form'].taskStartTime.value;
+    var taskDeadline = document.forms['createtask-modal-form'].taskDeadline.value;
+    var team = document.forms['createtask-modal-form'].team.value;
+    var assignee = document.forms['createtask-modal-form'].assignee.value;
 
-    if (name == "" || name == null || token == "" || token == null) {
+    if (taskName == "" || taskName == null || taskStartTime == "" || taskStartTime == null || taskDeadline == "" || taskDeadline == null || team == "" || team == null || assignee == "" || assignee == null) {
         if (name == "" || name == null) {
-            $('#teamName').parent('div').addClass('has-error');
-            $('#teamname_err').show();
+            $('#taskName').parent('div').addClass('has-error');
+            $('#taskName_err').show();
         }
-        if (token == "" || token == null) {
-            $('#courseToken').parent('div').addClass('has-error');
-            $('#coursetoken_err').show();
+        if (taskStartTime == "" || taskStartTime == null) {
+            $('#taskStartTime ').parent('div').addClass('has-error');
+            $('#taskStartTime_err ').show();
+        }
+        if (taskDeadline == "" || taskDeadline == null) {
+            $('#taskDeadline ').parent('div').addClass('has-error');
+            $('#taskDeadline_err ').show();
+        }
+        if (team == "" || team == null) {
+            $('#team ').parent('div').addClass('has-error');
+            $('#team_err ').show();
+        }
+        if (assignee == "" || assignee == null) {
+            $('#assignee ').parent('div').addClass('has-error');
+            $('#assignee_err ').show();
         }
     }
     else {
         $.ajax({
-            url: '/Team/CreateTeam',
-            data: { teamname: name, coursetoken: token },
+            url: '/Task/CreateTask',
+            data: { taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, assigneeID: assignee, teamID: team },
             success: function (msg) {
                 if (msg) {
-                    $('#createteam_alert').html(msg);
+                    $('#createtask_alert').html(msg);
                     $('#createteam_alert').show();
                 }
                 else {
-                    $('#createTeamModal').modal('hide');
-                    $('#myTeams > tbody > tr').each(function () {
+                    $('#createTaskModal').modal('hide');
+                    $('#myTasks > tbody > tr').each(function () {
                         $(this).remove();
                     });
-                    var targ1 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                    var targ1 = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
                     spinner = new Spinner(spinoptions).spin(targ1);
-                    populateTeamList();
+                    populateTaskList();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
