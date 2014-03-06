@@ -141,8 +141,13 @@ namespace CustomMembershipEF.Controllers
                 {
                     foreach (var team in teamArray)
                     {
-                        Invitation inv = new Invitation { Team = Convert.ToInt32(team), Recipient = recipient, Sender = sender };
-                        teamsContext.Invitations.Add(inv);
+                        int team_num = Convert.ToInt32(team);
+                        // If an invite to this team has already been sent to recipient, don't send it again
+                        if (!teamsContext.Invitations.Any(x => x.Team == team_num && x.Recipient == recipient))
+                        {
+                            Invitation inv = new Invitation { Team = team_num, Recipient = recipient, Sender = sender };
+                            teamsContext.Invitations.Add(inv);
+                        }
                     }
                     teamsContext.SaveChanges();
                 }
