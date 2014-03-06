@@ -143,6 +143,7 @@
     </Compile>
     <Content Include="Content\css\bootstrap-select.css" />
     <Content Include="Content\css\custom\TaskManager.css" />
+    <Content Include="ManagerEntity.edmx.sql" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\custom\TaskManager.js" />
     <Compile Include="Services\AccountMembershipService.cs" />

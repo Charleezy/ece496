@@ -16,12 +16,12 @@ namespace CustomMembershipEF.Models
 
     public class TaskTableItem
     {
-        public int TaskID { get; set; }
+        public int? TaskID { get; set; }
         public string TaskName { get; set; }
+        public string TaskDescription { get; set; }
         public string TaskStartTime { get; set; }
         public string TaskDeadline { get; set; }
-        public string TeamName { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
     }
 
     public class InvitationListItem

@@ -69,14 +69,14 @@ namespace CustomMembershipEF.Controllers
 
             userid = usersContext.GetUserId(User.Identity.Name);
 
-            //Just the one team that the user has selected
-            var teamlist = teamsContext.Teams
+            //Just the single team selected and all the data under it
+            var team = teamsContext.Teams
                                    .Where(x => x.TeamID == TeamID)
                                    .ToList();
 
-            foreach (var task in teamlist[0].Tasks)
+            foreach (var task in team[0].Tasks)
             {
-                TaskTableItem item = new TaskTableItem{ };
+                TaskTableItem item = new TaskTableItem { TaskID = task.FK_AssigneeID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
                 taskinfo.Add(item);
             }
 
@@ -95,12 +95,12 @@ namespace CustomMembershipEF.Controllers
 
                     taskinfo.Add(taskitem);
                 }
-            }
+            }*/
 
             usersContext.Dispose();
-            teamsContext.Dispose();*/
+            teamsContext.Dispose();
 
-            return Json(1, JsonRequestBehavior.AllowGet);
+            return Json(taskinfo, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
