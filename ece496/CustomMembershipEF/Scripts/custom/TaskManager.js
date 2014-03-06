@@ -152,7 +152,47 @@ var populateTaskList = function () {
 
 }
 
+var createTask = function () {
+    var name = document.forms['createtask-modal-form'].teamName.value;
+    var token = document.forms['createtask-modal-form'].courseToken.value;
+
+    if (name == "" || name == null || token == "" || token == null) {
+        if (name == "" || name == null) {
+            $('#teamName').parent('div').addClass('has-error');
+            $('#teamname_err').show();
+        }
+        if (token == "" || token == null) {
+            $('#courseToken').parent('div').addClass('has-error');
+            $('#coursetoken_err').show();
+        }
+    }
+    else {
+        $.ajax({
+            url: '/Team/CreateTeam',
+            data: { teamname: name, coursetoken: token },
+            success: function (msg) {
+                if (msg) {
+                    $('#createteam_alert').html(msg);
+                    $('#createteam_alert').show();
+                }
+                else {
+                    $('#createTeamModal').modal('hide');
+                    $('#myTeams > tbody > tr').each(function () {
+                        $(this).remove();
+                    });
+                    var targ1 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                    spinner = new Spinner(spinoptions).spin(targ1);
+                    populateTeamList();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
+            }
+        });
+    }
+}
+
 $(function () {
-    $('#start_day').datetimepicker();
-    $('#deadline').datetimepicker();
+    $('#taskStartTime').datetimepicker();
+    $('#taskDeadline').datetimepicker();
 });
