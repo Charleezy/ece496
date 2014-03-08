@@ -4,15 +4,15 @@
 ----    Description: A partial view representing the toolbar at the top of the webpage. This view is present in every page that the user navigates.
 -->
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:#373737">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:#474747">
     <div class="navbar-header" style="padding-left:30px;">
         @if (Request.IsAuthenticated)
         {
-            <a class="navbar-brand" href="@Url.Action("TeamManager", "User")" style="padding-right:0px; padding-left:0px;">Project name</a>
+            <a class="navbar-brand" href="@Url.Action("TeamManager", "User")" style="padding-right:0px; padding-left:0px; text-decoration: none;">GroupUp</a>
         }
         else
         {
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="padding-right:0px; padding-left:0px;">Project name</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="padding-right:0px; padding-left:0px; text-decoration: none;">GroupUp</a>
         }
     </div>
     <div class="navbar-collapse collapse">

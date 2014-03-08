@@ -27,7 +27,8 @@
 
     <div class="btn-group">
         <button id="createTeam_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal"><span class="glyphicon glyphicon-plus"></span>  Create Team</button>
-        <button id="sendInvite_button" type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-share-alt"></span>  Send Invitation</button>
+        <button id="leaveTeam_button" type="button" class="btn btn-primary disabled" onclick="leaveTeams()"><span class="glyphicon glyphicon-remove"></span>  Leave Team</button>
+        <button id="sendInvite_button" type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#sendInviteModal"><span class="glyphicon glyphicon-send"></span>  Send Invitation</button>
     </div>
 
     <div class="teamlist">
@@ -52,7 +53,7 @@
 
 
 <!-- Create Team Modal -->
-<div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+<div class="modal fade" id="createTeamModal" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -63,29 +64,26 @@
 
             <div class="modal-body">
                 <div id="createteam_alert" class="alert alert-danger"></div>
-                <form id="createteam-modal-form" name="createteam-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
-                    <div class="form-container">
-                        <div class="form-group">
-                            <div class="formLabel">
-                                <label for="teamName">Team Name</label>
-                            </div>
-                            <div class="formField">
-                                <input id="teamName" name="teamName" type="text" class="form-control" />
-                            </div>
-                            <p id="teamname_err" class="validation_msg">Team Name is a mandatory field.</p>
+                <div class="form-container">
+                    <div class="form-group">
+                        <div class="formLabel">
+                            <label for="teamName">Team Name</label>
                         </div>
-                        <div class="form-group">
-                            <div class="formLabel">
-                                <label for="courseToken">Course Token</label>
-                            </div>
-                            <div class="formField">
-                                <input id="courseToken" name="courseToken" type="text" class="form-control" />
-                            </div>
-                            <p id="coursetoken_err" class="validation_msg">Course Token is a mandatory field.</p>
+                        <div class="formField">
+                            <input id="teamName" name="teamName" type="text" class="form-control" />
                         </div>
+                        <p id="teamname_err" class="validation_msg">Team Name is a mandatory field.</p>
                     </div>
-                </form>
-
+                    <div class="form-group">
+                        <div class="formLabel">
+                            <label for="courseToken">Course Token</label>
+                        </div>
+                        <div class="formField">
+                            <input id="courseToken" name="courseToken" type="text" class="form-control" />
+                        </div>
+                        <p id="coursetoken_err" class="validation_msg">Course Token is a mandatory field.</p>
+                    </div>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -98,30 +96,28 @@
 </div>
 
 <!-- Send Invite Modal -->
-<div class="modal fade" id="sendInviteModal" tabindex="-1" role="dialog" aria-labelledby="sendInviteModalLabel" aria-hidden="true">
+<div class="modal fade" id="sendInviteModal" role="dialog" aria-labelledby="sendInviteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" id="sendInviteModalLabel">Send an Invitation</h4>
             </div>
 
             <div class="modal-body">
                 <div id="invite_alert" class="alert alert-danger"></div>
-                <form id="sendinvite-modal-form" name="sendinvite-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
-                    <div class="form-container">
-                        <div class="form-group">
-                            <div class="formLabel">
-                                <label for="userName">Username</label>
-                            </div>
-                            <div class="formField">
-                                <input id="userName" name="userName" type="text" class="form-control" />
-                            </div>
-                            <p id="username_err" class="validation_msg">Username is a mandatory field.</p>
+                <div class="form-container">
+                    <div class="form-group">
+                        <div class="formLabel">
+                            <label for="userName">Username</label>
                         </div>
+                        <div class="formField">
+                            <input id="userName" name="userName" type="text" class="form-control" />
+                        </div>
+                        <p id="username_err" class="validation_msg">Username is a mandatory field.</p>
                     </div>
-                </form>
+                </div>
             </div>
 
             <div class="modal-footer">
@@ -133,8 +129,8 @@
     </div>
 </div>
 
-<!-- Send Invite Modal -->
-<div class="modal fade" id="viewInviteModal" tabindex="-1" role="dialog" aria-labelledby="viewInviteModalLabel" aria-hidden="true">
+<!-- View Invite Modal -->
+<div class="modal fade" id="viewInviteModal" role="dialog" aria-labelledby="viewInviteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 

@@ -142,8 +142,9 @@ namespace CustomMembershipEF.Controllers
                     foreach (var team in teamArray)
                     {
                         int team_num = Convert.ToInt32(team);
-                        // If an invite to this team has already been sent to recipient, don't send it again
-                        if (!teamsContext.Invitations.Any(x => x.Team == team_num && x.Recipient == recipient))
+                        // If an invite to this team has already been sent to recipient or recipient is already apart of team, don't send it again
+                        if (!teamsContext.Invitations.Any(x => x.Team == team_num && x.Recipient == recipient)
+                            && !teamsContext.TeamMembers.Any(x => x.FK_TeamID == team_num && x.FK_UserID == recipient))
                         {
                             Invitation inv = new Invitation { Team = team_num, Recipient = recipient, Sender = sender };
                             teamsContext.Invitations.Add(inv);
@@ -256,6 +257,66 @@ namespace CustomMembershipEF.Controllers
 
             teamsContext.SaveChanges();
             teamsContext.Dispose();
+        }
+
+        public string LeaveTeams(string teams)
+        {
+            int uid;
+            try
+            {
+                using (var usersContext = new UsersContext())
+                {
+                    uid = usersContext.GetUserId(User.Identity.Name);
+                }
+
+                string[] teamArray = teams.Split(',');
+
+                using (var teamsContext = new PM_Entities())
+                {
+                    foreach (var team in teamArray)
+                    {
+                        int team_num = Convert.ToInt32(team);
+                        int member_count = teamsContext.TeamMembers.Count(x => x.FK_TeamID == team_num);
+
+                        // If there are still other members in the team, just remove this user
+                        if (member_count > 1)
+                        {
+                            TeamMember mem = teamsContext.TeamMembers.Where(x => x.FK_TeamID == team_num && x.FK_UserID == uid).First();
+                            teamsContext.TeamMembers.Remove(mem);
+                        }
+                        // If this is the only user in the team, delete the team, any associated tasks, and pending invites
+                        else
+                        {
+                            TeamMember mem = teamsContext.TeamMembers.Where(x => x.FK_TeamID == team_num && x.FK_UserID == uid).First();
+                            teamsContext.TeamMembers.Remove(mem);
+
+                            List<Invitation> invitelist = teamsContext.Invitations.Where(x => x.Team == team_num).ToList();
+                            foreach (Invitation invite in invitelist)
+                            {
+                                teamsContext.Invitations.Remove(invite);
+                            }
+
+                            List<Task> tasklist = teamsContext.Tasks.Where(x => x.FKTeamID == team_num).ToList();
+                            foreach (Task task in tasklist)
+                            {
+                                teamsContext.Tasks.Remove(task);
+                            }
+
+                            Team t = teamsContext.Teams.Where(x => x.TeamID == team_num).First();
+                            teamsContext.Teams.Remove(t);
+                        }
+                    }
+
+                    teamsContext.SaveChanges();
+                }
+
+                // Returns successfully
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
