@@ -129,10 +129,14 @@ namespace CustomMembershipEF.Controllers
                                            .Where(x => x.TeamID == teamID)
                                            .ToList();
 
-                    var newTask = new Task { TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID=assigneeID };
-                    teamsContext.Tasks.Add(newTask);
 
-                    teamsContext.SaveChanges();
+
+                    //var newTask = new Task {TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID=assigneeID };
+                    //teamsContext.Tasks.Add(newTask);
+
+                    //teamsContext.SaveChanges();
+                    int InsertedRows = teamsContext.Database.ExecuteSqlCommand("INSERT INTO PM.dbo.Tasks (\"TaskName\", \"TaskDescription\", \"TaskStartTime\", \"TaskDeadline\", \"FKTeamID\", \"Status\", \"FK_AssigneeID\") VALUES ('" + taskName + "' , '" + taskDescription + "' , '" + taskStartTime + "', '" + taskDeadline + "', + " + teamID + ", 0, " + assigneeID + ");");
+
                     return null;
                 }
             }
