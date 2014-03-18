@@ -29,9 +29,11 @@ $(document).ready(function () {
     $('#myTeams').on('click', 'input[type=checkbox]', function () {
         if ($('#myTeams input:checkbox:checked').length > 0) {
             $('#sendInvite_button').removeClass('disabled');
+            $('#leaveTeam_button').removeClass('disabled');
         }
         else {
             $('#sendInvite_button').addClass('disabled');
+            $('#leaveTeam_button').addClass('disabled');
         }
     });
 
@@ -193,8 +195,8 @@ var populateTeamList = function () {
 }
 
 var createTeam = function () {
-    var name = document.forms['createteam-modal-form'].teamName.value;
-    var token = document.forms['createteam-modal-form'].courseToken.value;
+    var name = $('#teamName').val();
+    var token = $('#courseToken').val();
 
     if (name == "" || name == null || token == "" || token == null) {
         if (name == "" || name == null) {
@@ -220,8 +222,8 @@ var createTeam = function () {
                     $('#myTeams > tbody > tr').each(function () {
                         $(this).remove();
                     });
-                    var targ1 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
-                    spinner = new Spinner(spinoptions).spin(targ1);
+                    var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                    spinner = new Spinner(spinoptions).spin(targ);
                     populateTeamList();
                 }
             },
@@ -233,8 +235,8 @@ var createTeam = function () {
 }
 
 var sendInvite = function () {
-    var username = document.forms['sendinvite-modal-form'].userName.value;
-
+    var username = $('#userName').val();
+    
     if (username == "" || username == null) {
         $('#userName').parent('div').addClass('has-error');
         $('#username_err').show();
@@ -249,7 +251,7 @@ var sendInvite = function () {
             }
         });
 
-        var selectedTeams = selectedTeamsArray.join(',')
+        var selectedTeams = selectedTeamsArray.join(',');
 
         $.ajax({
             url: '/Team/SendInvite',
@@ -286,8 +288,37 @@ var InviteResponse = function (resp) {
             $('#myTeams > tbody > tr').each(function () {
                 $(this).remove();
             });
-            var targ2 = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
-            spinner = new Spinner(spinoptions).spin(targ2);
+            var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+            spinner = new Spinner(spinoptions).spin(targ);
+            populateTeamList();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + textStatus);
+        }
+    });
+}
+
+var leaveTeams = function () {
+    var selectedTeamsArray = new Array();
+    var x = 0;
+    $('#myTeams > tbody  > tr').each(function () {
+        if ($(this).find('input').attr('checked')) {
+            selectedTeamsArray[x] = $(this).find('input').attr('value');
+            x++;
+        }
+    });
+
+    var selectedTeams = selectedTeamsArray.join(',');
+
+    $.ajax({
+        url: '/Team/LeaveTeams',
+        data: { teams: selectedTeams },
+        success: function (msg) {
+            $('#myTeams > tbody > tr').each(function () {
+                $(this).remove();
+            });
+            var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+            spinner = new Spinner(spinoptions).spin(targ);
             populateTeamList();
         },
         error: function (jqXHR, textStatus, errorThrown) {
