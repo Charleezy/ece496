@@ -8,6 +8,7 @@ using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
 using System.Data;
+using System.Data.Entity.Validation;
 
 namespace CustomMembershipEF.Controllers
 {
@@ -58,7 +59,7 @@ namespace CustomMembershipEF.Controllers
         /// TODO make table allow sorting
         /// TODO add button to create tasks and delete them. Task Editing page and a button for task insertion.
         /// <returns>Json object of type TeamTableItem.</returns>
-        public JsonResult GetTaskList(int teamid = 0)
+        public JsonResult GetTaskList(int TeamID = 0)
         {
             int userid;
             List<TaskTableItem> taskinfo = new List<TaskTableItem>();
@@ -69,12 +70,18 @@ namespace CustomMembershipEF.Controllers
 
             userid = usersContext.GetUserId(User.Identity.Name);
 
-            //list of all teams that this user belongs to
-            var teamlist = teamsContext.TeamMembers
-                                   .Where(x => x.FK_UserID == userid)
+            //Just the single team selected and all the data under it
+            var team = teamsContext.Teams
+                                   .Where(x => x.TeamID == TeamID)
                                    .ToList();
 
-            foreach (var team in teamlist)
+            foreach (var task in team[0].Tasks)
+            {
+                TaskTableItem item = new TaskTableItem { TaskID = task.FK_AssigneeID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
+                taskinfo.Add(item);
+            }
+
+            /*foreach (var team in teamlist)
             {
                 //The team and all its subdata. Not useful for this function
                 Team usersteam = teamsContext.Teams
@@ -89,7 +96,7 @@ namespace CustomMembershipEF.Controllers
 
                     taskinfo.Add(taskitem);
                 }
-            }
+            }*/
 
             usersContext.Dispose();
             teamsContext.Dispose();
@@ -105,23 +112,107 @@ namespace CustomMembershipEF.Controllers
         /// Todo: remove unnecessary comments
         /// Todo: check that startTime is before deadline
         /// TODO add teamID parameter. This is not given directly by the user with a form.
-        public void CreateTask(string taskName, DateTime taskStartTime, DateTime taskDeadline)
+        public string CreateTask(string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int assigneeID, int teamID)
         {
-            int teamID = 10;//active team, teamid10 = "team 2"
+            try
+            {
+                int userid;
 
+                var usersContext = new UsersContext();
+
+                userid = usersContext.GetUserId(User.Identity.Name);
+
+                using (var teamsContext = new PM_Entities())
+                {
+                    //Just the single team selected and all the data under it
+                    var team = teamsContext.Teams
+                                           .Where(x => x.TeamID == teamID)
+                                           .ToList();
+
+
+
+                    //var newTask = new Task {TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID=assigneeID };
+                    //teamsContext.Tasks.Add(newTask);
+
+                    //teamsContext.SaveChanges();
+                    int InsertedRows = teamsContext.Database.ExecuteSqlCommand("INSERT INTO PM.dbo.Tasks (\"TaskName\", \"TaskDescription\", \"TaskStartTime\", \"TaskDeadline\", \"FKTeamID\", \"Status\", \"FK_AssigneeID\") VALUES ('" + taskName + "' , '" + taskDescription + "' , '" + taskStartTime + "', '" + taskDeadline + "', + " + teamID + ", 0, " + assigneeID + ");");
+
+                    return null;
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    System.Diagnostics.Debug.Write("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:"+
+                        eve.Entry.Entity.GetType().Name+ eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.Write("- Property: \"{0}\", Error: \"{1}\""+
+                            ve.PropertyName+ ve.ErrorMessage);
+                    }
+                }
+                throw;
+                return e.Message;
+            }
+            
+        }
+
+        /// Gets the team members for a selected team
+        /// Used for populating a select dropdown for creating a task
+        /// </summary>
+        public JsonResult GetTeamMembers(int TeamID)
+        {
             int userid;
+            List<TeamMembersDropdownMenu> teamMembers= new List<TeamMembersDropdownMenu>();
 
             var usersContext = new UsersContext();
+            var teamsContext = new PM_Entities();
 
             userid = usersContext.GetUserId(User.Identity.Name);
+            
+            //Just the single team selected
+            var teamlist = teamsContext.Teams
+                                   .Where(x => x.TeamID == TeamID)
+                                   .ToList();
 
-            using (var teamscontext = new PM_Entities())
+            foreach (var member in teamlist[0].TeamMembers)
             {
-                var newTask = new Task { TaskName = taskName, TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID };
-                teamscontext.Tasks.Add(newTask);
-
-                teamscontext.SaveChanges();
+                //TODO ask Daniele, if I'm only returning one type of parameter (maybe 3 entries of it for 3 team members), do I need to define a TeamMembersDropdown class?
+                TeamMembersDropdownMenu item = new TeamMembersDropdownMenu { TeamMember = member.User.Firstname, TeamMemberID = member.User.UserID};
+                teamMembers.Add(item);
             }
+
+            /*foreach (var team in teamlist)
+            {
+                Team usersteam = teamsContext.Teams
+                                       .Where(x => x.TeamID == team.FK_TeamID)
+                                       .Single();
+
+                //all team members for a given team
+                var members = teamsContext.TeamMembers
+                                        .Where(x => x.FK_TeamID == team.FK_TeamID)
+                                        .Select(y => y.FK_UserID)
+                                        .ToArray();
+
+                foreach (var memberID in members)
+                {
+                    string membername = usersContext.GetUserName(memberID);
+                    teammembers.Add(membername);
+                }
+
+                string[] myarray = teammembers.ToArray();
+                teammembers.Clear();
+
+                TeamTableItem teamitem = new TeamTableItem { TeamMembers = myarray };
+
+                teaminfo.Add(teamitem);
+            }
+
+            usersContext.Dispose();
+            teamsContext.Dispose();*/
+
+            return Json(teamMembers, JsonRequestBehavior.AllowGet);
         }
     }
 }

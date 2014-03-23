@@ -15,7 +15,8 @@ namespace CustomMembershipEF
     
     public partial class TeamMember
     {
-        [Key] public int TeamMembersID { get; set; }
+        [Key]
+        public int TeamMembersID { get; set; }
         public Nullable<int> FK_TeamID { get; set; }
         public Nullable<int> FK_UserID { get; set; }
     

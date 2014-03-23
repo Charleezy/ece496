@@ -16,12 +16,12 @@ namespace CustomMembershipEF.Models
 
     public class TaskTableItem
     {
-        public int TaskID { get; set; }
+        public int? TaskID { get; set; }
         public string TaskName { get; set; }
+        public string TaskDescription { get; set; }
         public string TaskStartTime { get; set; }
         public string TaskDeadline { get; set; }
-        public string TeamName { get; set; }
-        public int Status { get; set; }
+        public int? Status { get; set; }
     }
 
     public class InvitationListItem
@@ -35,5 +35,12 @@ namespace CustomMembershipEF.Models
     {
         public int TeamID { get; set; }
         public string TeamName { get; set; }
+    }
+
+    //Used for returning json of teamMembers to populate assignees dropdown
+    public class TeamMembersDropdownMenu
+    {
+        public string TeamMember { get; set; }
+        public int TeamMemberID { get; set; }
     }
 }

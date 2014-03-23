@@ -21,7 +21,7 @@
 }
 
 .formLabel {
-    width: 100px;
+    width: 400px;
 }
 
 .formField input {
@@ -32,10 +32,18 @@ table td {
     border: none;
 }
 
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):after { 
+    content: " \25B4\25BE" 
+}
+
 a {
     cursor: pointer;
 }
 
 li {
     cursor: pointer;
+}
+
+#tabs, #ui-datepicker-div, .ui-datepicker { 
+    font-size: 85%; 
 }

@@ -42,3 +42,9 @@ TestResults/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+#Specific Files#
+UpgradeLog.htm
+Newtonsoft.Json.dll
+Newtonsoft.Json.xml
+Microsoft.Web.Mvc.FixedDisplayModes.dll

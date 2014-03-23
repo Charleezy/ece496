@@ -7,29 +7,77 @@
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
     <link href="/Content/css/custom/TaskManager.css" rel="stylesheet" />
     <link href="/Content/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="/Content/css/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<link rel="stylesheet" media="all" type="text/css" href="/Content/css/jquery-ui-timepicker-addon.css" />
 }
 
 @section JavaScript {
     <script src="/Scripts/custom/TaskManager.js"></script>
     <script src="/Scripts/bootstrap-select.js"></script>
+    <script src="/Scripts/sorttable.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-ui-timepicker-addon.js"></script>
 }
 
+@section Sidebar{
+<div class="row">
+        <div class="menu-box">
+            <img src="/Content/img/Group-icon.png" class="img-rounded">
+            Team Manager
+            <a href='@Url.Action("TeamManager", "User")'>
+                <span class="link"></span>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="menu-box">
+            <img src="/Content/img/Actions-clipboard-icon.png" class="img-rounded">
+            Task Manager
+            <a href='@Url.Action("TaskManager", "User")'>
+                <span class="link"></span>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="menu-box">
+            <img src="/Content/img/Calendar-icon.png" class="img-rounded">
+            Calendar
+            <a href='@Url.Action("Calendar", "User")'>
+                <span class="link"></span>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="menu-box">
+            <img src="/Content/img/Gear-icon.png" class="img-rounded">
+            Settings
+            <a href='@Url.Action("Settings", "User")'>
+                <span class="link"></span>
+            </a>
+        </div>
+    </div>
+}
+
+<!-- currently creates tasks for the selected team-->
 <div>
     <div class="btn-group">
-        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus"></span>  Create Task</button>
+        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus" ></span>  Create Task</button>
     </div>
 
     <div class="team-option">
         Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
-                <option selected="selected">
-                    Choose a team...
-                </option>
+                
               </select>
     </div>
 </div>
 
 <div class="tasklist">
-    <table id="myTasks" class="table">
+    <table id="myTasks" class="table sortable">
         <thead>
             <tr>
                 <th></th><!--TODO remove comment: TODO: add checkbox for deletion-->
@@ -44,7 +92,7 @@
 </div>
 
 <!-- Create Task Modal -->
-<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModalLabel" aria-hidden="true">
+<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -54,6 +102,7 @@
             </div>
 
             <div class="modal-body">
+                <div id="createtask_alert" class="alert alert-danger hidden"></div>
                 <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
                     <div class="form-container">
                         <div class="form-group">
@@ -61,22 +110,42 @@
                                 <label for="taskName">Task Name</label>
                             </div>
                             <div class="formField">
-                                <input id="teamName" name="teamName" type="text" class="form-control" />
+                                <input id="taskName" name="taskName" type="text" class="form-control" />
                             </div>
+                            <p id="taskname_err" class="validation_msg">Task Name is a mandatory field.</p>
                         </div>
                         <div class="form-group">
                             <div class="formLabel">
-                                <label for="courseToken">Task Details</label>
+                                <label for="taskDetails">Task Details</label>
                             </div>
                             <textarea id="taskDescription" rows=5 cols=75></textarea>
-                            <!--TODO: DateTimePicker-->
-                        </div>
+                            <!--TODO default start and end times-->
+                            <div class="formLabel">
+                                <label for="taskTimes">Projected Start Time and Deadline</label>
+                            </div>
+                            <input type="text" name="taskStartTime" id="taskStartTime" value="" />
+                            <p id="taskStartTime_err" class="validation_msg">Task Start time is a mandatory field.</p>
+                            <input type="text" name="taskDeadline" id="taskDeadline" value="" />
+                            <p id="taskDeadline_err" class="validation_msg">Task Deadline is a mandatory field.</p>
+                            
+                            <div class="formLabel">
+                                <label for="taskTeam">Team</label>
+                            </div>
+                            <select name="team" id="team"></select>
+                            <p id="team_err" class="validation_msg">Task team is a mandatory field.</p>
+                            <div class="formLabel">
+                                <label for="taskAssignee">Assignee</label>
+                            </div>
+                            <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary">
+                            </select>
+                            <p id="assignee_err" class="validation_msg">Assignee is a mandatory field.</p>
+                            <!--TODO Reminders for tasks-->
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button id="createButton" type="button" class="btn btn-primary" onclick="createTeam()">Create</button>
+                <button id="createButton" type="button" class="btn btn-primary" onclick="createTask()">Create</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
 
