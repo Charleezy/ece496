@@ -2,9 +2,13 @@
     color:#525252;
 }
 
-/*************************************
-            Module Details
-*************************************/
+.details_container {
+    margin:5px;
+}
+
+.more_details {
+    text-decoration:none;
+}
 
 .popoverDetails {
     display:none;
@@ -13,24 +17,3 @@
 .popover {
     min-width:276px;
 }
-
-/*************************************
-            Sign-in Modal
-*************************************/
-
-#signinEmail_err {
-    display:none;
-}
-
-#signinPassword_err {
-    display:none;
-}
-
-#pswdReset {
-    float:right;
-    cursor:pointer;
-}
-
-/*************************************
-           Register Modal
-*************************************/

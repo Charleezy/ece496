@@ -493,6 +493,7 @@
     <None Include="Models\Event.dbml.layout">
       <DependentUpon>Event.dbml</DependentUpon>
     </None>
+    <None Include="Properties\PublishProfiles\Calendar.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

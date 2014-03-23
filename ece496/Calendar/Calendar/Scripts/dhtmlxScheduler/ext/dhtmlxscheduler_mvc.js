@@ -1,0 +1,7 @@
+/*
+Copyright Dinamenta, UAB. http://www.dhtmlx.com
+To use this component please contact sales@dhtmlx.com to obtain license
+*/
+Scheduler.plugin(function(a){(function(){function d(b){var c={},a;for(a in b)a.indexOf("_")!==0&&(c[a]=b[a]);return c}function h(){clearTimeout(e);e=setTimeout(function(){a.updateView()},1)}function g(a){a._not_render=!1;a._render_wait&&a.render_view_data();a._loading=!1;a.callEvent("onXLE",[])}var e;a.backbone=function(b){b.bind("reset",function(){a.clearAll();a.parse(b.toJSON(),"json")});b.bind("change",function(c,b){if(b.changes&&b.changes.id){var f=c.previous("id");a.changeEventId(f,c.id)}var d=
+c.id;a._init_event(a._events[d]=c.toJSON());h()});b.bind("remove",function(c){a._events[c.id]&&a.deleteEvent(c.id)});b.bind("add",function(c){if(!a._events[c.id]){var b=c.toJSON();a._init_event(b);a.addEvent(b)}});b.bind("request",function(c){if(c instanceof Backbone.Collection){var b=a;b._loading=!0;b._not_render=!0;b.callEvent("onXLS",[])}});b.bind("sync",function(c){c instanceof Backbone.Collection&&g(a)});b.bind("error",function(c){c instanceof Backbone.Collection&&g(a)});a.attachEvent("onEventCreated",
+function(c){var d=new b.model(a.getEvent(c));a._events[c]=d.toJSON();return!0});a.attachEvent("onEventAdded",function(c){b.get(c)||b.add(new b.model(d(a.getEvent(c))));return!0});a.attachEvent("onEventChanged",function(c){var e=b.get(c),f=d(a.getEvent(c));e.set(f);return!0});a.attachEvent("onEventDeleted",function(a){b.get(a)&&b.remove(a);return!0})}})()});
