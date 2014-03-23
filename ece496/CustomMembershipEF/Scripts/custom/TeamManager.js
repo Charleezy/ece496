@@ -317,9 +317,14 @@ var leaveTeams = function () {
             $('#myTeams > tbody > tr').each(function () {
                 $(this).remove();
             });
+
+            $('#leaveTeam_button').addClass('disabled');
+            $('#sendInvite_button').addClass('disabled');
+
             var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
             spinner = new Spinner(spinoptions).spin(targ);
             populateTeamList();
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(errorThrown + textStatus);
