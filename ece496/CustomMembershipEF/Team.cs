@@ -11,7 +11,6 @@ namespace CustomMembershipEF
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Team
     {
@@ -20,7 +19,7 @@ namespace CustomMembershipEF
             this.Tasks = new HashSet<Task>();
             this.TeamMembers = new HashSet<TeamMember>();
         }
-
+    
         public int TeamID { get; set; }
         public string TeamName { get; set; }
         public Nullable<int> FK_CourseID { get; set; }

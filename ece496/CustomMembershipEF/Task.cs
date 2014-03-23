@@ -16,14 +16,14 @@ namespace CustomMembershipEF
     {
         public int TaskID { get; set; }
         public string TaskName { get; set; }
+        public string TaskDescription { get; set; }
         public Nullable<System.DateTime> TaskStartTime { get; set; }
         public Nullable<System.DateTime> TaskDeadline { get; set; }
         public Nullable<int> FKTeamID { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> FK_AssigneeID { get; set; }
-        public string TaskDescription { get; set; }
     
-        public virtual Team Team { get; set; }
         public virtual User User { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

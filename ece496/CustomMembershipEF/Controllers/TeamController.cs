@@ -69,7 +69,7 @@ namespace CustomMembershipEF.Controllers
         }
 
         /// <summary>
-        /// Adds a new entry to the Teams table.
+        /// Adds a new entry to the Teams table. Populate tasks with template tasks for coursetoken.
         /// </summary>
         /// <param name="teamname">Name of the team.</param>
         /// <param name="coursetoken">A code mapping to a course.</param>
@@ -100,6 +100,18 @@ namespace CustomMembershipEF.Controllers
 
                     var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
                     teamscontext.TeamMembers.Add(newMember);
+
+                    // Add all template tasks for coursetoken into tasks table
+                    List<CourseTemplate> template_tasks = teamscontext.CourseTemplates
+                                                                .Where(x => x.CourseID == course.CourseID)
+                                                                .ToList();
+
+                    foreach (CourseTemplate task in template_tasks)
+                    {
+                        Task newTask = new Task { TaskName = task.TaskName, TaskDescription = task.TaskDescription, FKTeamID = newTeam.TeamID, TaskDeadline = task.TaskDeadline, Status = 0 };
+
+                        teamscontext.Tasks.Add(newTask);
+                    }
 
                     teamscontext.SaveChanges();
 
