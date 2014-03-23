@@ -101,15 +101,15 @@
                     var task = data[i];
                 var newRow = table.insertRow(table.rows.length);//inserts row at last position
 
-                var taskName = newRow.insertCell(0);
-                var projectedStartDate = newRow.insertCell(1);
-                var deadline = newRow.insertCell(2);
-                var status = newRow.insertCell(3);
+                var select = newRow.insertCell(0);
+                var taskName = newRow.insertCell(1);
+                var projectedStartDate = newRow.insertCell(2);
+                var deadline = newRow.insertCell(3);
+                var status = newRow.insertCell(4);
 
-                /*var selectbox = document.createElement('input');
-                selectbox.className = 'test';
+                var selectbox = document.createElement('input');
                 selectbox.type = 'checkbox';
-                selectbox.id = team.TeamID;*/
+                selectbox.id = task.TaskID;
 
                 /*var memberconcat = "";
                 for (var j = 0; j < team.TeamMembers.length; j++) {
@@ -139,6 +139,7 @@
                 }
                 statusText = document.createTextNode(statusText);
 
+                select.appendChild(selectbox);
                 taskName.appendChild(nametext);
                 projectedStartDate.appendChild(projectedStartDateText);
                 deadline.appendChild(deadlineText );

@@ -77,7 +77,7 @@ namespace CustomMembershipEF.Controllers
 
             foreach (var task in team[0].Tasks)
             {
-                TaskTableItem item = new TaskTableItem { TaskID = task.FK_AssigneeID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
+                TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
                 taskinfo.Add(item);
             }
 
