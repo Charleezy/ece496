@@ -10,10 +10,14 @@
 namespace CustomMembershipEF
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class sp_helpdiagramdefinition_Result
+    public partial class CourseTemplate
     {
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int TemplateID { get; set; }
+        public int CourseID { get; set; }
+        public string TaskName { get; set; }
+        public string TaskDescription { get; set; }
+        public Nullable<System.DateTime> TaskDeadline { get; set; }
     }
 }
