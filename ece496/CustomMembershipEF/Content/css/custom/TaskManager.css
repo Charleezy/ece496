@@ -33,7 +33,7 @@ table td {
 }
 
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):after { 
-    content: " \25B4\25BE" 
+    content: " \25B4\25BE";
 }
 
 a {

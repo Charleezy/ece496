@@ -118,6 +118,14 @@ $(document).ready(function () {
             $('#decline').removeClass('disabled');
         }
     });
+
+    $('#help_icon').popover({
+        html: true,
+        trigger: "hover",
+        content: function () {
+            return $('#help_msg').html();
+        }
+    });
 });
 
 var inviteCount = function () {
