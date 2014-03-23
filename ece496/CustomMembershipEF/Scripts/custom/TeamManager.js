@@ -230,6 +230,7 @@ var createTeam = function () {
                     $('#myTeams > tbody > tr').each(function () {
                         $(this).remove();
                     });
+                    $('#noteams').hide();
                     var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
                     spinner = new Spinner(spinoptions).spin(targ);
                     populateTeamList();
@@ -296,6 +297,7 @@ var InviteResponse = function (resp) {
             $('#myTeams > tbody > tr').each(function () {
                 $(this).remove();
             });
+            $('#noteams').hide();
             var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
             spinner = new Spinner(spinoptions).spin(targ);
             populateTeamList();
@@ -307,35 +309,42 @@ var InviteResponse = function (resp) {
 }
 
 var leaveTeams = function () {
-    var selectedTeamsArray = new Array();
-    var x = 0;
-    $('#myTeams > tbody  > tr').each(function () {
-        if ($(this).find('input').attr('checked')) {
-            selectedTeamsArray[x] = $(this).find('input').attr('value');
-            x++;
-        }
-    });
+    var answer = confirm("Are you sure you want to leave these team?");
 
-    var selectedTeams = selectedTeamsArray.join(',');
+    if (answer == true) {
+        var selectedTeamsArray = new Array();
+        var x = 0;
+        $('#myTeams > tbody  > tr').each(function () {
+            if ($(this).find('input').attr('checked')) {
+                selectedTeamsArray[x] = $(this).find('input').attr('value');
+                x++;
+            }
+        });
 
-    $.ajax({
-        url: '/Team/LeaveTeams',
-        data: { teams: selectedTeams },
-        success: function (msg) {
-            $('#myTeams > tbody > tr').each(function () {
-                $(this).remove();
-            });
+        var selectedTeams = selectedTeamsArray.join(',');
 
-            $('#leaveTeam_button').addClass('disabled');
-            $('#sendInvite_button').addClass('disabled');
+        $.ajax({
+            url: '/Team/LeaveTeams',
+            data: { teams: selectedTeams },
+            success: function (msg) {
+                $('#myTeams > tbody > tr').each(function () {
+                    $(this).remove();
+                });
 
-            var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
-            spinner = new Spinner(spinoptions).spin(targ);
-            populateTeamList();
-            
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
-        }
-    });
+                $('#leaveTeam_button').addClass('disabled');
+                $('#sendInvite_button').addClass('disabled');
+
+                var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
+                spinner = new Spinner(spinoptions).spin(targ);
+                populateTeamList();
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown + textStatus);
+            }
+        });
+    }
+    else {
+
+    }
 }
