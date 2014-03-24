@@ -45,8 +45,16 @@ namespace CustomMembershipEF.Contexts
 
         public string GetUserName(int? userID)
         {
+            string username;
             var user = Users.SingleOrDefault(u => u.UserID == userID);
-            string username = user.Username;
+            if (user == null)
+            {
+                username = "";
+            }
+            else
+            {
+                username = user.Username;
+            } 
             return username;
         }
     }

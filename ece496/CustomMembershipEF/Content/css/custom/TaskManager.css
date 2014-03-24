@@ -47,3 +47,7 @@ li {
 #tabs, #ui-datepicker-div, .ui-datepicker { 
     font-size: 85%; 
 }
+
+th:hover {
+    cursor:pointer;
+}

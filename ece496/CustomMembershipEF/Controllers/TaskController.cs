@@ -77,26 +77,10 @@ namespace CustomMembershipEF.Controllers
 
             foreach (var task in team[0].Tasks)
             {
-                TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
+                string username = usersContext.GetUserName(task.FK_AssigneeID);
+                TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status, Assignee = username };
                 taskinfo.Add(item);
             }
-
-            /*foreach (var team in teamlist)
-            {
-                //The team and all its subdata. Not useful for this function
-                Team usersteam = teamsContext.Teams
-                                       .Where(x => x.TeamID == team.FK_TeamID)
-                                       .Single();
-
-                //list of tasks for each team
-                var tasklist = teamsContext.Tasks.Where(x => x.FKTeamID == team.FK_TeamID).ToList();
-                foreach (var task in tasklist)
-                {
-                    TaskTableItem taskitem = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.FK_AssigneeID.Value };
-
-                    taskinfo.Add(taskitem);
-                }
-            }*/
 
             usersContext.Dispose();
             teamsContext.Dispose();

@@ -94,9 +94,6 @@ $(document).ready(function () {
                         
                         $('.list-group').append(li);
                     }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown + textStatus);
                 }
             });
         }
@@ -140,9 +137,6 @@ var inviteCount = function () {
             else {
                 $('#wording').html('invitations');
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
         }
     });
 }
@@ -195,9 +189,6 @@ var populateTeamList = function () {
                 }
             }
             spinner.stop();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert("error");
         }
     });
 }
@@ -235,9 +226,6 @@ var createTeam = function () {
                     spinner = new Spinner(spinoptions).spin(targ);
                     populateTeamList();
                 }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown + textStatus);
             }
         });
     }
@@ -273,9 +261,6 @@ var sendInvite = function () {
                 else {
                     $('#sendInviteModal').modal('hide');
                 }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown + textStatus);
             }
         });
     }
@@ -301,9 +286,6 @@ var InviteResponse = function (resp) {
             var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
             spinner = new Spinner(spinoptions).spin(targ);
             populateTeamList();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert(errorThrown + textStatus);
         }
     });
 }
@@ -338,9 +320,6 @@ var leaveTeams = function () {
                 spinner = new Spinner(spinoptions).spin(targ);
                 populateTeamList();
 
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(errorThrown + textStatus);
             }
         });
     }
