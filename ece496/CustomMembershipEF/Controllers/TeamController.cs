@@ -97,23 +97,25 @@ namespace CustomMembershipEF.Controllers
 
                     var newTeam = new Team { TeamName = teamname, FK_CourseID = course.CourseID };
                     teamscontext.Teams.Add(newTeam);
-
+                    teamscontext.SaveChanges();
                     var newMember = new TeamMember { FK_UserID = uid, FK_TeamID = newTeam.TeamID };
                     teamscontext.TeamMembers.Add(newMember);
+                    teamscontext.SaveChanges();
 
                     // Add all template tasks for coursetoken into tasks table
                     List<CourseTemplate> template_tasks = teamscontext.CourseTemplates
                                                                 .Where(x => x.CourseID == course.CourseID)
                                                                 .ToList();
 
-                    foreach (CourseTemplate task in template_tasks)
+                    foreach (var task in template_tasks)
                     {
-                        Task newTask = new Task { TaskName = task.TaskName, TaskDescription = task.TaskDescription, FKTeamID = newTeam.TeamID, TaskDeadline = task.TaskDeadline, Status = 0 };
-
+                        var newTask = new Task { TaskName = task.TaskName, TaskDescription = task.TaskDescription, FKTeamID = newTeam.TeamID, TaskDeadline = task.TaskDeadline, Status = 0 };
                         teamscontext.Tasks.Add(newTask);
+                        teamscontext.SaveChanges();
+                        var newEvent = new Event { user = 0, text = task.TaskDescription, start_date = DateTime.Now, end_date = task.TaskDeadline, TaskID = newTask.TaskID };
+                        teamscontext.Events.Add(newEvent);
+                        teamscontext.SaveChanges();
                     }
-
-                    teamscontext.SaveChanges();
 
                     // Returns successfully
                     return null;
@@ -312,6 +314,13 @@ namespace CustomMembershipEF.Controllers
                             foreach (Task task in tasklist)
                             {
                                 teamsContext.Tasks.Remove(task);
+                                if (teamsContext.Events.Any(x => x.TaskID == task.TaskID))
+                                {
+                                    Event associated_event = teamsContext.Events
+                                                                .Where(x => x.TaskID == task.TaskID)
+                                                                .Single();
+                                    teamsContext.Events.Remove(associated_event);
+                                }
                             }
 
                             Team t = teamsContext.Teams.Where(x => x.TeamID == team_num).First();
