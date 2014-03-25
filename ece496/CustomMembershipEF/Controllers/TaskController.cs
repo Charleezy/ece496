@@ -75,9 +75,31 @@ namespace CustomMembershipEF.Controllers
                                    .Where(x => x.TeamID == TeamID)
                                    .ToList();
 
+            String assignee = "";
+            String taskDescription;
+            int taskDescriptionLength;
+            int numDescriptChars = 200;
             foreach (var task in team[0].Tasks)
             {
-                TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status };
+                foreach (var teamMember in team[0].TeamMembers)
+                {
+                    if (teamMember.FK_UserID == task.FK_AssigneeID)
+                    {
+                        assignee = teamMember.User.Firstname + " " + teamMember.User.Lastname[0];
+                    }
+                }
+
+                taskDescription = task.TaskDescription;
+                taskDescriptionLength = taskDescription.Length;
+                if(taskDescriptionLength < numDescriptChars)
+                {
+                }
+                else if (taskDescriptionLength > numDescriptChars)
+                {
+                    taskDescription = taskDescription.Substring(0, numDescriptChars) + "...";
+                }
+
+                TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskDescription = taskDescription, TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status, Assignee = assignee };
                 taskinfo.Add(item);
             }
 
@@ -153,7 +175,6 @@ namespace CustomMembershipEF.Controllers
                     }
                 }
                 throw;
-                return e.Message;
             }
             
         }

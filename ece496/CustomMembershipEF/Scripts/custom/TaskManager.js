@@ -103,9 +103,11 @@
 
                 var select = newRow.insertCell(0);
                 var taskName = newRow.insertCell(1);
-                var projectedStartDate = newRow.insertCell(2);
-                var deadline = newRow.insertCell(3);
-                var status = newRow.insertCell(4);
+                var taskDescription = newRow.insertCell(2);
+                var projectedStartDate = newRow.insertCell(3);
+                var deadline = newRow.insertCell(4);
+                var status = newRow.insertCell(5);
+                var assignee = newRow.insertCell(6);
 
                 var selectbox = document.createElement('input');
                 selectbox.type = 'checkbox';
@@ -124,8 +126,10 @@
                 }*/
 
                 var nametext = document.createTextNode(task.TaskName);
+                var taskDescriptionText = document.createTextNode(task.TaskDescription);
                 var projectedStartDateText = document.createTextNode(task.TaskStartTime);
                 var deadlineText = document.createTextNode(task.TaskDeadline);
+                var assigneeText = document.createTextNode(task.Assignee);
 
                 var statusText;
                 if (task.Status == 0)
@@ -141,9 +145,11 @@
 
                 select.appendChild(selectbox);
                 taskName.appendChild(nametext);
+                taskDescription.appendChild(taskDescriptionText);
                 projectedStartDate.appendChild(projectedStartDateText);
                 deadline.appendChild(deadlineText );
                 status.appendChild(statusText);
+                assignee.appendChild(assigneeText);
                 }
                 //spinner.stop();
                 },
