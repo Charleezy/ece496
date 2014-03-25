@@ -197,6 +197,8 @@
       <DependentUpon>ManagerEntity.tt</DependentUpon>
     </Compile>
     <Content Include="Content\css\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\img\groupuplogo.gif" />
+    <Content Include="Content\img\favicon.gif" />
     <Content Include="dhxscheduler.sample.mvc3.readme.txt" />
     <Content Include="Content\css\bootstrap-select.css" />
     <Content Include="Content\css\custom\TaskManager.css" />

@@ -8,11 +8,11 @@
     <div class="navbar-header" style="padding-left:30px;">
         @if (Request.IsAuthenticated)
         {
-            <a class="navbar-brand" href="@Url.Action("TeamManager", "User")" style="padding-right:0px; padding-left:0px; text-decoration: none;">GroupUp</a>
+            <a class="navbar-brand" href="@Url.Action("TeamManager", "User")" style="padding:0px; text-decoration: none;"><img src="../../Content/img/favicon.gif" /></a>
         }
         else
         {
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="padding-right:0px; padding-left:0px; text-decoration: none;">GroupUp</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="padding:0px; text-decoration: none;"><img src="../../Content/img/favicon.gif" /></a>
         }
     </div>
     <div class="navbar-collapse collapse">
@@ -20,12 +20,12 @@
             @if(Request.IsAuthenticated) 
             {
                 <text>Welcome <strong>@User.Identity.Name</strong>!
-                @Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none" }) </text>
+                @Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none;" }) </text>
             }
             else 
             {
-                @: @Html.ActionLink("Login", "LogOn", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none" })
-                @: @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none" })
+                @: @Html.ActionLink("Login", "LogOn", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none; padding:12px 12px;" })
+                @: @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success", @style = "text-decoration:none; padding:12px 12px;" })
             }
         </form>
     </div>
