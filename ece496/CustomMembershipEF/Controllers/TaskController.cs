@@ -75,7 +75,6 @@ namespace CustomMembershipEF.Controllers
                                    .Where(x => x.TeamID == TeamID)
                                    .ToList();
 
-            String assignee = "";
             String taskDescription;
             int taskDescriptionLength;
             int numDescriptChars = 200;

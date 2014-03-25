@@ -51,3 +51,8 @@ li {
 th:hover {
     cursor:pointer;
 }
+
+.validation_msg {
+    display:none;
+    color:red;
+}

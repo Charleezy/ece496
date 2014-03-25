@@ -4,6 +4,8 @@
 
 @section StyleSheet
 {
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/bootstrap.css" rel="stylesheet" />
     <link href="/Content/css/custom/user.css" rel="stylesheet" />
     <link href="/Content/css/custom/TaskManager.css" rel="stylesheet" />
     <link href="/Content/css/bootstrap-select.css" rel="stylesheet" />
@@ -13,12 +15,13 @@
 }
 
 @section JavaScript {
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
     <script src="/Scripts/custom/TaskManager.js"></script>
     <script src="/Scripts/bootstrap-select.js"></script>
     <script src="/Scripts/spin.min.js"></script>
     <script src="/Scripts/sorttable.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/Scripts/jquery-ui-timepicker-addon.js"></script>
 }
 
@@ -44,9 +47,9 @@
         <thead>
             <tr>
                 <th class="sorttable_nosort" style="width:5%"></th>
-                <th style="width:15%">Task</th>
+                <th style="width:15%">Task Name</th>
                 <th style="width:30%">Description</th>
-                <th style="width:15%">Projected Start Date</th>
+                <th style="width:15%">Start Date</th>
                 <th style="width:15%">Deadline</th>
                 <th style="width:10%">Status</th>
                 <th style="width:15%">Assignee</th>
@@ -71,45 +74,57 @@
 
             <div class="modal-body">
                 <div id="createtask_alert" class="alert alert-danger hidden"></div>
-                <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" action="/tagging" data-remote="true" method="post">
+                <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" data-remote="true" method="post">
                     <div class="form-container">
-                        <div class="form-group">
+                        <div class="teamName_container form-group">
+                            <div class="formLabel">
+                                <label for="teamName">Team</label>
+                            </div>
+                            <div class="formField">
+                                <input id="teamName" name="teamName" type="text" class="form-control" disabled />
+                                <div id="teamID" style="display:none"></div>
+                            </div>
+                        </div>
+                        <div class="taskName_container form-group">
                             <div class="formLabel">
                                 <label for="taskName">Task Name</label>
                             </div>
                             <div class="formField">
                                 <input id="taskName" name="taskName" type="text" class="form-control" />
                             </div>
-                            <p id="taskname_err" class="validation_msg">Task Name is a mandatory field.</p>
+                            <p id="taskname_err" class="validation_msg">Task Name is a required field.</p>
                         </div>
-                        <div class="form-group">
+                        <div class="taskDetails_container form-group">
                             <div class="formLabel">
                                 <label for="taskDetails">Task Details</label>
                             </div>
-                            <textarea id="taskDescription" rows=5 cols=75></textarea>
-                            <!--TODO default start and end times-->
-                            <div class="formLabel">
-                                <label for="taskTimes">Projected Start Time and Deadline</label>
+                            <textarea id="taskDescription" rows=5 style="width:100%; max-width:100%; max-height:400px; margin-bottom:10px;"></textarea>
+                        </div>
+                        <!--TODO default start and end times-->
+                        <div id="task_date_container form-group" style="margin-bottom:10px;width:100%">
+                            <div class="formLabel row" style="width:100%">
+                                <label class="col-md-6" for="taskTimes" style="float:left">Start Date</label>
+                                <label class="col-md-6" for="taskTimes" style="float:right">Deadline</label>
                             </div>
-                            <input type="text" name="taskStartTime" id="taskStartTime" value="" />
-                            <p id="taskStartTime_err" class="validation_msg">Task Start time is a mandatory field.</p>
-                            <input type="text" name="taskDeadline" id="taskDeadline" value="" />
-                            <p id="taskDeadline_err" class="validation_msg">Task Deadline is a mandatory field.</p>
-                            
-                            <div class="formLabel">
-                                <label for="taskTeam">Team</label>
+                            <div class="row" style="width:100%">
+                                <div class="col-md-6">
+                                    <input type="text" name="taskStartTime" id="taskStartTime" value="" />
+                                    <p id="taskStartTime_err" class="validation_msg">Required</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="taskDeadline" id="taskDeadline" value="" />
+                                    <p id="taskDeadline_err" class="validation_msg">Required</p>
+                                </div>
                             </div>
-                            <select name="team" id="team"></select>
-                            <p id="team_err" class="validation_msg">Task team is a mandatory field.</p>
+                        </div>
+                        <div class="assignee_container form-group">
                             <div class="formLabel">
-                                <label for="taskAssignee">Assignee</label>
+                                <label for="taskAssignee">Assign To</label>
                             </div>
-                            <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary">
+                            <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary" style="width:100%">
                             </select>
-                            <p id="assignee_err" class="validation_msg">Assignee is a mandatory field.</p>
-                            <!--TODO Reminders for tasks-->
+                        </div>
                     </div>
-                 </div>
                 </form>
             </div>
 
@@ -121,3 +136,4 @@
         </div>
     </div>
 </div>
+

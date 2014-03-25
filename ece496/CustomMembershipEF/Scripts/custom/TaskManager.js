@@ -44,8 +44,10 @@ $(document).ready(function () {
         }
     });
 
+    
+
     //Gets a list of teams for when you are creating a task
-    $.ajax({
+    /*$.ajax({
         url: '/Task/GetTeamList',
         success: function (data) {
             for (var i = 0, len = data.length; i < len; ++i) {
@@ -62,7 +64,7 @@ $(document).ready(function () {
                 }
             }
         }
-    });
+    });*/
 
     //Get a list of potential assignees for your new task
     //To be run whenever the team is changed
@@ -103,7 +105,70 @@ $(document).ready(function () {
         var id = $(this).val();
         populateTaskList(id);
     });
+
+    $('#createTask_button').click(function () {
+        // Populate team name for team that is currently selected
+        var teamName = $('#Select1').find(":selected").text();
+        var teamID = $('#Select1').find(":selected").val();
+        $('#teamName').val(teamName);
+        $('#teamID').html(teamID);
+
+        // Remove previous user list
+        $('#assignee').find('option').remove().end();
+
+        // Update list of team members belonging to the selected team
+        var selectedTeam = $('#Select1').val();
+        getTeamMembers(selectedTeam);
+    });
+
+    //When closing create task modal, clear fields
+    $('#createTaskModal').on('hidden.bs.modal', function () {
+        $('#taskname_err').hide();
+        $('#taskName').val("");
+
+        $('#taskDescription').val("");
+
+        $('#taskStartTime_err').hide();
+        $('#taskStartTime').val("");
+
+        $('#taskDeadline_err').hide();
+        $('#taskDeadline').val("");
+    });
+
+    $('#taskName').focus(function () {
+        $('#taskname_err').hide();
+    });
+
+    $('#taskStartTime').focus(function () {
+        $('#taskStartTime_err').hide();
+    });
+
+    $('#taskDeadline').focus(function () {
+        $('#taskDeadline_err').hide();
+    });
 });
+
+// Populates the assignee dropdown box
+var getTeamMembers = function (teamID) {
+    $.ajax({
+        url: '/Task/GetTeamMembers',
+        data: { TeamID: teamID },
+        success: function (data) {
+            var select = document.getElementById("assignee");
+            for (var i = 0, len = data.length; i < len; ++i) {
+                var option = document.createElement("option");
+                option.text = data[i].TeamMember;
+                option.value = data[i].TeamMemberID;
+                select.appendChild(option);
+                //After getting the first option, set it as the default assignee
+                //TODO, in the future have the assignee be you, or the pm. Configurable
+                if (i == 0) {
+                    select.firstChild.selected = "selected";
+                }
+            }
+        }
+    });
+}
 
 //NAH add which team a task is for
 //NAH task list should be initialized on page load, not just select
@@ -181,39 +246,28 @@ var populateTaskList = function (id) {
 }
 
 var createTask = function () {
-    var taskName = document.forms['createtask-modal-form'].taskName.value;
-    var taskDescription = document.forms['createtask-modal-form'].taskDescription.value;
-    var taskStartTime = document.forms['createtask-modal-form'].taskStartTime.value;
-    var taskDeadline = document.forms['createtask-modal-form'].taskDeadline.value;
-    var team = document.forms['createtask-modal-form'].team.value;
-    var assignee = document.forms['createtask-modal-form'].assignee.value;
+    var teamID = $('#teamID').text();
+    var taskName = $('#taskName').val();
+    var taskDescription = $('#taskDescription').val();
+    var taskStartTime = $('#taskStartTime').val();
+    var taskDeadline = $('#taskDeadline').val();
+    var assignee = $('#assignee').val();
 
-    if (taskName == "" || taskName == null || taskStartTime == "" || taskStartTime == null || taskDeadline == "" || taskDeadline == null || team == "" || team == null || assignee == "" || assignee == null) {
-        if (name == "" || name == null) {
-            $('#taskName').parent('div').addClass('has-error');
-            $('#taskName_err').show();
+    if (taskName == "" || taskName == null || taskStartTime == "" || taskStartTime == null || taskDeadline == "" || taskDeadline == null) {
+        if (taskName == "" || taskName == null) {
+            $('#taskname_err').show();
         }
         if (taskStartTime == "" || taskStartTime == null) {
-            $('#taskStartTime ').parent('div').addClass('has-error');
-            $('#taskStartTime_err ').show();
+            $('#taskStartTime_err').show();
         }
         if (taskDeadline == "" || taskDeadline == null) {
-            $('#taskDeadline ').parent('div').addClass('has-error');
-            $('#taskDeadline_err ').show();
-        }
-        if (team == "" || team == null) {
-            $('#team ').parent('div').addClass('has-error');
-            $('#team_err ').show();
-        }
-        if (assignee == "" || assignee == null) {
-            $('#assignee ').parent('div').addClass('has-error');
-            $('#assignee_err ').show();
+            $('#taskDeadline_err').show();
         }
     }
     else {
         $.ajax({
             url: '/Task/CreateTask',
-            data: { taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, assigneeID: assignee, teamID: team },
+            data: { taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, assigneeID: assignee, teamID: teamID },
             success: function (msg) {
                 if (msg) {
                     $('#createtask_alert').html(msg);
@@ -224,9 +278,11 @@ var createTask = function () {
                     $('#myTasks > tbody > tr').each(function () {
                         $(this).remove();
                     });
+                    $('#notasks').hide();
                     var targ1 = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
                     spinner = new Spinner(spinoptions).spin(targ1);
-                    populateTaskList();
+                    var selectedTeam = $('#Select1').val();
+                    populateTaskList(selectedTeam);
                 }
             }
         });
