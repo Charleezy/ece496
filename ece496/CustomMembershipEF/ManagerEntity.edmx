@@ -63,9 +63,9 @@
           </Key>
           <Property Name="TemplateID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CourseID" Type="int" Nullable="false" />
-          <Property Name="TaskName" Type="varchar" MaxLength="128" />
-          <Property Name="TaskDescription" Type="text" />
-          <Property Name="TaskDeadline" Type="datetime" />
+          <Property Name="TaskName" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="TaskDescription" Type="text" Nullable="false" />
+          <Property Name="TaskDeadline" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -93,6 +93,7 @@
           <Property Name="text" Type="nvarchar" MaxLength="250" />
           <Property Name="start_date" Type="datetime" Nullable="false" />
           <Property Name="end_date" Type="datetime" Nullable="false" />
+          <Property Name="TaskID" Type="int" />
         </EntityType>
         <EntityType Name="Invitations">
           <Key>
@@ -308,9 +309,9 @@
           </Key>
           <Property Name="TemplateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CourseID" Type="Int32" Nullable="false" />
-          <Property Name="TaskName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
-          <Property Name="TaskDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="TaskDeadline" Type="DateTime" Precision="3" />
+          <Property Name="TaskName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="TaskDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" Nullable="false" />
+          <Property Name="TaskDeadline" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <EntityType Name="CourseTime">
           <Key>
@@ -340,6 +341,7 @@
           <Property Name="text" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="TaskID" />
         </EntityType>
         <EntityType Name="Invitation">
           <Key>
@@ -552,6 +554,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="PM_Model.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user" ColumnName="user" />
                 <ScalarProperty Name="text" ColumnName="text" />

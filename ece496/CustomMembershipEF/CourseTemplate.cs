@@ -18,6 +18,6 @@ namespace CustomMembershipEF
         public int CourseID { get; set; }
         public string TaskName { get; set; }
         public string TaskDescription { get; set; }
-        public Nullable<System.DateTime> TaskDeadline { get; set; }
+        public System.DateTime TaskDeadline { get; set; }
     }
 }

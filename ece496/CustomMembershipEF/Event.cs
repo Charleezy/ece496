@@ -19,5 +19,6 @@ namespace CustomMembershipEF
         public string text { get; set; }
         public System.DateTime start_date { get; set; }
         public System.DateTime end_date { get; set; }
+        public Nullable<int> TaskID { get; set; }
     }
 }
