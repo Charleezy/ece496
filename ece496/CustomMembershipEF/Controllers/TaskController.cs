@@ -135,7 +135,7 @@ namespace CustomMembershipEF.Controllers
                     //int InsertedRows = teamsContext.Database.ExecuteSqlCommand("INSERT INTO PM.dbo.Tasks (\"TaskName\", \"TaskDescription\", \"TaskStartTime\", \"TaskDeadline\", \"FKTeamID\", \"Status\", \"FK_AssigneeID\") VALUES ('" + taskName + "' , '" + taskDescription + "' , '" + taskStartTime + "', '" + taskDeadline + "', + " + teamID + ", 0, " + assigneeID + ");");
 
                     // Create a new event for the created task
-                    var newEvent = new Event { user = assigneeID, text = taskDescription, start_date = taskStartTime, end_date = taskDeadline, TaskID = newTask.TaskID };
+                    var newEvent = new Event { user = assigneeID, text = taskName, start_date = taskStartTime, end_date = taskDeadline, TaskID = newTask.TaskID };
                     teamsContext.Events.Add(newEvent);
                     teamsContext.SaveChanges();
                 }

@@ -129,6 +129,7 @@
   <ItemGroup>
     <Compile Include="Contexts\UsersContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
@@ -204,6 +205,7 @@
     <Content Include="Content\css\custom\TaskManager.css" />
     <Content Include="ManagerEntity.edmx.sql" />
     <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Scripts\custom\Calendar.js" />
     <Content Include="Scripts\custom\TaskManager.js" />
     <Compile Include="Services\AccountMembershipService.cs" />
     <Compile Include="Services\FormsAuthenticationService.cs" />

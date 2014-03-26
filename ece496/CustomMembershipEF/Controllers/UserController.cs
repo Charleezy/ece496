@@ -87,7 +87,26 @@ namespace CustomMembershipEF.Controllers
             int uid = GetUserID(User.Identity.Name);
             ViewBag.uid = uid;
 
-            return View();
+            List<TeamMember> users_teams = new List<TeamMember>();
+            List<Team> team_list = new List<Team>();
+
+            using (var teamsContext = new PM_Entities())
+            {
+                users_teams = teamsContext.TeamMembers
+                                   .Where(x => x.FK_UserID == uid)
+                                   .ToList();
+
+                foreach (TeamMember team in users_teams)
+                {
+                    Team t = teamsContext.Teams
+                                        .Where(x => x.TeamID == team.FK_TeamID)
+                                        .Single();
+                    
+                    team_list.Add(t);
+                }
+            }
+
+            return View(team_list);
         }
 
         [Authorize]
