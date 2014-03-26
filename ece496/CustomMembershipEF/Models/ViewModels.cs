@@ -12,7 +12,11 @@ namespace CustomMembershipEF.Models
         public class TeamManagerViewModel
         {
             public int inviteCount { get; set; }
-            public List<TeamTableItem> teamList { get; set; }
+        }
+
+        public class TaskManagerViewModel
+        {
+            public List<Team> teamList { get; set; }
         }
     }
 }

@@ -2,6 +2,8 @@
     ViewBag.Title = "TaskManager";
 }
 
+@using CustomMembershipEF.Models;
+
 @section StyleSheet
 {
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
@@ -29,111 +31,131 @@
 
 <hr />
 
-<!-- currently creates tasks for the selected team-->
-<div>
-    <div class="btn-group">
-        <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus" ></span>  Create Task</button>
-    </div>
-
-    <div class="team-option">
-        Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
-                
-              </select>
-    </div>
-</div>
-
-<div class="tasklist">
-    <table id="myTasks" class="table table-hover sortable">
-        <thead>
-            <tr>
-                <th class="sorttable_nosort" style="width:5%"></th>
-                <th style="width:15%">Task Name</th>
-                <th style="width:30%">Description</th>
-                <th style="width:15%">Start Date</th>
-                <th style="width:15%">Deadline</th>
-                <th style="width:10%">Status</th>
-                <th style="width:15%">Assignee</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <div style="padding-left:10px">
-        <p id="notasks" style="display:none"><b>This team does not have any tasks.</b></p>
-    </div>
-</div>
-
-<!-- Create Task Modal -->
-<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="createTaskModalLabel">Create a Task</h4>
-            </div>
-
-            <div class="modal-body">
-                <div id="createtask_alert" class="alert alert-danger hidden"></div>
-                <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" data-remote="true" method="post">
-                    <div class="form-container">
-                        <div class="teamName_container form-group">
-                            <div class="formLabel">
-                                <label for="teamName">Team</label>
-                            </div>
-                            <div class="formField">
-                                <input id="teamName" name="teamName" type="text" class="form-control" disabled />
-                                <div id="teamID" style="display:none"></div>
-                            </div>
-                        </div>
-                        <div class="taskName_container form-group">
-                            <div class="formLabel">
-                                <label for="taskName">Task Name</label>
-                            </div>
-                            <div class="formField">
-                                <input id="taskName" name="taskName" type="text" class="form-control" />
-                            </div>
-                            <p id="taskname_err" class="validation_msg">Task Name is a required field.</p>
-                        </div>
-                        <div class="taskDetails_container form-group">
-                            <div class="formLabel">
-                                <label for="taskDetails">Task Details</label>
-                            </div>
-                            <textarea id="taskDescription" rows=5 style="width:100%; max-width:100%; max-height:400px; margin-bottom:10px;"></textarea>
-                        </div>
-                        <!--TODO default start and end times-->
-                        <div id="task_date_container form-group" style="margin-bottom:10px;width:100%">
-                            <div class="formLabel row" style="width:100%">
-                                <label class="col-md-6" for="taskTimes" style="float:left">Start Date</label>
-                                <label class="col-md-6" for="taskTimes" style="float:right">Deadline</label>
-                            </div>
-                            <div class="row" style="width:100%">
-                                <div class="col-md-6">
-                                    <input type="text" name="taskStartTime" id="taskStartTime" value="" />
-                                    <p id="taskStartTime_err" class="validation_msg">Required</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="taskDeadline" id="taskDeadline" value="" />
-                                    <p id="taskDeadline_err" class="validation_msg">Required</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="assignee_container form-group">
-                            <div class="formLabel">
-                                <label for="taskAssignee">Assign To</label>
-                            </div>
-                            <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary" style="width:100%">
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button id="createButton" type="button" class="btn btn-primary" onclick="createTask()">Create</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-
+@if (Model.teamList.Count == 0)
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> You currently do not belong to any teams</h3>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li>Navigate to the Team Manager page</li>
+                <li>Create a team and/or respond to an invitation from another user</li>
+                <li>Come back!</li>
+            </ul>
         </div>
     </div>
-</div>
+}
+else
+{
+    <!-- currently creates tasks for the selected team-->
+    <div>
+        <div class="btn-group">
+            <button id="createTask_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTaskModal"><span class="glyphicon glyphicon-plus" ></span>  Create Task</button>
+        </div>
+
+        <div class="team-option">
+            Team: <select id="Select1" class="selectpicker" data-style="btn-primary">
+                
+                  </select>
+        </div>
+    </div>
+
+    <div class="tasklist">
+        <table id="myTasks" class="table table-hover sortable">
+            <thead>
+                <tr>
+                    <th class="sorttable_nosort" style="width:5%"></th>
+                    <th style="width:15%">Task Name</th>
+                    <th style="width:30%">Description</th>
+                    <th style="width:15%">Start Date</th>
+                    <th style="width:15%">Deadline</th>
+                    <th style="width:10%">Status</th>
+                    <th style="width:15%">Assignee</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div style="padding-left:10px">
+            <p id="notasks" style="display:none"><b>This team does not have any tasks.</b></p>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="createTaskModalLabel">Create a Task</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="createtask_alert" class="alert alert-danger hidden"></div>
+                    <form id="createtask-modal-form" name="createtask-modal-form" accept-charset="UTF-8" data-remote="true" method="post">
+                        <div class="form-container">
+                            <div class="teamName_container form-group">
+                                <div class="formLabel">
+                                    <label for="teamName">Team</label>
+                                </div>
+                                <div class="formField">
+                                    <input id="teamName" name="teamName" type="text" class="form-control" disabled />
+                                    <div id="teamID" style="display:none"></div>
+                                </div>
+                            </div>
+                            <div class="taskName_container form-group">
+                                <div class="formLabel">
+                                    <label for="taskName">Task Name</label>
+                                </div>
+                                <div class="formField">
+                                    <input id="taskName" name="taskName" type="text" class="form-control" />
+                                </div>
+                                <p id="taskname_err" class="validation_msg">Task Name is a required field.</p>
+                            </div>
+                            <div class="taskDetails_container form-group">
+                                <div class="formLabel">
+                                    <label for="taskDetails">Task Details</label>
+                                </div>
+                                <textarea id="taskDescription" rows=5 style="width:100%; max-width:100%; max-height:400px; margin-bottom:10px;"></textarea>
+                            </div>
+                            <!--TODO default start and end times-->
+                            <div id="task_date_container form-group" style="margin-bottom:10px;width:100%">
+                                <div class="formLabel row" style="width:100%">
+                                    <label class="col-md-6" for="taskTimes" style="float:left">Start Date</label>
+                                    <label class="col-md-6" for="taskTimes" style="float:right">Deadline</label>
+                                </div>
+                                <div class="row" style="width:100%">
+                                    <div class="col-md-6">
+                                        <input type="text" name="taskStartTime" id="taskStartTime" value="" />
+                                        <p id="taskStartTime_err" class="validation_msg">Required</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="taskDeadline" id="taskDeadline" value="" />
+                                        <p id="taskDeadline_err" class="validation_msg">Required</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="assignee_container form-group">
+                                <div class="formLabel">
+                                    <label for="taskAssignee">Assign To</label>
+                                </div>
+                                <select name="assignee" id="assignee" class="selectpicker" data-style="btn-primary" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="createButton" type="button" class="btn btn-primary" onclick="createTask()">Create</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
 
