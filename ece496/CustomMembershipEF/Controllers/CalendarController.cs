@@ -11,6 +11,9 @@ namespace CustomMembershipEF.Controllers
 {
     public class CalendarController : Controller
     {
-        
+        public string SearchResults(int teamID, DateTime startDate, DateTime endDate, int numResults)
+        {
+            return null;
+        }
     }
 }
