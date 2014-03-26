@@ -112,7 +112,7 @@ namespace CustomMembershipEF.Controllers
                         var newTask = new Task { TaskName = task.TaskName, TaskDescription = task.TaskDescription, FKTeamID = newTeam.TeamID, TaskDeadline = task.TaskDeadline, Status = 0 };
                         teamscontext.Tasks.Add(newTask);
                         teamscontext.SaveChanges();
-                        var newEvent = new Event { user = 0, text = task.TaskName, start_date = DateTime.Now, end_date = task.TaskDeadline, TaskID = newTask.TaskID };
+                        var newEvent = new Event { user = 0, text = task.TaskName, start_date = DateTime.Now, end_date = task.TaskDeadline, TaskID = newTask.TaskID, type = "task", color = "#B5EBB5" };
                         teamscontext.Events.Add(newEvent);
                         teamscontext.SaveChanges();
                     }

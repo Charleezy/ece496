@@ -57,6 +57,12 @@ namespace Calendar.Controllers
             var action = new DataAction(actionValues);
             var changedEvent = (Event)DHXEventsHelper.Bind(typeof(Event), actionValues);
             changedEvent.user = uid.Value;
+            
+            if (changedEvent.type != "task")
+            {
+                changedEvent.type = "event";
+            }
+            
             var data = new EventDataContext();
 
             switch (action.Type)

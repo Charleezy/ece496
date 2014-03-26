@@ -94,6 +94,8 @@
           <Property Name="start_date" Type="datetime" Nullable="false" />
           <Property Name="end_date" Type="datetime" Nullable="false" />
           <Property Name="TaskID" Type="int" />
+          <Property Name="type" Type="varchar" MaxLength="50" />
+          <Property Name="color" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Invitations">
           <Key>
@@ -342,6 +344,8 @@
           <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="end_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Type="Int32" Name="TaskID" />
+          <Property Type="String" Name="type" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="color" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Invitation">
           <Key>
@@ -554,6 +558,8 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="PM_Model.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="type" ColumnName="type" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user" ColumnName="user" />

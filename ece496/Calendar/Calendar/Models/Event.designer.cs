@@ -90,6 +90,12 @@ namespace Calendar.Models
 		
 		private System.DateTime _end_date;
 		
+		private System.Nullable<int> _TaskID;
+		
+		private string _type;
+		
+		private string _color;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -104,6 +110,12 @@ namespace Calendar.Models
     partial void Onstart_dateChanged();
     partial void Onend_dateChanging(System.DateTime value);
     partial void Onend_dateChanged();
+    partial void OnTaskIDChanging(System.Nullable<int> value);
+    partial void OnTaskIDChanged();
+    partial void OntypeChanging(string value);
+    partial void OntypeChanged();
+    partial void OncolorChanging(string value);
+    partial void OncolorChanged();
     #endregion
 		
 		public Event()
@@ -207,6 +219,66 @@ namespace Calendar.Models
 					this._end_date = value;
 					this.SendPropertyChanged("end_date");
 					this.Onend_dateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskID", DbType="Int")]
+		public System.Nullable<int> TaskID
+		{
+			get
+			{
+				return this._TaskID;
+			}
+			set
+			{
+				if ((this._TaskID != value))
+				{
+					this.OnTaskIDChanging(value);
+					this.SendPropertyChanging();
+					this._TaskID = value;
+					this.SendPropertyChanged("TaskID");
+					this.OnTaskIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type", DbType="VarChar(50)")]
+		public string type
+		{
+			get
+			{
+				return this._type;
+			}
+			set
+			{
+				if ((this._type != value))
+				{
+					this.OntypeChanging(value);
+					this.SendPropertyChanging();
+					this._type = value;
+					this.SendPropertyChanged("type");
+					this.OntypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_color", DbType="VarChar(50)")]
+		public string color
+		{
+			get
+			{
+				return this._color;
+			}
+			set
+			{
+				if ((this._color != value))
+				{
+					this.OncolorChanging(value);
+					this.SendPropertyChanging();
+					this._color = value;
+					this.SendPropertyChanged("color");
+					this.OncolorChanged();
 				}
 			}
 		}
