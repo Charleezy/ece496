@@ -46,9 +46,10 @@ namespace CustomMembershipEF.Controllers
                 endDate_rounded = RoundDown(endDate);
                 endDate_compare = endDate_rounded.AddHours(-timeRequired);
             
-                while (count < numResults && startDate_rounded < endDate_compare)
+                while (count < numResults && startDate_rounded <= endDate_compare)
                 {
                     flag = 0;
+                    int event_count = 0;
                     DateTime endDate_temp = startDate_rounded.AddHours(timeRequired);
 
                     // Check team member schedules and compare with current startDate_rounded -> endDate_temp
@@ -57,13 +58,14 @@ namespace CustomMembershipEF.Controllers
                         // Check if there is an event where start_date > startDate_rounded and start_date < endDate_temp
                         // or if there is an event where end_date > startDate_rounded and end_date < endDate_temp
                         // If either is true, this time slot will not work for the team
-                        int event_count = teamsContext.Events
-                                            .Where(x => x.type == "event" && 
-                                                        x.user == member.FK_UserID &&
-                                                       (x.start_date > startDate_rounded && x.start_date < endDate_temp ||
-                                                        x.end_date > startDate_rounded && x.end_date < endDate_temp)
-                                                  )
-                                            .Count();
+                        event_count = teamsContext.Events
+                                                    .Where(x => x.type == "event" && 
+                                                                x.user == member.FK_UserID &&
+                                                               (x.start_date > startDate_rounded && x.start_date < endDate_temp ||
+                                                                x.end_date > startDate_rounded && x.end_date < endDate_temp ||
+                                                                x.start_date < startDate_rounded && x.end_date > endDate_temp)
+                                                          )
+                                                    .Count();
                         
                         if (event_count != 0)
                         {

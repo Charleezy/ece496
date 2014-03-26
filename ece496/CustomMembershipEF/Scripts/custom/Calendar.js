@@ -37,6 +37,7 @@ $(document).ready(function () {
         $('#results li').each(function () {
             $(this).remove();
         });
+        $('#no_results').hide();
     });
 });
 
@@ -56,6 +57,8 @@ var search = function () {
             $(this).remove();
         });
 
+        $('#no_results').hide();
+
         var targ = document.getElementById('results_body');
         spinner = new Spinner(spinoptions).spin(targ);
 
@@ -64,9 +67,16 @@ var search = function () {
             data: { teamID: teamID, startDate: startDate, endDate: endDate, numResults: numResults, timeRequired: timeRequired },
             success: function (data) {
                 spinner.stop();
-                for (var i = 0; i < data.length; i++) {
-                    $("#results").append('<li>' + data[i] + '</li>');
+
+                if (data.length) {
+                    for (var i = 0; i < data.length; i++) {
+                        $("#results").append('<li>' + data[i] + '</li>');
+                    }
                 }
+                else {
+                    $('#no_results').show();
+                }
+                
             }
         });
     }
