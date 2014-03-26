@@ -116,9 +116,10 @@ namespace CustomMembershipEF.Controllers
             {
                 int userid;
 
-                var usersContext = new UsersContext();
-
-                userid = usersContext.GetUserId(User.Identity.Name);
+                using (var usersContext = new UsersContext())
+                {
+                    userid = usersContext.GetUserId(User.Identity.Name);
+                }
 
                 using (var teamsContext = new PM_Entities())
                 {
@@ -127,16 +128,20 @@ namespace CustomMembershipEF.Controllers
                                            .Where(x => x.TeamID == teamID)
                                            .ToList();
 
+                    // Create a new task in Tasks table
+                    var newTask = new Task { TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID = assigneeID };
+                    teamsContext.Tasks.Add(newTask);
+                    teamsContext.SaveChanges();
+                    //int InsertedRows = teamsContext.Database.ExecuteSqlCommand("INSERT INTO PM.dbo.Tasks (\"TaskName\", \"TaskDescription\", \"TaskStartTime\", \"TaskDeadline\", \"FKTeamID\", \"Status\", \"FK_AssigneeID\") VALUES ('" + taskName + "' , '" + taskDescription + "' , '" + taskStartTime + "', '" + taskDeadline + "', + " + teamID + ", 0, " + assigneeID + ");");
 
-
-                    //var newTask = new Task {TaskName = taskName, TaskDescription = taskDescription,  TaskStartTime = taskStartTime, TaskDeadline = taskDeadline, FKTeamID = teamID, Status = 0, FK_AssigneeID=assigneeID };
-                    //teamsContext.Tasks.Add(newTask);
-
-                    //teamsContext.SaveChanges();
-                    int InsertedRows = teamsContext.Database.ExecuteSqlCommand("INSERT INTO PM.dbo.Tasks (\"TaskName\", \"TaskDescription\", \"TaskStartTime\", \"TaskDeadline\", \"FKTeamID\", \"Status\", \"FK_AssigneeID\") VALUES ('" + taskName + "' , '" + taskDescription + "' , '" + taskStartTime + "', '" + taskDeadline + "', + " + teamID + ", 0, " + assigneeID + ");");
-
-                    return null;
+                    // Create a new event for the created task
+                    var newEvent = new Event { user = assigneeID, text = taskDescription, start_date = taskStartTime, end_date = taskDeadline, TaskID = newTask.TaskID };
+                    teamsContext.Events.Add(newEvent);
+                    teamsContext.SaveChanges();
                 }
+
+                //Return Successfully
+                return null;
             }
             catch (DbEntityValidationException e)
             {
@@ -152,7 +157,6 @@ namespace CustomMembershipEF.Controllers
                 }
                 throw;
             }
-            
         }
 
         /// Gets the team members for a selected team
@@ -176,7 +180,7 @@ namespace CustomMembershipEF.Controllers
             foreach (var member in teamlist[0].TeamMembers)
             {
                 //TODO ask Daniele, if I'm only returning one type of parameter (maybe 3 entries of it for 3 team members), do I need to define a TeamMembersDropdown class?
-                TeamMembersDropdownMenu item = new TeamMembersDropdownMenu { TeamMember = member.User.Firstname, TeamMemberID = member.User.UserID};
+                TeamMembersDropdownMenu item = new TeamMembersDropdownMenu { TeamMember = member.User.Username, TeamMemberID = member.User.UserID};
                 teamMembers.Add(item);
             }
 
