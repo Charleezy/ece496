@@ -10,6 +10,7 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
     <script src="/Scripts/custom/Calendar.js"></script>
+    <script src="/Scripts/spin.min.js"></script>
     <script src="/Scripts/bootstrap-select.js"></script>
     <script type="text/javascript" src="/Scripts/jquery-ui-timepicker-addon.js"></script>
 }
@@ -132,7 +133,7 @@
                     <h3 class="panel-title" style="float:left">Results</h3>
                     <button id="clear_results" class="btn btn-primary" style="float:right"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
-                <div class="panel-body" style="overflow-y:auto;height:215px">
+                <div id="results_body" class="panel-body" style="overflow-y:auto;height:200px">
                     <ul id="results">
                     </ul>
                 </div>
