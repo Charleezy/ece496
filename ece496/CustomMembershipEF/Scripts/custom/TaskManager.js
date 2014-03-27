@@ -99,8 +99,8 @@ $(document).ready(function () {
         getTeamMembers_create(selectedTeam);
     });
 
-    //When closing create task modal, clear fields
     $('#createTaskModal').on('hidden.bs.modal', function () {
+        // Hide validation error messages and clear form fields
         $('#taskname_err').hide();
         $('#taskName').val("");
 
@@ -113,6 +113,13 @@ $(document).ready(function () {
         $('#taskDeadline').val("");
     });
 
+    $('#editTaskModal').on('hidden.bs.modal', function () {
+        // Hide validation error messages
+        $('#edit_taskname_err').hide();
+        $('#edit_taskStartTime_err').hide();
+        $('#edit_taskDeadline_err').hide();
+    });
+
     $('#taskName').focus(function () {
         $('#taskname_err').hide();
     });
@@ -123,6 +130,18 @@ $(document).ready(function () {
 
     $('#taskDeadline').focus(function () {
         $('#taskDeadline_err').hide();
+    });
+
+    $('#edit_taskName').focus(function () {
+        $('#edit_taskname_err').hide();
+    });
+
+    $('#edit_taskStartTime').focus(function () {
+        $('#edit_taskStartTime_err').hide();
+    });
+
+    $('#edit_taskDeadline').focus(function () {
+        $('#edit_taskDeadline_err').hide();
     });
 
     $('#myTasks').on('mouseover', 'tr', function () {
@@ -338,6 +357,39 @@ var createTask = function () {
     }
 }
 
+var editTask = function () {
+    var taskID = $('#edit_taskID').text();
+    var taskName = $('#edit_taskName').val();
+    var taskDescription = $('#edit_taskDetails').val();
+    var taskStartTime = $('#edit_taskStartTime').val();
+    var taskDeadline = $('#edit_taskDeadline').val();
+    var status = $('#edit_status').val();
+    var assignee = $('#edit_assignee').val();
+
+    // Validate form
+    if (taskName == "" || taskName == null || taskStartTime == "" || taskStartTime == null || taskDeadline == "" || taskDeadline == null) {
+        if (taskName == "" || taskName == null) {
+            $('#edit_taskname_err').show();
+        }
+        if (taskStartTime == "" || taskStartTime == null) {
+            $('#edit_taskStartTime_err').show();
+        }
+        if (taskDeadline == "" || taskDeadline == null) {
+            $('#edit_taskDeadline_err').show();
+        }
+    }
+    else {
+        $.ajax({
+            url: '/Task/EditTask',
+            data: { taskID: taskID, taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, status: status, assigneeID: assignee },
+            success: function (msg) {
+                alert("success");
+            }
+        });
+    }
+}
+
+// Initialize date pickers for modal forms
 $(function () {
     $('#taskStartTime').datetimepicker();
     $('#taskDeadline').datetimepicker();
