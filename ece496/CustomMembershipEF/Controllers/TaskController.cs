@@ -215,5 +215,27 @@ namespace CustomMembershipEF.Controllers
 
             return Json(teamMembers, JsonRequestBehavior.AllowGet);
         }
+
+        public string DeleteTasks(string tasks)
+        {
+            string[] taskArray = tasks.Split(',');
+
+            using (var teamsContext = new PM_Entities())
+            {
+                foreach (var task in taskArray)
+                {
+                    int taskID = Convert.ToInt32(task);
+
+                    Task delete_task = teamsContext.Tasks.Where(x => x.TaskID == taskID).Single();
+                    teamsContext.Tasks.Remove(delete_task);
+
+                    Event associated_event = teamsContext.Events.Where(x => x.TaskID == taskID).Single();
+                    teamsContext.Events.Remove(associated_event);
+                }
+                teamsContext.SaveChanges();
+            }
+
+            return null;
+        }
     }
 }

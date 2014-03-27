@@ -68,6 +68,15 @@ $(document).ready(function () {
         });
     })*/
 
+    $('#myTasks').on('click', 'input[type=checkbox]', function () {
+        if ($('#myTasks input:checkbox:checked').length > 0) {
+            $('#deleteTask_button').removeClass('disabled');
+        }
+        else {
+            $('#deleteTask_button').addClass('disabled');
+        }
+    });
+
     // When a user selects a new team in dropdown menu
     $("#Select1").change(function () {
         $('#myTasks > tbody > tr').each(function() {
@@ -171,8 +180,6 @@ $(document).ready(function () {
         $('#edit_taskDetails').html(taskDetails);
         $('#edit_taskStartTime').val(startDate);
         $('#edit_taskDeadline').val(deadline);
-        //$('#edit_status').html(taskDetails);
-        //$('#edit_assignee').html(taskDetails);
 
         // Remove previous user list
         $('#edit_assignee').find('option').remove().end();
@@ -386,6 +393,43 @@ var editTask = function () {
                 alert("success");
             }
         });
+    }
+}
+
+var deleteTasks = function () {
+    var answer = confirm("Are you sure you want to permanently delete these tasks?");
+
+    if (answer == true) {
+        var selectedTasksArray = new Array();
+        var x = 0;
+        $('#myTasks > tbody  > tr').each(function () {
+            if ($(this).find('input').is(':checked')) {
+                selectedTasksArray[x] = $(this).find('input').attr('value');
+                x++;
+            }
+        });
+
+        var selectedTasks = selectedTasksArray.join(',');
+        
+        $.ajax({
+            url: '/Task/DeleteTasks',
+            data: { tasks: selectedTasks },
+            success: function (msg) {
+                $('#myTasks > tbody > tr').each(function () {
+                    $(this).remove();
+                });
+
+                $('#deleteTask_button').addClass('disabled');
+
+                var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
+                spinner = new Spinner(spinoptions).spin(targ);
+                var selectedTeam = $('#Select1').val();
+                populateTaskList(selectedTeam);
+            }
+        });
+    }
+    else {
+
     }
 }
 
