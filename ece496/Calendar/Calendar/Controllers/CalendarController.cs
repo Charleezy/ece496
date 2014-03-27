@@ -23,6 +23,7 @@ namespace Calendar.Controllers
             }
 
             var scheduler = new DHXScheduler(this);
+            scheduler.Extensions.Add(SchedulerExtensions.Extension.Readonly);
 
             scheduler.Skin = DHXScheduler.Skins.Glossy;
             scheduler.InitialDate = DateTime.Now;
@@ -34,7 +35,7 @@ namespace Calendar.Controllers
             scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
 
             scheduler.Config.first_hour = 9;
-
+            
             return View(scheduler);
         }
 
@@ -57,6 +58,7 @@ namespace Calendar.Controllers
             var action = new DataAction(actionValues);
             var changedEvent = (Event)DHXEventsHelper.Bind(typeof(Event), actionValues);
             changedEvent.user = uid.Value;
+            
             
             if (changedEvent.type != "task")
             {

@@ -67,11 +67,12 @@ else
                 <tr>
                     <th class="sorttable_nosort" style="width:5%"></th>
                     <th style="width:15%">Task Name</th>
-                    <th style="width:30%">Description</th>
+                    <th style="width:22%">Description</th>
                     <th style="width:15%">Start Date</th>
                     <th style="width:15%">Deadline</th>
                     <th style="width:10%">Status</th>
-                    <th style="width:15%">Assignee</th>
+                    <th style="width:15%">Assigned To</th>
+                    <th class="sorttable_nosort" style="width:8%;"></th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -149,6 +150,92 @@ else
 
                 <div class="modal-footer">
                     <button id="createButton" type="button" class="btn btn-primary" onclick="createTask()">Create</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Task Modal -->
+    <div class="modal fade" id="editTaskModal" tabindex="-1" role="dialog" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="editTaskModalLabel">Edit Task</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="edittask_alert" class="alert alert-danger hidden"></div>
+                    <form id="edittask-modal-form" name="edittask-modal-form" accept-charset="UTF-8" data-remote="true" method="post">
+                        <div class="form-container">
+                            <div class="teamName_container form-group">
+                                <div class="formLabel">
+                                    <label for="edit_teamName">Team</label>
+                                </div>
+                                <div class="formField">
+                                    <input id="edit_teamName" name="edit_teamName" type="text" class="form-control" disabled />
+                                    <div id="edit_teamID" style="display:none"></div>
+                                    <div id="edit_taskID" style="display:none"></div>
+                                </div>
+                            </div>
+                            <div class="taskName_container form-group">
+                                <div class="formLabel">
+                                    <label for="edit_taskName">Task Name</label>
+                                </div>
+                                <div class="formField">
+                                    <input id="edit_taskName" name="edit_taskName" type="text" class="form-control" />
+                                </div>
+                                <p id="edit_taskname_err" class="validation_msg">Task Name is a required field.</p>
+                            </div>
+                            <div class="taskDetails_container form-group">
+                                <div class="formLabel">
+                                    <label for="edit_taskDetails">Task Details</label>
+                                </div>
+                                <textarea id="edit_taskDetails" rows=5 style="width:100%; max-width:100%; max-height:400px; margin-bottom:10px;"></textarea>
+                            </div>
+                            <!--TODO default start and end times-->
+                            <div class="task_date_container form-group" style="margin-bottom:10px;width:100%">
+                                <div class="formLabel row" style="width:100%">
+                                    <label class="col-md-6" for="edit_taskStartTime" style="float:left">Start Date</label>
+                                    <label class="col-md-6" for="edit_taskDeadline" style="float:right">Deadline</label>
+                                </div>
+                                <div class="row" style="width:100%">
+                                    <div class="col-md-6">
+                                        <input type="text" name="edit_taskStartTime" id="edit_taskStartTime" value="" />
+                                        <p id="edit_taskStartTime_err" class="validation_msg">Required</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="edit_taskDeadline" id="edit_taskDeadline" value="" />
+                                        <p id="edit_taskDeadline_err" class="validation_msg">Required</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="status_container form-group">
+                                <div class="formLabel">
+                                    <label for="edit_status">Status</label>
+                                </div>
+                                <select name="edit_status" id="edit_status" class="selectpicker form-control" data-style="btn-primary" style="width:100%">
+                                    <option value="0">To do</option>
+                                    <option value="1">In Progress</option>
+                                    <option value="2">Complete</option>
+                                </select>
+                            </div>
+                            <div class="assignee_container form-group">
+                                <div class="formLabel">
+                                    <label for="edit_assignee">Assign To</label>
+                                </div>
+                                <select name="edit_assignee" id="edit_assignee" class="selectpicker form-control" data-style="btn-primary" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="editButton" type="button" class="btn btn-primary" onclick="editTask()">Save Changes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
 

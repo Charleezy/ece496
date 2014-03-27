@@ -44,31 +44,9 @@ $(document).ready(function () {
         }
     });
 
-    
-
-    //Gets a list of teams for when you are creating a task
-    /*$.ajax({
-        url: '/Task/GetTeamList',
-        success: function (data) {
-            for (var i = 0, len = data.length; i < len; ++i) {
-                var option = document.createElement("option");
-                option.text = data[i].TeamName;
-                option.value = data[i].TeamID;
-                var select = document.getElementById("team");
-                select.appendChild(option);
-                //After getting the first option, set it as the default project
-                //TODO, in the future have the currently selected team (team dropdown outside modal) be the default team.
-                if (i == 0) {
-                    select.firstChild.selected = "selected";
-                    $("#team").change();
-                }
-            }
-        }
-    });*/
-
     //Get a list of potential assignees for your new task
     //To be run whenever the team is changed
-    $("#team").change(function () {
+    /*$("#team").change(function () {
         var selectedTeam = document.forms['createtask-modal-form'].team.value;
         $.ajax({
             url: '/Task/GetTeamMembers',
@@ -88,7 +66,7 @@ $(document).ready(function () {
                 }
             }
         });
-    })
+    })*/
 
     // When a user selects a new team in dropdown menu
     $("#Select1").change(function () {
@@ -118,7 +96,7 @@ $(document).ready(function () {
 
         // Update list of team members belonging to the selected team
         var selectedTeam = $('#Select1').val();
-        getTeamMembers(selectedTeam);
+        getTeamMembers_create(selectedTeam);
     });
 
     //When closing create task modal, clear fields
@@ -146,15 +124,79 @@ $(document).ready(function () {
     $('#taskDeadline').focus(function () {
         $('#taskDeadline_err').hide();
     });
+
+    $('#myTasks').on('mouseover', 'tr', function () {
+        $(this).find('.edit_button').show();
+    });
+
+    $('#myTasks').on('mouseleave', 'tr', function () {
+        $(this).find('.edit_button').hide();
+    });
+
+    $('#myTasks').on('click', '.edit_button', function () {
+        // Get data for current row
+        var teamName = $('#Select1').find(":selected").text();
+        var teamID = $('#Select1').find(":selected").val();
+        var taskID = $(this).parent().parent().find('td:eq(0) > input').val();
+        var taskname = $(this).parent().parent().find('td:eq(1)').text();
+        var taskDetails = $(this).parent().parent().find('td:eq(2)').text();
+        var startDate = $(this).parent().parent().find('td:eq(3)').text();
+        var deadline = $(this).parent().parent().find('td:eq(4)').text();
+        var status = $(this).parent().parent().find('td:eq(5)').text();
+        
+        // Populate modal with current data
+        $('#edit_teamName').val(teamName);
+        $('#edit_teamID').html(teamID);
+        $('#edit_taskID').html(taskID);
+        $('#edit_taskName').val(taskname);
+        $('#edit_taskDetails').html(taskDetails);
+        $('#edit_taskStartTime').val(startDate);
+        $('#edit_taskDeadline').val(deadline);
+        //$('#edit_status').html(taskDetails);
+        //$('#edit_assignee').html(taskDetails);
+
+        // Remove previous user list
+        $('#edit_assignee').find('option').remove().end();
+
+        // Populate assignee list
+        var selectedTeam = $('#Select1').val();
+        getTeamMembers_edit(selectedTeam);
+       
+        $('#editTaskModal').modal('show');
+    });
 });
 
-// Populates the assignee dropdown box
-var getTeamMembers = function (teamID) {
+// Populates the assignee dropdown box for edit task modal
+var getTeamMembers_edit = function (teamID) {
+    $.ajax({
+        url: '/Task/GetTeamMembers',
+        data: { TeamID: teamID },
+        success: function (data) {
+            var select = document.getElementById("edit_assignee");
+
+            for (var i = 0, len = data.length; i < len; ++i) {
+                var option = document.createElement("option");
+                option.text = data[i].TeamMember;
+                option.value = data[i].TeamMemberID;
+                select.appendChild(option);
+                //After getting the first option, set it as the default assignee
+                //TODO, in the future have the assignee be you, or the pm. Configurable
+                if (i == 0) {
+                    select.firstChild.selected = "selected";
+                }
+            }
+        }
+    });
+}
+
+// Populates the assignee dropdown box for create task modal
+var getTeamMembers_create = function (teamID) {
     $.ajax({
         url: '/Task/GetTeamMembers',
         data: { TeamID: teamID },
         success: function (data) {
             var select = document.getElementById("assignee");
+
             for (var i = 0, len = data.length; i < len; ++i) {
                 var option = document.createElement("option");
                 option.text = data[i].TeamMember;
@@ -206,6 +248,7 @@ var populateTaskList = function (id) {
                 var deadline = newRow.insertCell(4);
                 var status = newRow.insertCell(5);
                 var assignee = newRow.insertCell(6);
+                var edit = newRow.insertCell(7);
 
                 var selectbox = document.createElement('input');
                 selectbox.type = 'checkbox';
@@ -219,17 +262,22 @@ var populateTaskList = function (id) {
 
                 var statusText;
                 if (task.Status == 0)
-                    statusText = "Not Started";
+                    statusText = "To do";
                 else if (task.Status == 1)
-                    statusText = "InProgress";
+                    statusText = "In Progress";
                 else if (task.Status == 2)
-                    statusText = "Finished";
+                    statusText = "Complete";
                 else {
                     statusText = "Undefined"
                 }
                 statusText = document.createTextNode(statusText);
 
                 var assigneeText = document.createTextNode(task.Assignee);
+
+                var editButton = document.createElement("SPAN");
+                editButton.className = "glyphicon glyphicon-edit edit_button";
+                editButton.style.cursor = "pointer";
+                editButton.style.display = "none";
 
                 select.appendChild(selectbox);
                 taskName.appendChild(nametext);
@@ -238,6 +286,7 @@ var populateTaskList = function (id) {
                 deadline.appendChild(deadlineText);
                 status.appendChild(statusText);
                 assignee.appendChild(assigneeText);
+                edit.appendChild(editButton);
             }
             // Stop spinner after table is populated
             spinner.stop();
@@ -292,23 +341,7 @@ var createTask = function () {
 $(function () {
     $('#taskStartTime').datetimepicker();
     $('#taskDeadline').datetimepicker();
+
+    $('#edit_taskStartTime').datetimepicker();
+    $('#edit_taskDeadline').datetimepicker();
 });
-
-/**populates assignees dropdown when creating tasks
-* JUNK
-**/
-/*var populateAssignee = function () {
-
-    var assignee = document.getElementById("assignee");//.getElementsByTagName('assignee');
-    //console.log(assignee);
-
-    $.ajax({
-    url: '/Task/GetTeamMembers',
-        success: function (data) {
-            var option = document.createElement("option");
-            option.text = "Charlie";
-            option.value = "7";
-            assignee.appendChild(option);
-        }
-    });
-}*/

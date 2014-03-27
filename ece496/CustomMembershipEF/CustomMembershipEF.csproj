@@ -200,10 +200,8 @@
     <Content Include="Content\css\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\img\groupuplogo.gif" />
     <Content Include="Content\img\favicon.gif" />
-    <Content Include="dhxscheduler.sample.mvc3.readme.txt" />
     <Content Include="Content\css\bootstrap-select.css" />
     <Content Include="Content\css\custom\TaskManager.css" />
-    <Content Include="ManagerEntity.edmx.sql" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\custom\Calendar.js" />
     <Content Include="Scripts\custom\TaskManager.js" />
