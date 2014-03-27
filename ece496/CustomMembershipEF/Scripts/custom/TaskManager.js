@@ -177,7 +177,7 @@ $(document).ready(function () {
         $('#edit_teamID').html(teamID);
         $('#edit_taskID').html(taskID);
         $('#edit_taskName').val(taskname);
-        $('#edit_taskDetails').html(taskDetails);
+        $('#edit_taskDetails').val(taskDetails);
         $('#edit_taskStartTime').val(startDate);
         $('#edit_taskDeadline').val(deadline);
 
@@ -390,7 +390,18 @@ var editTask = function () {
             url: '/Task/UpdateTask',
             data: { taskID: taskID, taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, status: status, assigneeID: assignee },
             success: function (msg) {
-                alert("success");
+                $('#editTaskModal').modal('hide');
+
+                $('#myTasks > tbody > tr').each(function () {
+                    $(this).remove();
+                });
+
+                $('#deleteTask_button').addClass('disabled');
+
+                var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
+                spinner = new Spinner(spinoptions).spin(targ);
+                var selectedTeam = $('#Select1').val();
+                populateTaskList(selectedTeam);
             }
         });
     }
