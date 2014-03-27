@@ -179,7 +179,6 @@ namespace CustomMembershipEF.Controllers
                                            .Where(x => x.TaskID == taskID)
                                            .FirstOrDefault();
 
-                    task.TaskID = taskID;
                     task.TaskName = taskName;
                     task.TaskDescription = taskDescription;
                     task.TaskStartTime = taskStartTime;
