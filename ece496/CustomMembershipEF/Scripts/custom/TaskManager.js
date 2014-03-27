@@ -380,7 +380,7 @@ var editTask = function () {
     }
     else {
         $.ajax({
-            url: '/Task/EditTask',
+            url: '/Task/UpdateTask',
             data: { taskID: taskID, taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, status: status, assigneeID: assignee },
             success: function (msg) {
                 alert("success");

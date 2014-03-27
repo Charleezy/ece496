@@ -76,13 +76,14 @@ namespace CustomMembershipEF.Controllers
                                    .ToList();
 
             String taskDescription;
-            int taskDescriptionLength;
-            int numDescriptChars = 200;
+            //Stuff used to shrink length of task description. Removed because editing gets task description from front end.
+            /*int taskDescriptionLength;
+            int numDescriptChars = 200;*/
             foreach (var task in team[0].Tasks)
             {
                 string username = usersContext.GetUserName(task.FK_AssigneeID);
-				
 				taskDescription = task.TaskDescription;
+                /*
                 taskDescriptionLength = taskDescription.Length;
                 if(taskDescriptionLength < numDescriptChars)
                 {
@@ -90,7 +91,7 @@ namespace CustomMembershipEF.Controllers
                 else if (taskDescriptionLength > numDescriptChars)
                 {
                     taskDescription = taskDescription.Substring(0, numDescriptChars) + "...";
-                }
+                }*/
 				
 				TaskTableItem item = new TaskTableItem { TaskID = task.TaskID, TaskName = task.TaskName, TaskDescription = taskDescription,TaskStartTime = task.TaskStartTime.ToString(), TaskDeadline = task.TaskDeadline.ToString(), Status = task.Status, Assignee = username };
                 taskinfo.Add(item);
@@ -157,6 +158,55 @@ namespace CustomMembershipEF.Controllers
                 }
                 throw;
             }
+        }
+
+        //Gets as input  taskID taskName taskDescription taskStartTime taskDeadline status assigneeID
+        public string UpdateTask(int taskID, string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int status, int assigneeID)
+        {
+            try
+            {
+                int userid;
+
+                using (var usersContext = new UsersContext())
+                {
+                    userid = usersContext.GetUserId(User.Identity.Name);
+                }
+
+                using (var tasksContext = new PM_Entities())
+                {
+                    //Just the single team selected and all the data under it
+                    var task = tasksContext.Tasks
+                                           .Where(x => x.TaskID == taskID)
+                                           .FirstOrDefault();
+
+                    task.TaskID = taskID;
+                    task.TaskName = taskName;
+                    task.TaskDescription = taskDescription;
+                    task.TaskStartTime = taskStartTime;
+                    task.TaskDeadline = taskDeadline;
+                    task.Status = status;
+                    task.FK_AssigneeID = assigneeID;
+                    tasksContext.SaveChanges();
+                }
+
+                //Return Successfully
+                return null;
+            }
+            catch(DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    System.Diagnostics.Debug.Write("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:" +
+                        eve.Entry.Entity.GetType().Name + eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.Write("- Property: \"{0}\", Error: \"{1}\"" +
+                            ve.PropertyName + ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+            
         }
 
         /// Gets the team members for a selected team
