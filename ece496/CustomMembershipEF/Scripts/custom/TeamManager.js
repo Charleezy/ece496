@@ -291,7 +291,6 @@ var leaveTeams = function () {
         $('#myTeams > tbody  > tr').each(function () {
             // User .is checked for newer versions of JQuery
             if ($(this).find('input').attr('checked')) {
-                alert("here");
                 selectedTeamsArray[x] = $(this).find('input').attr('value');
                 x++;
             }
