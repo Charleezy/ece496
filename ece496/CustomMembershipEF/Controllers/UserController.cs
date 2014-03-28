@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
@@ -13,15 +12,18 @@ namespace CustomMembershipEF.Controllers
 {
     public class UserController : Controller
     {
+        /// <summary>
+        /// Get a user's userID
+        /// </summary>
+        /// <param name="username">Name of the user</param>
+        /// <returns>ID of the user</returns>
         public int GetUserID(string username)
         {
             int uid;
-
             using (var usersContext = new UsersContext())
             {
                 uid = usersContext.GetUserId(username);
             }
-
             return uid;
         }
 
@@ -31,6 +33,10 @@ namespace CustomMembershipEF.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Entry point to the Team Manager View
+        /// </summary>
+        /// <returns>Team Manager View</returns>
         [Authorize]
         public ActionResult TeamManager()
         {
@@ -51,6 +57,10 @@ namespace CustomMembershipEF.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Entry point to the Task Manager View
+        /// </summary>
+        /// <returns>Task Manager View</returns>
         [Authorize]
         public ActionResult TaskManager()
         {
@@ -81,6 +91,10 @@ namespace CustomMembershipEF.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Entry point to the Calendar view
+        /// </summary>
+        /// <returns>Calendar View</returns>
         [Authorize]
         public ActionResult Calendar()
         {
@@ -109,6 +123,10 @@ namespace CustomMembershipEF.Controllers
             return View(team_list);
         }
 
+        /// <summary>
+        /// Entry point to the Settings view
+        /// </summary>
+        /// <returns>Settings View</returns>
         [Authorize]
         public ActionResult Settings()
         {

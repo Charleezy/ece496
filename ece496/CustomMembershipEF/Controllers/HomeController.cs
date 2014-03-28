@@ -8,6 +8,10 @@ namespace CustomMembershipEF.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Entry point to the home page of the application
+        /// </summary>
+        /// <returns>Index View</returns>
         public ActionResult Index()
         {
             return View();

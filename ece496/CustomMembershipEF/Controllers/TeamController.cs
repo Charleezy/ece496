@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 using CustomMembershipEF.Models;
 using CustomMembershipEF.Contexts;
 using System.Data.SqlClient;
