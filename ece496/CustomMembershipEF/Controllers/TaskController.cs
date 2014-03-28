@@ -140,7 +140,7 @@ namespace CustomMembershipEF.Controllers
                     teamsContext.Events.Add(newEvent);
                     teamsContext.SaveChanges();
                 }
-
+                
                 //Return Successfully
                 return null;
             }
@@ -160,24 +160,27 @@ namespace CustomMembershipEF.Controllers
             }
         }
 
-        //Gets as input  taskID taskName taskDescription taskStartTime taskDeadline status assigneeID
+        /// <summary>
+        /// Updates an existing task with the provided parameters
+        /// </summary>
+        /// <param name="taskID">TaskID of the updated task</param>
+        /// <param name="taskName">Name of the updated task</param>
+        /// <param name="taskDescription">Description of the updated task</param>
+        /// <param name="taskStartTime">Start time of the updated task</param>
+        /// <param name="taskDeadline">Deadline of the updated task</param>
+        /// <param name="status">Current status of the updated task</param>
+        /// <param name="assigneeID">UserID of the user assigned to the task</param>
+        /// <returns>A message representing the status of the update procedure</returns>
         public string UpdateTask(int taskID, string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int status, int assigneeID)
         {
             try
             {
-                int userid;
-
-                using (var usersContext = new UsersContext())
-                {
-                    userid = usersContext.GetUserId(User.Identity.Name);
-                }
-
                 using (var tasksContext = new PM_Entities())
                 {
-                    //Just the single team selected and all the data under it
-                    var task = tasksContext.Tasks
-                                           .Where(x => x.TaskID == taskID)
-                                           .FirstOrDefault();
+                    // Get task with taskID and update its parameters
+                    Task task = tasksContext.Tasks
+                                            .Where(x => x.TaskID == taskID)
+                                            .FirstOrDefault();
 
                     task.TaskName = taskName;
                     task.TaskDescription = taskDescription;
@@ -185,27 +188,36 @@ namespace CustomMembershipEF.Controllers
                     task.TaskDeadline = taskDeadline;
                     task.Status = status;
                     task.FK_AssigneeID = assigneeID;
+                    
+                    // Update the task's corresponding event
+                    Event updated_event = tasksContext.Events
+                                                      .Where(x => x.TaskID == taskID)
+                                                      .FirstOrDefault();
+
+                    updated_event.text = taskName;
+                    updated_event.start_date = taskStartTime;
+                    updated_event.end_date = taskDeadline;
+                    updated_event.user = assigneeID;
+
                     tasksContext.SaveChanges();
                 }
-
-                //Return Successfully
-                return null;
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    System.Diagnostics.Debug.Write("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:" +
-                        eve.Entry.Entity.GetType().Name + eve.Entry.State);
+                    System.Diagnostics.Debug.Write("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:" + eve.Entry.Entity.GetType().Name + eve.Entry.State);
+
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        System.Diagnostics.Debug.Write("- Property: \"{0}\", Error: \"{1}\"" +
-                            ve.PropertyName + ve.ErrorMessage);
+                        System.Diagnostics.Debug.Write("- Property: \"{0}\", Error: \"{1}\"" + ve.PropertyName + ve.ErrorMessage);
                     }
                 }
                 throw;
             }
-            
+
+            //Return Successfully
+            return null;
         }
 
         /// Gets the team members for a selected team
@@ -233,34 +245,9 @@ namespace CustomMembershipEF.Controllers
                 teamMembers.Add(item);
             }
 
-            /*foreach (var team in teamlist)
-            {
-                Team usersteam = teamsContext.Teams
-                                       .Where(x => x.TeamID == team.FK_TeamID)
-                                       .Single();
-
-                //all team members for a given team
-                var members = teamsContext.TeamMembers
-                                        .Where(x => x.FK_TeamID == team.FK_TeamID)
-                                        .Select(y => y.FK_UserID)
-                                        .ToArray();
-
-                foreach (var memberID in members)
-                {
-                    string membername = usersContext.GetUserName(memberID);
-                    teammembers.Add(membername);
-                }
-
-                string[] myarray = teammembers.ToArray();
-                teammembers.Clear();
-
-                TeamTableItem teamitem = new TeamTableItem { TeamMembers = myarray };
-
-                teaminfo.Add(teamitem);
-            }
 
             usersContext.Dispose();
-            teamsContext.Dispose();*/
+            teamsContext.Dispose();
 
             return Json(teamMembers, JsonRequestBehavior.AllowGet);
         }
