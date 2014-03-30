@@ -51,7 +51,7 @@ namespace CustomMembershipEF.Controllers
 
             if (startDate >= endDate)
             {
-                List<string> err = new List<string> { "Error", "Earliest date must be less than latest date." };
+                List<string> err = new List<string> { "Error", "Earliest Date must be less than Latest Date. Please try again." };
                 return Json(err, JsonRequestBehavior.AllowGet);
             }
 

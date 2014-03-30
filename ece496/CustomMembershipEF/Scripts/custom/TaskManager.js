@@ -96,6 +96,8 @@ $(document).ready(function () {
 
         $('#taskDeadline_err').hide();
         $('#taskDeadline').val("");
+
+        $('#createtask_alert').hide();
     });
 
     $('#editTaskModal').on('hidden.bs.modal', function () {
