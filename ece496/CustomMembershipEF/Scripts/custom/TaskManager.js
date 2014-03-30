@@ -103,6 +103,7 @@ $(document).ready(function () {
         $('#edit_taskname_err').hide();
         $('#edit_taskStartTime_err').hide();
         $('#edit_taskDeadline_err').hide();
+        $('#edittask_alert').hide();
     });
 
     $('#taskName').focus(function () {
@@ -111,10 +112,12 @@ $(document).ready(function () {
 
     $('#taskStartTime').focus(function () {
         $('#taskStartTime_err').hide();
+        $('#createtask_alert').hide();
     });
 
     $('#taskDeadline').focus(function () {
         $('#taskDeadline_err').hide();
+        $('#createtask_alert').hide();
     });
 
     $('#edit_taskName').focus(function () {
@@ -123,10 +126,12 @@ $(document).ready(function () {
 
     $('#edit_taskStartTime').focus(function () {
         $('#edit_taskStartTime_err').hide();
+        $('#edittask_alert').hide();
     });
 
     $('#edit_taskDeadline').focus(function () {
         $('#edit_taskDeadline_err').hide();
+        $('#edittask_alert').hide();
     });
 
     $('#myTasks').on('mouseover', 'tr', function () {
@@ -324,7 +329,7 @@ var createTask = function () {
             success: function (msg) {
                 if (msg) {
                     $('#createtask_alert').html(msg);
-                    $('#createteam_alert').show();
+                    $('#createtask_alert').show();
                 }
                 else {
                     $('#createTaskModal').modal('hide');
@@ -371,19 +376,26 @@ var editTask = function () {
             url: '/Task/UpdateTask',
             data: { taskID: taskID, taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, status: status, assigneeID: assignee },
             success: function (msg) {
-                $('#editTaskModal').modal('hide');
+                if (msg) {
+                    $('#edittask_alert').html(msg);
+                    $('#edittask_alert').show();
+                }
+                else {
+                    $('#editTaskModal').modal('hide');
 
-                $('#myTasks > tbody > tr').each(function () {
-                    $(this).remove();
-                });
+                    $('#myTasks > tbody > tr').each(function () {
+                        $(this).remove();
+                    });
 
-                $('#deleteTask_button').addClass('disabled');
+                    $('#deleteTask_button').addClass('disabled');
+                    $('#editButton').removeClass("disabled");
+
+                    var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
+                    spinner = new Spinner(spinoptions).spin(targ);
+                    var selectedTeam = $('#Select1').val();
+                    populateTaskList(selectedTeam);
+                }
                 $('#editButton').removeClass("disabled");
-
-                var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
-                spinner = new Spinner(spinoptions).spin(targ);
-                var selectedTeam = $('#Select1').val();
-                populateTaskList(selectedTeam);
             }
         });
     }

@@ -69,9 +69,15 @@ var search = function () {
                 spinner.stop();
 
                 if (data.length) {
-                    for (var i = 0; i < data.length; i++) {
-                        $("#results").append('<li>' + data[i] + '</li>');
+                    if (data[0] == "Error") {
+                        alert(data[1]);
                     }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#results").append('<li>' + data[i] + '</li>');
+                        }
+                    }
+                    
                 }
                 else {
                     $('#no_results').show();

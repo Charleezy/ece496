@@ -55,33 +55,47 @@ namespace Calendar.Controllers
 
         public ContentResult Save(int? id, FormCollection actionValues)
         {
+            var event_data = new EventDataContext();
+            var task_data = new TaskDataContext();
+            Task this_task;
+
             var action = new DataAction(actionValues);
             var changedEvent = (Event)DHXEventsHelper.Bind(typeof(Event), actionValues);
             changedEvent.user = uid.Value;
-            
-            
+
             if (changedEvent.type != "task")
             {
                 changedEvent.type = "event";
-            }
+            }      
             
-            var data = new EventDataContext();
-
             switch (action.Type)
             {
                 case DataActionTypes.Insert: // define here your Insert logic
-                    data.Events.InsertOnSubmit(changedEvent);
+                    event_data.Events.InsertOnSubmit(changedEvent);
                     break;
                 case DataActionTypes.Delete: // define here your Delete logic
-                    changedEvent = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
-                    data.Events.DeleteOnSubmit(changedEvent);
+                    if (changedEvent.type == "task")
+                    {
+                        this_task = task_data.Tasks.Where(t => t.TaskID == changedEvent.TaskID).Single();
+                        task_data.Tasks.DeleteOnSubmit(this_task);
+                    }
+                    changedEvent = event_data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
+                    event_data.Events.DeleteOnSubmit(changedEvent);
                     break;
                 default:// "update" // define here your Update logic
-                    var eventToUpdate = data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
+                    if (changedEvent.type == "task")
+                    {
+                        this_task = task_data.Tasks.Where(t => t.TaskID == changedEvent.TaskID).Single();
+                        this_task.TaskName = changedEvent.text;
+                        this_task.TaskStartTime = changedEvent.start_date;
+                        this_task.TaskDeadline = changedEvent.end_date;
+                    }
+                    var eventToUpdate = event_data.Events.SingleOrDefault(ev => ev.id == action.SourceId);
                     DHXEventsHelper.Update(eventToUpdate, changedEvent, new List<string>() { "id" });//update all properties, except for id
                     break;
             }
-            data.SubmitChanges();
+            event_data.SubmitChanges();
+            task_data.SubmitChanges();
             action.TargetId = changedEvent.id;
 
             var result = new AjaxSaveResponse(action);

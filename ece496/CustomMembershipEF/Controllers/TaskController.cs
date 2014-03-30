@@ -127,6 +127,12 @@ namespace CustomMembershipEF.Controllers
         /// <returns>A message representing the status of the create procedure</returns>
         public string CreateTask(string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int assigneeID, int teamID)
         {
+            if (taskStartTime >= taskDeadline)
+            {
+                string err = "Start Date must be less than Deadline.";
+                return err;
+            }
+
             try
             {
                 int userid;
@@ -184,6 +190,12 @@ namespace CustomMembershipEF.Controllers
         /// <returns>A message representing the status of the update procedure</returns>
         public string UpdateTask(int taskID, string taskName, string taskDescription, DateTime taskStartTime, DateTime taskDeadline, int status, int assigneeID)
         {
+            if (taskStartTime >= taskDeadline)
+            {
+                string err = "Start Date must be less than Deadline.";
+                return err;
+            }
+
             try
             {
                 using (var tasksContext = new PM_Entities())

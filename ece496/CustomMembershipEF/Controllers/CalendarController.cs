@@ -46,6 +46,25 @@ namespace CustomMembershipEF.Controllers
         /// <returns>A list of possible meeting time</returns>
         public JsonResult SearchResults(int teamID, DateTime startDate, DateTime endDate, int numResults, int timeRequired)
         {
+            DateTime start_output;
+            DateTime end_output;
+
+            if (startDate >= endDate)
+            {
+                List<string> err = new List<string> { "Error", "Earliest date must be less than latest date." };
+                return Json(err, JsonRequestBehavior.AllowGet);
+            }
+
+            if (DateTime.TryParse(startDate.ToString(), out start_output) || DateTime.TryParse(endDate.ToString(), out end_output))
+            {
+                // Dates are valid
+            }
+            else
+            {
+                List<string> err2 = new List<string> { "Error", "Your date formats are incorrect. Please try again." };
+                return Json(err2, JsonRequestBehavior.AllowGet);
+            }
+
             int count = 0, flag = 0, event_count = 0;
             DateTime startDate_rounded, endDate_rounded, endDate_compare;
             List<string> results = new List<string>();
