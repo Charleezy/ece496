@@ -200,6 +200,7 @@ var createTeam = function () {
         }
     }
     else {
+        $('#createButton').addClass("disabled");
         $.ajax({
             url: '/Team/CreateTeam',
             data: { teamname: name, coursetoken: token },
@@ -218,6 +219,7 @@ var createTeam = function () {
                     spinner = new Spinner(spinoptions).spin(targ);
                     populateTeamList();
                 }
+                $('#createButton').removeClass("disabled");
             }
         });
     }
@@ -231,8 +233,11 @@ var sendInvite = function () {
         $('#username_err').show();
     }
     else {
+        $('#inviteButton').addClass("disabled");
+
         var selectedTeamsArray = new Array();
         var x = 0;
+
         $('#myTeams > tbody  > tr').each(function () {
             if ($(this).find('input').attr('checked')) {
                 selectedTeamsArray[x] = $(this).find('input').attr('value');
@@ -241,7 +246,7 @@ var sendInvite = function () {
         });
 
         var selectedTeams = selectedTeamsArray.join(',');
-
+        
         $.ajax({
             url: '/Team/SendInvite',
             data: { sendto: username, teams: selectedTeams },
@@ -253,6 +258,7 @@ var sendInvite = function () {
                 else {
                     $('#sendInviteModal').modal('hide');
                 }
+                $('#inviteButton').removeClass("disabled");
             }
         });
     }
@@ -286,6 +292,10 @@ var leaveTeams = function () {
     var answer = confirm("Are you sure you want to leave these team?");
 
     if (answer == true) {
+        $('#createTeam_button').addClass("disabled");
+        $('#leaveTeam_button').addClass("disabled");
+        $('#sendInvite_button').addClass("disabled");
+
         var selectedTeamsArray = new Array();
         var x = 0;
         $('#myTeams > tbody  > tr').each(function () {
@@ -306,13 +316,11 @@ var leaveTeams = function () {
                     $(this).remove();
                 });
 
-                $('#leaveTeam_button').addClass('disabled');
-                $('#sendInvite_button').addClass('disabled');
+                $('#createTeam_button').removeClass("disabled");
 
                 var targ = document.getElementById('myTeams').getElementsByTagName('tbody')[0];
                 spinner = new Spinner(spinoptions).spin(targ);
                 populateTeamList();
-
             }
         });
     }

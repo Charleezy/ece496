@@ -44,30 +44,6 @@ $(document).ready(function () {
         }
     });
 
-    //Get a list of potential assignees for your new task
-    //To be run whenever the team is changed
-    /*$("#team").change(function () {
-        var selectedTeam = document.forms['createtask-modal-form'].team.value;
-        $.ajax({
-            url: '/Task/GetTeamMembers',
-            data: { TeamID: selectedTeam },
-            success: function (data) {
-                for (var i = 0, len = data.length; i < len; ++i) {
-                    var option = document.createElement("option");
-                    option.text = data[i].TeamMember;
-                    option.value = data[i].TeamMemberID;
-                    var select = document.getElementById("assignee");
-                    select.appendChild(option);
-                    //After getting the first option, set it as the default assignee
-                    //TODO, in the future have the assignee be you, or the pm. Configurable
-                    if (i == 0) {
-                        select.firstChild.selected = "selected";
-                    }
-                }
-            }
-        });
-    })*/
-
     $('#myTasks').on('click', 'input[type=checkbox]', function () {
         if ($('#myTasks input:checkbox:checked').length > 0) {
             $('#deleteTask_button').removeClass('disabled');
@@ -340,6 +316,8 @@ var createTask = function () {
         }
     }
     else {
+        $('#createButton').addClass("disabled");
+
         $.ajax({
             url: '/Task/CreateTask',
             data: { taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, assigneeID: assignee, teamID: teamID },
@@ -359,6 +337,7 @@ var createTask = function () {
                     var selectedTeam = $('#Select1').val();
                     populateTaskList(selectedTeam);
                 }
+                $('#createButton').removeClass("disabled");
             }
         });
     }
@@ -386,6 +365,8 @@ var editTask = function () {
         }
     }
     else {
+        $('#editButton').addClass("disabled");
+
         $.ajax({
             url: '/Task/UpdateTask',
             data: { taskID: taskID, taskName: taskName, taskDescription: taskDescription, taskStartTime: taskStartTime, taskDeadline: taskDeadline, status: status, assigneeID: assignee },
@@ -397,6 +378,7 @@ var editTask = function () {
                 });
 
                 $('#deleteTask_button').addClass('disabled');
+                $('#editButton').removeClass("disabled");
 
                 var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
                 spinner = new Spinner(spinoptions).spin(targ);
@@ -411,6 +393,9 @@ var deleteTasks = function () {
     var answer = confirm("Are you sure you want to permanently delete these tasks?");
 
     if (answer == true) {
+        $('#deleteTask_button').addClass("disabled");
+        $('#createTask_button').addClass("disabled");
+
         var selectedTasksArray = new Array();
         var x = 0;
         $('#myTasks > tbody  > tr').each(function () {
@@ -430,8 +415,8 @@ var deleteTasks = function () {
                     $(this).remove();
                 });
 
-                $('#deleteTask_button').addClass('disabled');
-
+                $('#createTask_button').removeClass("disabled");
+                
                 var targ = document.getElementById('myTasks').getElementsByTagName('tbody')[0];
                 spinner = new Spinner(spinoptions).spin(targ);
                 var selectedTeam = $('#Select1').val();
