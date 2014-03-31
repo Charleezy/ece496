@@ -11,11 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Objects.SqlClient;
+using System.Timers;
 
 namespace EventNotifier
 {
     public partial class Service1 : ServiceBase
     {
+        Timer createOrderTimer;
+
         public Service1()
         {
             InitializeComponent();
@@ -50,10 +53,21 @@ namespace EventNotifier
 
         protected override void OnStart(string[] args)
         {
+            createOrderTimer = new Timer();
+            createOrderTimer.Elapsed += new System.Timers.ElapsedEventHandler(PollDatabase);
+            createOrderTimer.Interval = 900000; // 15 min
+            createOrderTimer.Enabled = true;
+            createOrderTimer.AutoReset = true;
+            createOrderTimer.Start();
+        }
+
+        public void PollDatabase(object sender, ElapsedEventArgs args)
+        {
             using (var taskContext = new TaskDataContext())
             {
-                List<Task> notify_tasks = taskContext.Tasks.Where(x => (x.TaskDeadline <= DateTime.Now.AddHours(1) && x.TaskDeadline >= DateTime.Now) && (x.alerted == false || x.alerted == null)).ToList();
-                //List<Task> notify_tasks = taskContext.Tasks.Where(x => x.Status == 2).ToList();
+                // Convert DateTime.Now from UTC to EST
+                List<Task> notify_tasks = taskContext.Tasks.Where(x => (x.TaskDeadline <= DateTime.Now.AddHours(-3) && x.TaskDeadline >= DateTime.Now.AddHours(-4)) && (x.alerted == false || x.alerted == null)).ToList();
+                
                 foreach (var task in notify_tasks)
                 {
                     using (var userContext = new UserDataContext())
@@ -76,6 +90,7 @@ namespace EventNotifier
 
         protected override void OnStop()
         {
+
         }
     }
 }

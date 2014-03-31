@@ -17,6 +17,7 @@ namespace EventNotifier
 #if DEBUG
             Service1 myService = new Service1();
             myService.OnDebug();
+            System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[] 
