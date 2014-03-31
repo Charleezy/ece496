@@ -141,7 +141,7 @@
           <Property Name="TaskName" Type="varchar" MaxLength="128" />
           <Property Name="TaskDescription" Type="text" />
           <Property Name="TaskStartTime" Type="datetime" />
-          <Property Name="TaskDeadline" Type="datetime" />
+          <Property Name="TaskDeadline" Type="datetime" Nullable="false" />
           <Property Name="FKTeamID" Type="int" />
           <Property Name="Status" Type="int" />
           <Property Name="FK_AssigneeID" Type="int" />
@@ -391,7 +391,7 @@
           <Property Name="TaskName" Type="String" MaxLength="128" Unicode="false" FixedLength="false" />
           <Property Name="TaskDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="TaskStartTime" Type="DateTime" Precision="3" />
-          <Property Name="TaskDeadline" Type="DateTime" Precision="3" />
+          <Property Name="TaskDeadline" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="FKTeamID" Type="Int32" />
           <Property Name="Status" Type="Int32" />
           <Property Name="FK_AssigneeID" Type="Int32" />

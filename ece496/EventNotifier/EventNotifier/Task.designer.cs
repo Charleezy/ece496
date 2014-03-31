@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Calendar.Models
+namespace EventNotifier
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -36,7 +36,7 @@ namespace Calendar.Models
     #endregion
 		
 		public TaskDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PMConnectionString"].ConnectionString, mappingSource)
+				base(global::EventNotifier.Properties.Settings.Default.PMConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -88,13 +88,15 @@ namespace Calendar.Models
 		
 		private System.Nullable<System.DateTime> _TaskStartTime;
 		
-		private System.Nullable<System.DateTime> _TaskDeadline;
+		private System.DateTime _TaskDeadline;
 		
 		private System.Nullable<int> _FKTeamID;
 		
 		private System.Nullable<int> _Status;
 		
 		private System.Nullable<int> _FK_AssigneeID;
+		
+		private System.Nullable<bool> _alerted;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -108,7 +110,7 @@ namespace Calendar.Models
     partial void OnTaskDescriptionChanged();
     partial void OnTaskStartTimeChanging(System.Nullable<System.DateTime> value);
     partial void OnTaskStartTimeChanged();
-    partial void OnTaskDeadlineChanging(System.Nullable<System.DateTime> value);
+    partial void OnTaskDeadlineChanging(System.DateTime value);
     partial void OnTaskDeadlineChanged();
     partial void OnFKTeamIDChanging(System.Nullable<int> value);
     partial void OnFKTeamIDChanged();
@@ -116,6 +118,8 @@ namespace Calendar.Models
     partial void OnStatusChanged();
     partial void OnFK_AssigneeIDChanging(System.Nullable<int> value);
     partial void OnFK_AssigneeIDChanged();
+    partial void OnalertedChanging(System.Nullable<bool> value);
+    partial void OnalertedChanged();
     #endregion
 		
 		public Task()
@@ -203,8 +207,8 @@ namespace Calendar.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskDeadline", DbType="DateTime")]
-		public System.Nullable<System.DateTime> TaskDeadline
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TaskDeadline", DbType="DateTime NOT NULL")]
+		public System.DateTime TaskDeadline
 		{
 			get
 			{
@@ -279,6 +283,26 @@ namespace Calendar.Models
 					this._FK_AssigneeID = value;
 					this.SendPropertyChanged("FK_AssigneeID");
 					this.OnFK_AssigneeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alerted", DbType="Bit")]
+		public System.Nullable<bool> alerted
+		{
+			get
+			{
+				return this._alerted;
+			}
+			set
+			{
+				if ((this._alerted != value))
+				{
+					this.OnalertedChanging(value);
+					this.SendPropertyChanging();
+					this._alerted = value;
+					this.SendPropertyChanged("alerted");
+					this.OnalertedChanged();
 				}
 			}
 		}

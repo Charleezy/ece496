@@ -18,7 +18,7 @@ namespace CustomMembershipEF
         public string TaskName { get; set; }
         public string TaskDescription { get; set; }
         public Nullable<System.DateTime> TaskStartTime { get; set; }
-        public Nullable<System.DateTime> TaskDeadline { get; set; }
+        public System.DateTime TaskDeadline { get; set; }
         public Nullable<int> FKTeamID { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> FK_AssigneeID { get; set; }

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PM" Class="UserDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=54.218.14.4;Initial Catalog=PM;User ID=sa" SettingsObjectName="EventNotifier.Properties.Settings" SettingsPropertyName="PMConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Firstname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Lastname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Reputation" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SchoolID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>
