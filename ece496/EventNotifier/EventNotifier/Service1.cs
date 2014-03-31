@@ -76,6 +76,11 @@ namespace EventNotifier
                         if (task.FK_AssigneeID != null || task.FK_AssigneeID != 0)
                         {
                             string sendTo = userContext.Users.Where(x => x.UserID == task.FK_AssigneeID).Select(x => x.Email).Single();
+                            RegexUtilities myRegEx = new RegexUtilities();
+                            if (!myRegEx.IsValidEmail(sendTo))
+                            {
+                                continue;
+                            }
                             string subject = "Reminder: " + task.TaskName;
                             string body = "Just a friendly reminder that the deadline for your task,  " + task.TaskName + ", is approaching.\r\n\r\n -The GroupUp team";
                             SendMail(sendTo, subject, body);
