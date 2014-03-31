@@ -10,6 +10,7 @@
       <Column Name="FKTeamID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FK_AssigneeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="alerted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

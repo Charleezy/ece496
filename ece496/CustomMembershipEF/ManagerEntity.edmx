@@ -145,6 +145,7 @@
           <Property Name="FKTeamID" Type="int" />
           <Property Name="Status" Type="int" />
           <Property Name="FK_AssigneeID" Type="int" />
+          <Property Name="alerted" Type="bit" />
         </EntityType>
         <EntityType Name="TeamMembers">
           <Key>
@@ -397,6 +398,7 @@
           <Property Name="FK_AssigneeID" Type="Int32" />
           <NavigationProperty Name="User" Relationship="PM_Model.FK_AssigneeID" FromRole="Tasks" ToRole="Users" />
           <NavigationProperty Name="Team" Relationship="PM_Model.FK_Teams_To_Tasks" FromRole="Tasks" ToRole="Teams" />
+          <Property Type="Boolean" Name="alerted" />
         </EntityType>
         <EntityType Name="TeamMember">
           <Key>
@@ -612,6 +614,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="PM_Model.Task">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="alerted" ColumnName="alerted" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />

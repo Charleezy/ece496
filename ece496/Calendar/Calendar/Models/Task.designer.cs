@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Calendar
+namespace Calendar.Models
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -96,6 +96,8 @@ namespace Calendar
 		
 		private System.Nullable<int> _FK_AssigneeID;
 		
+		private System.Nullable<bool> _alerted;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -116,6 +118,8 @@ namespace Calendar
     partial void OnStatusChanged();
     partial void OnFK_AssigneeIDChanging(System.Nullable<int> value);
     partial void OnFK_AssigneeIDChanged();
+    partial void OnalertedChanging(System.Nullable<bool> value);
+    partial void OnalertedChanged();
     #endregion
 		
 		public Task()
@@ -279,6 +283,26 @@ namespace Calendar
 					this._FK_AssigneeID = value;
 					this.SendPropertyChanged("FK_AssigneeID");
 					this.OnFK_AssigneeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_alerted", DbType="Bit")]
+		public System.Nullable<bool> alerted
+		{
+			get
+			{
+				return this._alerted;
+			}
+			set
+			{
+				if ((this._alerted != value))
+				{
+					this.OnalertedChanging(value);
+					this.SendPropertyChanging();
+					this._alerted = value;
+					this.SendPropertyChanged("alerted");
+					this.OnalertedChanged();
 				}
 			}
 		}
