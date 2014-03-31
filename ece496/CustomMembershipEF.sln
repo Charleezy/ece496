@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calendar", "Calendar\Calendar\Calendar.csproj", "{AC3D6314-C621-4F7D-A68D-3A80C04518BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventNotifier", "EventNotifier\EventNotifier\EventNotifier.csproj", "{BC88AF84-3A22-4AE9-AF52-51D8576CEABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,8 +33,15 @@ Global
 		{AC3D6314-C621-4F7D-A68D-3A80C04518BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC3D6314-C621-4F7D-A68D-3A80C04518BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC3D6314-C621-4F7D-A68D-3A80C04518BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC88AF84-3A22-4AE9-AF52-51D8576CEABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC88AF84-3A22-4AE9-AF52-51D8576CEABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC88AF84-3A22-4AE9-AF52-51D8576CEABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC88AF84-3A22-4AE9-AF52-51D8576CEABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BC88AF84-3A22-4AE9-AF52-51D8576CEABF} = {9D716A98-1C32-4693-9DB1-F0F48DFD639E}
 	EndGlobalSection
 EndGlobal

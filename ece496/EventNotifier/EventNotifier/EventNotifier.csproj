@@ -57,6 +57,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RegexUtilities.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
