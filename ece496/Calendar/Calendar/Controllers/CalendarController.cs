@@ -35,7 +35,7 @@ namespace Calendar.Controllers
             scheduler.Data.DataProcessor.UpdateFieldsAfterSave = true;
 
             scheduler.Config.first_hour = 9;
-            
+
             return View(scheduler);
         }
 
@@ -66,8 +66,8 @@ namespace Calendar.Controllers
             if (changedEvent.type != "task")
             {
                 changedEvent.type = "event";
-            }      
-            
+            }
+
             switch (action.Type)
             {
                 case DataActionTypes.Insert: // define here your Insert logic

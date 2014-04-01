@@ -7,7 +7,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AC3D6314-C621-4F7D-A68D-3A80C04518BC}</ProjectGuid>
+    <ProjectGuid>{10E6AEC1-B766-4730-8E30-1D92621BE7F1}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -40,19 +40,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DHTMLX">
-      <HintPath>..\packages\DHTMLX.Scheduler.NET.3.0.1.11\lib\DHTMLX.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\DHTMLX.Scheduler.NET.3.0.2.0\lib\DHTMLX.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -441,8 +435,14 @@
     <Content Include="Views\Calendar\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\Task.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Task.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Models\Event.dbml">
@@ -450,21 +450,14 @@
       <LastGenOutput>Event.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Models\Task.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Task.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </Content>
+    <None Include="Models\Task.dbml.layout">
+      <DependentUpon>Task.dbml</DependentUpon>
+    </None>
     <None Include="Properties\PublishProfiles\Calendar.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Event.dbml.layout">
       <DependentUpon>Event.dbml</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Models\Task.dbml.layout">
-      <DependentUpon>Task.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <PropertyGroup>
