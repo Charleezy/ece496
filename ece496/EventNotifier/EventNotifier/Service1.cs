@@ -63,6 +63,8 @@ namespace EventNotifier
 
         public void PollDatabase(object sender, ElapsedEventArgs args)
         {
+            RegexUtilities myRegEx = new RegexUtilities();
+
             using (var taskContext = new TaskDataContext())
             {
                 // Convert DateTime.Now from UTC to EST
@@ -76,7 +78,7 @@ namespace EventNotifier
                         if (task.FK_AssigneeID != null || task.FK_AssigneeID != 0)
                         {
                             string sendTo = userContext.Users.Where(x => x.UserID == task.FK_AssigneeID).Select(x => x.Email).Single();
-                            RegexUtilities myRegEx = new RegexUtilities();
+                            
                             if (!myRegEx.IsValidEmail(sendTo))
                             {
                                 continue;
